@@ -1,0 +1,10 @@
+/.settings
+/.vscode
+/src
+/.DS_Store
+/.gitignore
+/.project
+/target
+pom.xml
+pom.xml.versionsBackup
+README.md

@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Test",
+            "request": "launch",
+            "mainClass": "br.jus.tjpe.tjpeatende.jmsclient.Test",
+            "projectName": "inova-cnj"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Attach)",
+            "projectName": "inova-cnj",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 8787
+        }
+    ]
+}

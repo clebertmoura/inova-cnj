@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>br.jus.cnj.inova</groupId>
+  <artifactId>inova-cnj</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>inova-cnj</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <version.wildfly.maven.plugin>2.0.2.Final</version.wildfly.maven.plugin>
+    <version.server.bom>19.0.0.Final</version.server.bom>
+    
+    <surefire-plugin.version>2.22.0</surefire-plugin.version>
+    <compiler-plugin.version>3.8.1</compiler-plugin.version>
+    <maven.compiler.parameters>true</maven.compiler.parameters>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <version.apache-artemis>2.13.0</version.apache-artemis>
+  </properties>
+
+  <dependencyManagement>
+      <dependencies>
+          <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+          <dependency>
+              <groupId>org.wildfly.bom</groupId>
+              <artifactId>wildfly-jakartaee8-with-tools</artifactId>
+              <version>${version.server.bom}</version>
+              <type>pom</type>
+              <scope>import</scope>
+          </dependency>
+          <!-- importing the microprofile BOM adds MicroProfile specs -->
+          <dependency>
+              <groupId>org.wildfly.bom</groupId>
+              <artifactId>wildfly-microprofile</artifactId>
+              <version>${version.server.bom}</version>
+              <type>pom</type>
+              <scope>import</scope>
+          </dependency>
+      </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+        <groupId>jakarta.enterprise</groupId>
+        <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jboss.spec.javax.ejb</groupId>
+        <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jboss.spec.javax.jms</groupId>
+        <artifactId>jboss-jms-api_2.0_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <!-- Import the Servlet API, we use provided scope as the API is
+        included in JBoss EAP -->
+    <dependency>
+        <groupId>org.jboss.spec.javax.servlet</groupId>
+        <artifactId>jboss-servlet-api_4.0_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jboss.spec.javax.annotation</groupId>
+        <artifactId>jboss-annotations-api_1.3_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.29</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>artemis-jms-client</artifactId>
+      <version>${version.apache-artemis}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>artemis-cdi-client</artifactId>
+      <version>${version.apache-artemis}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+    <!-- <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-all</artifactId>
+        <version>4.1.50.Final</version>
+    </dependency> -->
+
+
+  </dependencies>
+
+  <build>
+    <finalName>inova-cnj</finalName>
+
+    <plugins>
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>2.0.1.Final</version>
+        <configuration>
+          <username>admin</username>
+          <password>admin</password>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
+</project>
