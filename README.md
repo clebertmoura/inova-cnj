@@ -7,6 +7,8 @@ Efetuar o download do arquivo base.zip disponível em: https://owncloud.app.tjpe
 
 Para desenvolvimento estamos usando apenas 2 arquivos de cada tribunal estadual.
 
+# Build da imagem
+
 # Para iniciar o serviço
 
 > docker-compose up -d
