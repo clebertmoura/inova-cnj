@@ -7,16 +7,26 @@ Efetuar o download do arquivo base.zip disponível em: https://owncloud.app.tjpe
 
 Para desenvolvimento estamos usando apenas 2 arquivos de cada tribunal estadual.
 
-# Build da imagem
+# Build da imagem Docker
+
+Acessar o sub-diretório: ./ia-core existente no projeto, e então executar o script ./build-image.sh, ou executar o comando abaixo:
+
+> docker build -t ia-core .
 
 # Para iniciar o serviço
+
+No diretório raiz do projeto, executar o comando abaixo:
 
 > docker-compose up -d
 
 # Para acessar os logs do serviço
 
+No diretório raiz do projeto, executar o comando abaixo:
+
 > docker-compose logs -f ia-core
 
 # Para finalizar o serviço
+
+No diretório raiz do projeto, executar o comando abaixo:
 
 > docker-compose down
