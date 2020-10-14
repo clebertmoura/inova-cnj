@@ -1,0 +1,4 @@
+-- CRIA A BASE DE DADOS DO METABASE
+CREATE DATABASE dbmetabase;
+CREATE USER metabase WITH PASSWORD 'metabase@admin';
+GRANT ALL PRIVILEGES ON DATABASE dbmetabase TO metabase;

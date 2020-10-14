@@ -24,8 +24,62 @@ services:
       - "8888:8888"
     volumes:
       - ./work:/home/jovyan/work
+    restart: always
     networks:
       - inova-cnj-network
+
+  postgres:
+    image: postgis/postgis:10-3.0-alpine
+    environment:
+      LC_ALL: C.UTF-8
+      POSTGRES_DB: dbinovacnj
+      POSTGRES_USER: inovacnj
+      POSTGRES_PASSWORD: inovacnj@admin
+    ports:
+      - "15432:5432"
+    volumes:
+      - ~/projects/docker/inova-cnj/postgres/data:/var/lib/postgresql/data
+      - ./bi/schema/1-init.sql:/docker-entrypoint-initdb.d/1-init.sql
+    restart: always
+    networks:
+      - inova-cnj-network
+      
+  pgadmin:
+    image: dpage/pgadmin4:2020-10-12-1
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "cleber.moura@tjpe.jus.br"
+      PGADMIN_DEFAULT_PASSWORD: "inovacnj@admin"
+    ports:
+      - "16543:80"
+    volumes:
+      - ./bi/pgadmin/servers.json:/pgadmin4/servers.json
+    restart: always
+    networks:
+      - inova-cnj-network
+    depends_on:
+      - postgres
+
+  metabase:
+    image: metabase/metabase:v0.36.7
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ~/projects/docker/inova-cnj/metabase/metabase-data:/metabase-data
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: dbmetabase
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase
+      MB_DB_PASS: metabase@admin
+      MB_DB_HOST: postgres
+      JAVA_TIMEZONE: America/Recife
+      JAVA_TOOL_OPTIONS: -Xmx1g -Duser.country=BR -Duser.language=pt
+    restart: always
+    networks:
+      - inova-cnj-network
+    depends_on:
+      - postgres
 
 networks: 
   inova-cnj-network:

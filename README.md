@@ -30,3 +30,13 @@ No diretório raiz do projeto, executar o comando abaixo:
 No diretório raiz do projeto, executar o comando abaixo:
 
 > docker-compose down
+
+
+# BI - Modelagem Dimensional
+
+O projeto contempla uma modelagem dimensional para facilitar a criação de dashboards com indicadores de performance.
+
+## Definição do modelo 
+
+O modelo dimensional está definido no arquivo: ./bi/schema/1-init.sql
+

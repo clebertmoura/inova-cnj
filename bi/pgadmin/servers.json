@@ -1,0 +1,13 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "inovacnj",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "inovacnj",
+            "Host": "postgres",
+            "SSLMode": "prefer",
+            "MaintenanceDB": "dbinovacnj"
+        }
+    }
+}
