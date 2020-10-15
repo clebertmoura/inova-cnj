@@ -41,7 +41,7 @@ CREATE TABLE inovacnj.orgao_julgador
     cidade character varying(100) ,
     uf character varying(2) ,
     codibge character varying(15),
-    esfera character varying(15) ,
+    esfera character varying(1) ,
     CONSTRAINT pk_ojulg PRIMARY KEY (cod)
 );
 
@@ -61,4 +61,27 @@ ALTER TABLE inovacnj.movimento
     
 -- PROCESSO
 
-    
+-- ESFERA_JUSTICA
+CREATE TABLE inovacnj.esfera_justica
+(   cod character varying(1) NOT NULL,
+    descricao character varying(50) NOT NULL,
+    CONSTRAINT pk_ejust PRIMARY KEY (cod)
+);
+
+ALTER TABLE inovacnj.esfera_justica
+    OWNER to inovacnj; 
+
+--
+
+CREATE TABLE inovacnj.tribunal
+(   cod character varying(4) NOT NULL,
+    descricao character varying(50) NOT NULL,
+    CONSTRAINT pk_tribunal PRIMARY KEY (cod)
+);
+
+ALTER TABLE inovacnj.tribunal
+    OWNER to inovacnj;
+
+-- TEMPO
+
+
