@@ -53,14 +53,17 @@ Para acessar os logs de cada serviço, basta executar o comando abaixo:
 
 > docker-compose logs -f [nome do serviço]
 
-
-
-# Para finalizar o serviço
+Para encerrar o ambiente
 
 No diretório raiz do projeto, executar o comando abaixo:
 
 > docker-compose down
 
+## Acessar o jupyter notebook
+
+Para acessar a console do jupyter
+
+http://127.0.0.1:8888/?token=adcd2bc95167732e71741f5e9f15cbb9d097013840c66d8b
 
 # BI - Modelagem Dimensional
 
