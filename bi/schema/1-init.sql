@@ -48,8 +48,17 @@ CREATE TABLE inovacnj.orgao_julgador
 ALTER TABLE inovacnj.orgao_julgador
     OWNER to inovacnj;
 
+-- MOVIMENTO
+CREATE TABLE inovacnj.movimento
+(   cod numeric NOT NULL,
+    descricao character varying(200) NOT NULL,
+    codpai numeric,
+    CONSTRAINT pk_movimento PRIMARY KEY (cod)
+);
+
+ALTER TABLE inovacnj.movimento
+    OWNER to inovacnj;
+    
 -- PROCESSO
 
--- PROCESSOASSUNTO
-
--- MOVIMENTO
+    
