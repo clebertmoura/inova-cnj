@@ -20,9 +20,33 @@ CREATE TABLE inovacnj.classe
 );
 
 -- ASSUNTO
+CREATE TABLE inovacnj.assunto
+(   cod numeric NOT NULL,
+    descricao character varying(400) NOT NULL,
+    codpai numeric,
+    CONSTRAINT pk_assunto PRIMARY KEY (cod)
+);
 
+ALTER TABLE inovacnj.assunto
+    OWNER to inovacnj;
 
 -- ORGAO_JULGADOR
+CREATE TABLE inovacnj.orgao_julgador
+(
+    cod numeric NOT NULL,
+    descricao character varying(200) NOT NULL,
+    codpai numeric,
+    sigla_tipoj character varying(5) ,
+    tipo_oj character varying(100) ,
+    cidade character varying(100) ,
+    uf character varying(2) ,
+    codibge character varying(15),
+    esfera character varying(15) ,
+    CONSTRAINT pk_ojulg PRIMARY KEY (cod)
+);
+
+ALTER TABLE inovacnj.orgao_julgador
+    OWNER to inovacnj;
 
 -- PROCESSO
 
