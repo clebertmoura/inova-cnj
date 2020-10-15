@@ -41,7 +41,7 @@ CREATE TABLE inovacnj.orgao_julgador
     cidade character varying(100) ,
     uf character varying(2) ,
     codibge character varying(15),
-    esfera character varying(15) ,
+    esfera character varying(1) ,
     CONSTRAINT pk_ojulg PRIMARY KEY (cod)
 );
 
