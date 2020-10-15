@@ -39,7 +39,7 @@ services:
     ports:
       - "15432:5432"
     volumes:
-      - ~/projects/docker/inova-cnj/postgres/data:/var/lib/postgresql/data
+      - inova-cnj-postgres-data:/var/lib/postgresql/data
       - ./bi/schema/1-init.sql:/docker-entrypoint-initdb.d/1-init.sql
     restart: always
     networks:
@@ -66,7 +66,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ~/projects/docker/inova-cnj/metabase/metabase-data:/metabase-data
+      - inova-cnj-metabase-data:/metabase-data
     environment:
       MB_DB_TYPE: postgres
       MB_DB_DBNAME: dbmetabase
@@ -81,6 +81,12 @@ services:
       - inova-cnj-network
     depends_on:
       - postgres
+
+volumes:
+  inova-cnj-postgres-data:
+    driver: local
+  inova-cnj-metabase-data:
+    driver: local
 
 networks: 
   inova-cnj-network:
