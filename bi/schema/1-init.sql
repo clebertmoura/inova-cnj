@@ -69,4 +69,19 @@ CREATE TABLE inovacnj.esfera_justica
 );
 
 ALTER TABLE inovacnj.esfera_justica
-    OWNER to inovacnj;    
+    OWNER to inovacnj; 
+
+--
+
+CREATE TABLE inovacnj.tribunal
+(   cod character varying(4) NOT NULL,
+    descricao character varying(50) NOT NULL,
+    CONSTRAINT pk_tribunal PRIMARY KEY (cod)
+);
+
+ALTER TABLE inovacnj.tribunal
+    OWNER to inovacnj;
+
+-- TEMPO
+
+
