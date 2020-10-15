@@ -61,4 +61,12 @@ ALTER TABLE inovacnj.movimento
     
 -- PROCESSO
 
-    
+-- ESFERA_JUSTICA
+CREATE TABLE inovacnj.esfera_justica
+(   cod character varying(1) NOT NULL,
+    descricao character varying(50) NOT NULL,
+    CONSTRAINT pk_ejust PRIMARY KEY (cod)
+);
+
+ALTER TABLE inovacnj.esfera_justica
+    OWNER to inovacnj;    
