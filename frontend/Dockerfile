@@ -1,16 +1,20 @@
-FROM node:13.3.0 AS compile-image
+# Stage 1
+FROM node:10-alpine as build-step
 
-RUN npm install -g yarn
+RUN mkdir -p /app
 
-WORKDIR /opt/ng
-COPY .npmrc package.json yarn.lock ./
-RUN yarn install
+WORKDIR /app
 
-ENV PATH="./node_modules/.bin:$PATH" 
+COPY package.json /app
 
-COPY . ./
-RUN ng build --prod
+RUN npm install
 
-FROM nginx
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=compile-image /opt/ng/dist/app-name /usr/share/nginx/html
+COPY . /app
+
+RUN npm run build --prod
+
+# Stage 2
+
+FROM nginx:1.17.1-alpine
+
+COPY --from=build-step /app/docs /usr/share/nginx/html
