@@ -18,8 +18,19 @@ services:
   #   networks:
   #     - inova-cnj-network
 
+  frontend:
+    image: inova-cnj-frontend    
+    ports:
+      - "8080:80"
+    volumes:
+      - ./work:/home/jovyan/work
+      - ./jdbc:/home/jovyan/jdbc
+    restart: always
+    networks:
+      - inova-cnj-network
+
   ia-core:
-    image: ia-core    
+    image: inova-cnj-iacore    
     ports:
       - "8888:8888"
     volumes:

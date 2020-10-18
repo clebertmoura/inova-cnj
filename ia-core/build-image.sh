@@ -1,4 +1,4 @@
 #!/bin/sh
 set -e
 
-docker build -t ia-core .
+docker build -t inova-cnj-iacore .
