@@ -23,93 +23,105 @@ ALTER TABLE inovacnj.classe
   OWNER to inovacnj;
 
 -- ASSUNTO
-CREATE TABLE inovacnj.assunto
-(   cod numeric NOT NULL,
-    descricao character varying(400) NOT NULL,
-    codpai numeric,
-    CONSTRAINT pk_assunto PRIMARY KEY (cod)
+CREATE TABLE inovacnj.assunto 
+(
+	cod numeric NOT NULL,
+	descricao character varying(400) NOT NULL,
+    codpai numeric,
+	CONSTRAINT pk_assunto PRIMARY KEY (cod)
 );
 
-ALTER TABLE inovacnj.assunto
-    OWNER to inovacnj;
+ALTER TABLE inovacnj.assunto OWNER to inovacnj;
+
+-- MOVIMENTO_CNJ
+CREATE TABLE inovacnj.movimentocnj 
+(
+	cod numeric NOT NULL,
+	descricao character varying(400) NOT NULL,
+    natureza character varying(100) NOT NULL,
+    fase character varying(100),
+    codpai numeric,
+	CONSTRAINT pk_movimentocnj PRIMARY KEY (cod)
+);
+
+ALTER TABLE inovacnj.movimentocnj OWNER to inovacnj;
 
 -- ORGAO_JULGADOR
 CREATE TABLE inovacnj.orgao_julgador
 (
-    cod numeric NOT NULL,
-    descricao character varying(200) NOT NULL,
-    codpai numeric,
-    sigla_tipoj character varying(5) ,
-    tipo_oj character varying(100) ,
-    cidade character varying(100) ,
-    uf character varying(2) ,
-    codibge character varying(15),
-    esfera character varying(1) ,
-    CONSTRAINT pk_ojulg PRIMARY KEY (cod)
+	cod numeric NOT NULL,
+	descricao character varying(200) NOT NULL,
+	codpai numeric,
+	sigla_tipoj character varying(5) ,
+	tipo_oj character varying(100) ,
+	cidade character varying(100) ,
+	uf character varying(2) ,
+	codibge character varying(15),
+	esfera character varying(1) ,
+	CONSTRAINT pk_ojulg PRIMARY KEY (cod)
 );
 
-ALTER TABLE inovacnj.orgao_julgador
-    OWNER to inovacnj;
+ALTER TABLE inovacnj.orgao_julgador OWNER to inovacnj;
 
 -- FASE
 CREATE TABLE inovacnj.fase
-(cod numeric NOT NULL,
- descricao character varying(200) NOT NULL,
- codpai numeric,
- CONSTRAINT pk_fase PRIMARY KEY (cod)
+(
+	cod numeric NOT NULL,
+	descricao character varying(200) NOT NULL,
+	codpai numeric,
+	CONSTRAINT pk_fase PRIMARY KEY (cod)
 );
 
-ALTER TABLE inovacnj.fase
-  OWNER to inovacnj;
+ALTER TABLE inovacnj.fase OWNER to inovacnj;
     
 -- PROCESSO
 CREATE TABLE inovacnj.processo
-(npu character varying(20),
- dtajuizamento timestamp,
- codtribunal character varying(4) , 
- codoj character varying(4),
- grau character varying (4),
- codassunto numeric,
- assunto_principal boolean,
- codclasse numeric, 
- tramitacao character varying(1),  --dadosBasicos.procEl: Tramitação - 1: Sistema Eletrônico - 2: Sistema Físico;
-CONSTRAINT pk_processo PRIMARY KEY (npu));
+(
+	npu character varying(20),
+	dtajuizamento timestamp,
+	codtribunal character varying(10) , 
+	codoj character varying(4),
+	grau character varying (4),
+	codassunto numeric,
+	assunto_principal boolean,
+	codclasse numeric, 
+	tramitacao character varying(1),  --dadosBasicos.procEl: Tramitação - 1: Sistema Eletrônico - 2: Sistema Físico;
+	CONSTRAINT pk_processo PRIMARY KEY (npu)
+);
 
-ALTER TABLE inovacnj.processo
-    OWNER to inovacnj;
+ALTER TABLE inovacnj.processo OWNER to inovacnj;
     
 -- ESFERA_JUSTICA
 CREATE TABLE inovacnj.esfera_justica
-(   cod character varying(1) NOT NULL,
-    descricao character varying(50) NOT NULL,
-    CONSTRAINT pk_ejust PRIMARY KEY (cod)
+(
+	cod character varying(1) NOT NULL,
+	descricao character varying(50) NOT NULL,
+	CONSTRAINT pk_ejust PRIMARY KEY (cod)
 );
 
-ALTER TABLE inovacnj.esfera_justica
-    OWNER to inovacnj;
+ALTER TABLE inovacnj.esfera_justica OWNER to inovacnj;
 
 -- TRIBUNAL
 CREATE TABLE inovacnj.tribunal
-(   cod character varying(4) NOT NULL,
-    descricao character varying(50) NOT NULL,
-    CONSTRAINT pk_tribunal PRIMARY KEY (cod)
+(
+	cod character varying(4) NOT NULL,
+	descricao character varying(50) NOT NULL,
+	CONSTRAINT pk_tribunal PRIMARY KEY (cod)
 );
 
-ALTER TABLE inovacnj.tribunal
-    OWNER to inovacnj;
+ALTER TABLE inovacnj.tribunal OWNER to inovacnj;
 
 -- TEMPO
 
 -- MOVIMENTO
 CREATE TABLE inovacnj.movimento
 (
-    npu character varying(20) NOT NULL,
-    codmov numeric,
-    dtmov timestamp with time zone,
-    CONSTRAINT pk_movim PRIMARY KEY (npu, codmov, dtmov)
+	npu character varying(20) NOT NULL,
+	codmov numeric,
+	dtmov timestamp with time zone,
+	CONSTRAINT pk_movim PRIMARY KEY (npu, codmov, dtmov)
 );
 
-ALTER TABLE inovacnj.movimento
-    OWNER to inovacnj;
+ALTER TABLE inovacnj.movimento OWNER to inovacnj;
                                     
                                     
