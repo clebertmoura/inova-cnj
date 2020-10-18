@@ -19,7 +19,9 @@ services:
   #     - inova-cnj-network
 
   ia-core:
-    image: inova-cnj-iacore    
+    image: inova-cnj-iacore   
+    environment:
+      PGGSSENCMODE: disable 
     ports:
       - "8888:8888"
       - "8181:8080"
