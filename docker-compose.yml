@@ -37,6 +37,7 @@ services:
       POSTGRES_DB: dbinovacnj
       POSTGRES_USER: inovacnj
       POSTGRES_PASSWORD: inovacnj@admin
+      PGGSSENCMODE: disable
     ports:
       - "15432:5432"
     volumes:
