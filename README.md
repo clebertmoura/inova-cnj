@@ -65,11 +65,11 @@ Para acessar a console do jupyter
 
 http://127.0.0.1:8888/?token=adcd2bc95167732e71741f5e9f15cbb9d097013840c66d8b
 
-# BI - Modelagem Dimensional
+# Modelo de dados
 
 O projeto contempla uma modelagem dimensional para facilitar a criação de dashboards com indicadores de performance.
 
-## Definição do modelo 
+![alt text](https://github.com/clebertmoura/inova-cnj/blob/main/dbinova_model.png)
 
-O modelo dimensional está definido no arquivo: ./bi/schema/1-init.sql
-
+## Scripts DDL
+DDL do modelo dimensional está definido no arquivo: ./bi/schema/1-init.sql
