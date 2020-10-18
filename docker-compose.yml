@@ -33,6 +33,7 @@ services:
     image: inova-cnj-iacore    
     ports:
       - "8888:8888"
+      - "8181:8080"
     volumes:
       - ./work:/home/jovyan/work
       - ./jdbc:/home/jovyan/jdbc

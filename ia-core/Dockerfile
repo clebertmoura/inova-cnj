@@ -15,6 +15,6 @@ RUN apt-get -y install graphviz
 
 USER $NB_UID
 
-RUN pip install pm4py
+RUN pip install pm4py flask
 
-EXPOSE 8888
+EXPOSE 8888 8080
