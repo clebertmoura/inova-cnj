@@ -1,0 +1,216 @@
+<div class="row">
+  <div class="col-md-12 col-lg-12">
+    <nb-card size="large">
+      <nb-card-body>
+        <nb-tabset>
+          <nb-tab tabTitle="Analitcs">
+
+            <div class="row">
+              <div class="col-md-2 col-sm-12">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">Tipo de Justiça:</label>
+                      <nb-select [(selected)]="position" class="position-select" fullWidth>
+                        <nb-option *ngFor="let p of positions" [value]="p">{{ p }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">Tribunal:</label>
+                      <nb-select [(selected)]="position" class="position-select" fullWidth>
+                        <nb-option *ngFor="let p of positions" [value]="p">{{ p }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">Natureza:</label>
+                      <nb-select [(selected)]="position" class="position-select" fullWidth>
+                        <nb-option *ngFor="let p of positions" [value]="p">{{ p }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">Classe:</label>
+                      <nb-select [(selected)]="position" class="position-select" fullWidth>
+                        <nb-option *ngFor="let p of positions" [value]="p">{{ p }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- calendario -->
+              <div class="row">
+                <div class="calendar-container">
+                  <label class="label">Data Inicial</label>
+                  <nb-calendar [(date)]="date" [boundingMonth]="true" showWeekNumber></nb-calendar>
+                </div>
+                <div class="calendar-container">
+                  <label class="label">Data Final</label>
+                  <nb-calendar [(date)]="date2" [boundingMonth]="true" showWeekNumber></nb-calendar>
+                </div>
+              </div> 
+            </div>
+
+            <!--Stepper-->
+            <nb-stepper orientation="horizontal" disableStepNavigation selectedIndex="-1">
+              <nb-step [label]="labelOne">
+                <ng-template #labelOne>First step</ng-template>
+              </nb-step>
+              <nb-step [label]="labelTwo">
+                <ng-template #labelTwo>Second step</ng-template>
+              </nb-step>
+              <nb-step label="Third step">
+              </nb-step>
+              <nb-step [label]="labelFour">
+                <ng-template #labelFour>Fourth step</ng-template>
+              </nb-step>
+            </nb-stepper>
+
+            <!--Grafico-->
+            <div class="row">
+              <div class="col-lg-6">
+                    <ngx-charts-bar-vertical
+                      [scheme]="colorScheme"
+                      [results]="results"
+                      [xAxis]="showXAxis"
+                      [yAxis]="showYAxis"
+                      [legend]="showLegend"
+                      [xAxisLabel]="xAxisLabel"
+                      [yAxisLabel]="yAxisLabel">
+                    </ngx-charts-bar-vertical>
+              </div>
+              <div class="col-lg-6">
+                    <ngx-charts-bar-vertical
+                      [scheme]="colorScheme"
+                      [results]="results"
+                      [xAxis]="showXAxis"
+                      [yAxis]="showYAxis"
+                      [legend]="showLegend"
+                      [xAxisLabel]="xAxisLabel"
+                      [yAxisLabel]="yAxisLabel">
+                    </ngx-charts-bar-vertical>
+              </div>
+            </div>
+
+            <div class="row">
+              <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+              </ng2-smart-table>  
+            </div>
+            
+          </nb-tab>
+          <nb-tab tabTitle="Process">
+
+            <div class="row">
+              <div class="col-md-2 col-sm-12">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">Tipo de Justiça:</label>
+                      <nb-select [(selected)]="position" class="position-select" fullWidth>
+                        <nb-option *ngFor="let p of positions" [value]="p">{{ p }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">Tribunal:</label>
+                      <nb-select [(selected)]="position" class="position-select" fullWidth>
+                        <nb-option *ngFor="let p of positions" [value]="p">{{ p }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">Natureza:</label>
+                      <nb-select [(selected)]="position" class="position-select" fullWidth>
+                        <nb-option *ngFor="let p of positions" [value]="p">{{ p }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">Classe:</label>
+                      <nb-select [(selected)]="position" class="position-select" fullWidth>
+                        <nb-option *ngFor="let p of positions" [value]="p">{{ p }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- calendario -->
+              <div class="row">
+                <div class="calendar-container">
+                  <label class="label">Data Inicial</label>
+                  <nb-calendar [(date)]="date" [boundingMonth]="true" showWeekNumber></nb-calendar>
+                </div>
+                <div class="calendar-container">
+                  <label class="label">Data Final</label>
+                  <nb-calendar [(date)]="date2" [boundingMonth]="true" showWeekNumber></nb-calendar>
+                </div>
+              </div> 
+            </div>
+
+            <!--Stepper-->
+            <nb-stepper orientation="horizontal" disableStepNavigation selectedIndex="-1">
+              <nb-step [label]="labelOne">
+                <ng-template #labelOne>First step</ng-template>
+              </nb-step>
+              <nb-step [label]="labelTwo">
+                <ng-template #labelTwo>Second step</ng-template>
+              </nb-step>
+              <nb-step label="Third step">
+              </nb-step>
+              <nb-step [label]="labelFour">
+                <ng-template #labelFour>Fourth step</ng-template>
+              </nb-step>
+            </nb-stepper>
+
+            <div class="row">
+              Imagem do Processo
+            </div>
+            
+          </nb-tab>
+          <nb-tab tabTitle="Predict" >
+
+            <div class="row">
+              <div class="col-md-2 col-sm-12">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">NPU</label>
+                      <input type="text" nbInput fullWidth placeholder="NPU">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--Stepper-->
+            <nb-stepper orientation="horizontal" disableStepNavigation selectedIndex="-1">
+              <nb-step [label]="labelOne">
+                <ng-template #labelOne>First step</ng-template>
+              </nb-step>
+              <nb-step [label]="labelTwo">
+                <ng-template #labelTwo>Second step</ng-template>
+              </nb-step>
+              <nb-step label="Third step">
+              </nb-step>
+              <nb-step [label]="labelFour">
+                <ng-template #labelFour>Fourth step</ng-template>
+              </nb-step>
+            </nb-stepper>
+            
+          </nb-tab>
+        </nb-tabset>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+
