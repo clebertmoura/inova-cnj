@@ -33,11 +33,10 @@ CREATE TABLE inovacnj.assunto
 
 ALTER TABLE inovacnj.assunto OWNER to inovacnj;
 
--- MOVIMENTO_CNJ
+-- MOVIMENTOCNJ
 CREATE TABLE inovacnj.movimentocnj 
-(
-	cod numeric NOT NULL,
-	descricao character varying(400) NOT NULL,
+(   cod numeric NOT NULL,
+    descricao character varying(400) NOT NULL,
     natureza character varying(100) NOT NULL,
     fase character varying(100),
     codpai numeric,
@@ -103,15 +102,41 @@ ALTER TABLE inovacnj.esfera_justica OWNER to inovacnj;
 
 -- TRIBUNAL
 CREATE TABLE inovacnj.tribunal
-(
-	cod character varying(4) NOT NULL,
-	descricao character varying(50) NOT NULL,
-	CONSTRAINT pk_tribunal PRIMARY KEY (cod)
-);
+(   cod character varying(5)  NOT NULL,
+    descricao character varying(100) NOT NULL,
+    sigla character varying(5) ,
+    tipo character varying(20) ,
+    porte character varying(10) ,
+    CONSTRAINT pk_tribunal PRIMARY KEY (cod)
+);	
 
 ALTER TABLE inovacnj.tribunal OWNER to inovacnj;
 
 -- TEMPO
+CREATE TABLE inovacnj.tempo
+(data date,
+nu_ano  numeric,
+nu_dia numeric,
+nu_semestre numeric,
+ds_semestre character varying(10), 
+ds_codanosemestre numeric,
+ds_semestreano character varying(10) ,
+nu_trimestre numeric,
+ds_trimestre character varying(10) ,
+nu_codanotrimestre numeric,
+ds_trimestreano character varying(10) ,
+nu_mes numeric,
+ds_mes character varying(10),
+sigla_mes character varying(10),
+nu_anomes numeric,
+ds_anomes character varying(10),
+nu_diasemana numeric,
+ds_diasemana character varying(10) ,
+ds_siglasemana character varying(10),
+CONSTRAINT pk_tempo PRIMARY KEY(data)
+ );
+
+ALTER TABLE inovacnj.tempo OWNER to inovacnj;
 
 -- MOVIMENTO
 CREATE TABLE inovacnj.movimento
