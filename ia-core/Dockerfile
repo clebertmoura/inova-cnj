@@ -1,5 +1,7 @@
 FROM jupyter/pyspark-notebook:4a112c0f11eb
 
+ENV PGGSSENCMODE=disable
+
 #ENV http_proxy=http://192.168.251.227:8080
 #ENV https_proxy=http://192.168.251.227:8080
 #ENV no_proxy=*.tjpe.gov.br,*.tjpe.jus.br,localhost
