@@ -10,7 +10,10 @@ import {
   NbListModule,
   NbIconModule,
   NbCalendarModule,
-  NbStepperModule
+  NbStepperModule,
+  NbInputModule,
+  NbCheckboxModule,
+  NbDatepickerModule
 } from '@nebular/theme';
 
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -35,6 +38,7 @@ import { TrafficChartComponent } from './traffic/traffic-chart.component';
 import { FormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { FormsRoutingModule } from '../forms/forms-routing.module';
 
 
 
@@ -56,7 +60,13 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     NbCalendarModule,
     NbStepperModule,
     NgxChartsModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    ThemeModule,
+    NbInputModule,
+    NbCheckboxModule,
+    NbDatepickerModule,
+    FormsRoutingModule,
+    FormsModule,
   ],
   declarations: [
     DashboardComponent,

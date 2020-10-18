@@ -46,22 +46,18 @@
               <!-- calendario -->
               <div class="row">
                 <div class="calendar-container">
-                  <span class="subtitle">
-                    Selected date: {{ date | date }}
-                  </span>
+                  <label class="label">Data Inicial</label>
                   <nb-calendar [(date)]="date" [boundingMonth]="true" showWeekNumber></nb-calendar>
                 </div>
                 <div class="calendar-container">
-                  <span class="subtitle">
-                    Selected date: {{ date | date }}
-                  </span>
+                  <label class="label">Data Final</label>
                   <nb-calendar [(date)]="date2" [boundingMonth]="true" showWeekNumber></nb-calendar>
                 </div>
               </div> 
             </div>
 
             <!--Stepper-->
-            <nb-stepper orientation="horizontal">
+            <nb-stepper orientation="horizontal" disableStepNavigation selectedIndex="-1">
               <nb-step [label]="labelOne">
                 <ng-template #labelOne>First step</ng-template>
               </nb-step>
@@ -150,22 +146,18 @@
               <!-- calendario -->
               <div class="row">
                 <div class="calendar-container">
-                  <span class="subtitle">
-                    Selected date: {{ date | date }}
-                  </span>
+                  <label class="label">Data Inicial</label>
                   <nb-calendar [(date)]="date" [boundingMonth]="true" showWeekNumber></nb-calendar>
                 </div>
                 <div class="calendar-container">
-                  <span class="subtitle">
-                    Selected date: {{ date | date }}
-                  </span>
+                  <label class="label">Data Final</label>
                   <nb-calendar [(date)]="date2" [boundingMonth]="true" showWeekNumber></nb-calendar>
                 </div>
               </div> 
             </div>
 
             <!--Stepper-->
-            <nb-stepper orientation="horizontal">
+            <nb-stepper orientation="horizontal" disableStepNavigation selectedIndex="-1">
               <nb-step [label]="labelOne">
                 <ng-template #labelOne>First step</ng-template>
               </nb-step>
@@ -186,7 +178,33 @@
           </nb-tab>
           <nb-tab tabTitle="Predict" >
 
-            <input type="text" nbInput fullWidth placeholder="NPU">
+            <div class="row">
+              <div class="col-md-2 col-sm-12">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label class="label">NPU</label>
+                      <input type="text" nbInput fullWidth placeholder="NPU">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--Stepper-->
+            <nb-stepper orientation="horizontal" disableStepNavigation selectedIndex="-1">
+              <nb-step [label]="labelOne">
+                <ng-template #labelOne>First step</ng-template>
+              </nb-step>
+              <nb-step [label]="labelTwo">
+                <ng-template #labelTwo>Second step</ng-template>
+              </nb-step>
+              <nb-step label="Third step">
+              </nb-step>
+              <nb-step [label]="labelFour">
+                <ng-template #labelFour>Fourth step</ng-template>
+              </nb-step>
+            </nb-stepper>
             
           </nb-tab>
         </nb-tabset>
@@ -194,4 +212,5 @@
     </nb-card>
   </div>
 </div>
+
 
