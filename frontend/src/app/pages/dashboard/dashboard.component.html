@@ -97,10 +97,7 @@
               </div>
             </div>
 
-            <div class="row">
-              <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
-              </ng2-smart-table>  
-            </div>
+            
             
           </nb-tab>
           <nb-tab tabTitle="Process">
@@ -192,19 +189,35 @@
             </div>
 
             <!--Stepper-->
-            <nb-stepper orientation="horizontal" disableStepNavigation selectedIndex="-1">
-              <nb-step [label]="labelOne">
-                <ng-template #labelOne>First step</ng-template>
-              </nb-step>
-              <nb-step [label]="labelTwo">
-                <ng-template #labelTwo>Second step</ng-template>
-              </nb-step>
-              <nb-step label="Third step">
-              </nb-step>
-              <nb-step [label]="labelFour">
-                <ng-template #labelFour>Fourth step</ng-template>
-              </nb-step>
+            
+            <nb-stepper orientation="horizontal" >
+              <nb-step *ngFor="let fases of getDadosTabelaPredictFases(); let i = index" label="{{ fases.nome  }} - {{ fases.situacao }}"> 
+                <p class="lorem">
+                Data Inicio : {{ fases.dataInicio }} 
+                </p>
+                <p class="lorem">
+                Data Conclusão : {{ fases.dataConclusao }}  
+                </p>
+              </nb-step> 
             </nb-stepper>
+
+            <div class="row">
+              <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
+              </ng2-smart-table>  
+            </div>
+
+            <div class="col-md-12 col-lg-6 col-xxxl-6">
+              <nb-list
+                nbInfiniteList
+                [threshold]="500">
+                <nb-list-item *ngFor="let dados of getDadosTabelaPredictAlertas()">
+                  <article>
+                    <p>{{dados.nome}}</p>
+                    <h2>{{dados.valor}}</h2>
+                  </article>
+                </nb-list-item>
+              </nb-list>
+            </div>
             
           </nb-tab>
         </nb-tabset>
