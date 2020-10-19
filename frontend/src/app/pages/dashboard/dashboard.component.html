@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12 col-lg-12">
-    <nb-card size="large">
+    <nb-card size="giant">
       <nb-card-body>
         <nb-tabset>
           <nb-tab tabTitle="Analitcs">
@@ -181,7 +181,8 @@
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label class="label">NPU</label>
-                      <input type="text" nbInput fullWidth placeholder="NPU">
+                      <input type="text" #npu nbInput fullWidth placeholder="NPU" value="12131231231231">
+                      <button nbButton status="success" (click)="pesquisarNpu(npu.value)">Submit</button>
                     </div>
                   </div>
                 </div>
@@ -191,7 +192,7 @@
             <!--Stepper-->
             
             <nb-stepper orientation="horizontal" >
-              <nb-step *ngFor="let fases of getDadosTabelaPredictFases(); let i = index" label="{{ fases.nome  }} - {{ fases.situacao }}"> 
+              <nb-step *ngFor="let fases of historicoFases; let i = index" label="{{ fases.nome  }} - {{ fases.situacao }}"> 
                 <p class="lorem">
                 Data Inicio : {{ fases.dataInicio }} 
                 </p>
@@ -202,21 +203,25 @@
             </nb-stepper>
 
             <div class="row">
-              <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">
-              </ng2-smart-table>  
-            </div>
+              <div class>
+                <h4>Fases do Processo</h4>
+                <ng2-smart-table [settings]="settings" [source]="dadosFases">
+                </ng2-smart-table>  
+              </div>
 
-            <div class="col-md-12 col-lg-6 col-xxxl-6">
-              <nb-list
-                nbInfiniteList
-                [threshold]="500">
-                <nb-list-item *ngFor="let dados of getDadosTabelaPredictAlertas()">
-                  <article>
-                    <p>{{dados.nome}}</p>
-                    <h2>{{dados.valor}}</h2>
-                  </article>
-                </nb-list-item>
-              </nb-list>
+              <div class="col-md-12 col-lg-6 col-xxxl-6">
+                <h4>Alertas</h4>
+                <nb-list
+                  nbInfiniteList
+                  [threshold]="500">
+                  <nb-list-item *ngFor="let dados of alertas">
+                    <article>
+                      <p>{{dados.nome}}</p>
+                      <h6>{{dados.valor}}</h6>
+                    </article>
+                  </nb-list-item>
+                </nb-list>
+              </div>
             </div>
             
           </nb-tab>
