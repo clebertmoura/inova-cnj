@@ -60,7 +60,7 @@ buildNumber.properties
 .history
 
 # End of https://www.gitignore.io/api/java,maven,java-web,code-java,visualstudiocode
-
+.DS_Store
 work/base/*
 work/output/*
 work/.ipynb_checkpoints
