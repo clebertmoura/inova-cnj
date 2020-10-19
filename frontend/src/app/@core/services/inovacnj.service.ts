@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { throwError as observableThrowError, Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { TipoJustica } from '../../models/tipo-justica';
+import { Tribunal } from 'app/models/tribunal';
+import { Natureza } from 'app/models/natureza';
+import { Classe } from '../../models/classe';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class InovacnjService {
+
+    private url = '/api';
 
     predict = {
         mensagem:"OK",
@@ -79,6 +90,9 @@ export class InovacnjService {
         }
     }
 
+    constructor(protected http: HttpClient) {
+    }
+
     getHistoricoFases() {
         return this.predict.resultado.historicoFases;
     }
@@ -99,6 +113,66 @@ export class InovacnjService {
 
     }
 
+    /**
+     * Retorna uma coleção de TipoJustica
+     */
+    public consultarTipoJustica(): Observable<TipoJustica[]> {
+        return this.http.get<any[]>(this.url + '/v1/tipo-justica')
+        .pipe(
+            map((response : any[][]) => {
+                return TipoJustica.toArray(response);
+            }),
+            catchError(() => of(null))
+        );
+    }
+
+    /**
+     * Retorna uma coleção de Tribunal
+     */
+    public consultarTribunal(): Observable<Tribunal[]> {
+        return this.http.get<any[]>(this.url + '/v1/tribunal')
+        .pipe(
+            map((response : any[][]) => {
+                return Tribunal.toArray(response);
+            }),
+            catchError(() => of(null))
+        );
+    }
+
+    /**
+     * Retorna uma coleção de Natureza
+     */
+    public consultarNatureza(): Observable<Natureza[]> {
+        return this.http.get<any[]>(this.url + '/v1/natureza')
+        .pipe(
+            map((response : any[][]) => {
+                return Natureza.toArray(response);
+            }),
+            catchError(() => of(null))
+        );
+    }
+
+    /**
+     * Retorna uma coleção de Classe
+     */
+    public consultarClasse(): Observable<Classe[]> {
+        return this.http.get<any[]>(this.url + '/v1/classe')
+        .pipe(
+            map((response : any[][]) => {
+                return Classe.toArray(response);
+            }),
+            catchError(() => of(null))
+        );
+    }
+
+    // sample method from angular doc
+    protected handleError(httpError: HttpErrorResponse) {
+        console.error('Ocorreu erro na requisição:', httpError);
+        if (httpError.status >= 401 && httpError.status <= 403) {
+            window.location.href = '/';
+        }
+        return observableThrowError(httpError);
+    }
 
 }
 

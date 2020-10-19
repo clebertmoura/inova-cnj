@@ -1,4 +1,4 @@
-import {Component, OnDestroy, ViewChild} from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService } from '@nebular/theme';
 import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 import { SmartTableData } from 'app/@core/data/smart-table';
@@ -19,7 +19,12 @@ interface CardSettings {
   templateUrl: './dashboard.component.html',
 })
 
-export class DashboardComponent implements OnDestroy {
+export class DashboardComponent implements OnDestroy, OnInit {
+
+  tiposJustica: any[] = [];
+  tribunais: any[] = [];
+  naturezas: any[] = [];
+  classes: any[] = [];
   
   options: CloudOptions = {
     width: 1000,
@@ -107,6 +112,13 @@ export class DashboardComponent implements OnDestroy {
       };
     });
 
+  }
+
+  ngOnInit(): void {
+    this.inovacnjService.consultarTipoJustica().subscribe(data => console.log(data));
+    this.inovacnjService.consultarTribunal().subscribe(data => console.log(data));
+    this.inovacnjService.consultarNatureza().subscribe(data => console.log(data));
+    this.inovacnjService.consultarClasse().subscribe(data => console.log(data));
   }
 
   ngOnDestroy(): void {
