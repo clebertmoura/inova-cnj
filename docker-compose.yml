@@ -49,7 +49,7 @@ services:
       - inova-cnj-network
     depends_on:
       - postgres
-      
+
   ia-core:
     image: inova-cnj-iacore   
     environment:
