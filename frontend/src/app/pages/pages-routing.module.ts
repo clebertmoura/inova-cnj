@@ -15,7 +15,7 @@ const routes: Routes = [{
       component: ECommerceComponent,
     },
     {
-      path: 'iot-dashboard',
+      path: 'inovaCNJ-dashboard',
       component: DashboardComponent,
     },
     {
@@ -70,7 +70,7 @@ const routes: Routes = [{
     },
     {
       path: '',
-      redirectTo: 'dashboard',
+      redirectTo: 'inovaCNJ-dashboard',
       pathMatch: 'full',
     },
     {

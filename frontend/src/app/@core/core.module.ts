@@ -53,6 +53,8 @@ import { VisitorsAnalyticsService } from './mock/visitors-analytics.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { MockDataModule } from './mock/mock-data.module';
 
+import { InovacnjService } from './services/inovacnj.service';
+
 const socialLinks = [
   {
     url: 'https://github.com/akveo/nebular',
@@ -91,6 +93,7 @@ const DATA_SERVICES = [
   { provide: StatsProgressBarData, useClass: StatsProgressBarService },
   { provide: VisitorsAnalyticsData, useClass: VisitorsAnalyticsService },
   { provide: SecurityCamerasData, useClass: SecurityCamerasService },
+  { provide: InovacnjService, useClass: InovacnjService },
 ];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
