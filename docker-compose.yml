@@ -18,20 +18,6 @@ services:
   #   networks:
   #     - inova-cnj-network
 
-  ia-core:
-    image: inova-cnj-iacore   
-    environment:
-      PGGSSENCMODE: disable 
-    ports:
-      - "8888:8888"
-      - "8181:8080"
-    volumes:
-      - ./work:/home/jovyan/work
-      - ./jdbc:/home/jovyan/jdbc
-    restart: always
-    networks:
-      - inova-cnj-network
-
   postgres:
     image: postgis/postgis:10-3.0-alpine
     environment:
@@ -63,6 +49,34 @@ services:
       - inova-cnj-network
     depends_on:
       - postgres
+      
+  ia-core:
+    image: inova-cnj-iacore   
+    environment:
+      PGGSSENCMODE: disable 
+    ports:
+      - "8888:8888"
+      - "8181:8080"
+    volumes:
+      - ./work:/home/jovyan/work
+      - ./jdbc:/home/jovyan/jdbc
+    restart: always
+    networks:
+      - inova-cnj-network
+    depends_on:
+      - postgres
+
+  frontend:
+    image: inova-cnj-frontend   
+    environment:
+      PGGSSENCMODE: disable 
+    ports:
+      - "8080:80"
+    restart: always
+    networks:
+      - inova-cnj-network
+    depends_on:
+      - ia-core
 
   metabase:
     image: metabase/metabase:v0.36.7

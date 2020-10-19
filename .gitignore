@@ -61,6 +61,7 @@ buildNumber.properties
 
 # End of https://www.gitignore.io/api/java,maven,java-web,code-java,visualstudiocode
 .DS_Store
+__MACOSX
 work/base/*
 work/output/*
 work/.ipynb_checkpoints
