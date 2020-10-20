@@ -152,14 +152,14 @@ export class DashboardComponent implements OnDestroy, OnInit {
     });
     this.inovacnjService.consultarClasse().subscribe(data => {
       this.classes = data;
-      //this.converterParaArvore(this.classes);
+      let arvoreClasses = this.converterParaArvore(this.classes);
+      console.log(arvoreClasses);
     });
   }
 
   converterParaArvore(data: Classe[]) {
-    console.log(arrayToTree(data, {id: 'codigo', parentId: 'codigoPai', childrenField: 'filhos'}));
+    return arrayToTree(data, {id: 'codigo', parentId: 'codigoPai', childrenField: 'filhos'});
   }
-  
 
   ngOnDestroy(): void {
     this.alive = false;
