@@ -145,7 +145,7 @@ export class InovacnjService {
     }
 
     public consultarNpuPredict(npu): Observable<ProcessoPredict> {
-        const link  = 'http://localhost:5000/service/processos/';
+        const link  = '/service/processos/';
         console.log(link + npu);
         return this.http.get<any[]>(link + npu)
         //return this.http.get<any[]>(this.url + '/service/processos/' + npu)

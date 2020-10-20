@@ -66,6 +66,14 @@ services:
     depends_on:
       - postgres
 
+  ia-server:
+    image: inova-cnj-iaserver
+    ports:
+      - "5000:5000"
+    restart: always
+    networks:
+      - inova-cnj-network
+
   frontend:
     image: inova-cnj-frontend   
     environment:
