@@ -62,8 +62,9 @@ buildNumber.properties
 # End of https://www.gitignore.io/api/java,maven,java-web,code-java,visualstudiocode
 .DS_Store
 __MACOSX
-work/base/*
-work/output/*
+work/base/justica_estadual
+work/output/*.csv
+work/output/*.png
 work/.ipynb_checkpoints
 neo4j/data/*
 neo4j/logs/*

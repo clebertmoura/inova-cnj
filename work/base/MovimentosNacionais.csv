@@ -1,0 +1,383 @@
+MOVIMENTO;NATUREZA;GRAU;RELEVANCIA;FASE;
+1002 - Concessão - Progressão de regime ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1003 - Declaração - Remição ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1004 - Revogação - Livramento Condicional ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1008 - Decisão - Autorização ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1009 - Autorização - Trabalho Externo ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1010 - Autorização - Saída Temporária ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1013 - Decisão - Determinação ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1014 - Determinação - Regressão de Regime ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1015 - Determinação - Suspensão do Processo ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1016 - Revogação - Suspensão Condicional da Pena ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1017 - Concessão - Suspensão Condicional da Pena ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1018 - Autorização - Transferência para outro Estabelecimento Penal ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+1019 - Autorização - Transferência da Execução da Pena ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+104 - Serventuário - Oficial de Justiça ;;;0;;
+1042 - Extinção da Punibilidade - Morte do agente ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+1043 - Extinção da Punibilidade - Anistia, graça ou indulto ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+1044 - Extinção da Punibilidade - Retroatividade de lei ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+1045 - Extinção da Punibilidade - Prescrição, decadência ou perempção ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+1046 - Extinção da Punibilidade - Renúncia do queixoso ou perdão aceito ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+1047 - Extinção da Punibilidade - Retratação do agente ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+1048 - Extinção da Punibilidade - Perdão judicial ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+1049 - Extinção da Punibilidade - Pagamento integral do débito ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+1050 - Extinção da Punibilidade - Cumprimento da Pena ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+1051 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Decurso de Prazo ;;;0;;
+1053 - Bens Apreendidos - Destinação ;;;0;;
+1054 - Bens Apreendidos - Destinação Parcial ;;;0;;
+1055 - Bens Apreendidos - Cadastramento ;;;0;;
+1059 - Recurso - Sem efeito suspensivo ;GERAL;;1;F2 - RECURSO;INICIA F2
+106 - Devolução - Mandado ;;;0;;
+1060 - Recebimento - Recurso ;GERAL;;1;F2 - RECURSO;INICIA F2
+1061 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Disponibilização no Diário da Justiça Eletrônico ;;;0;;
+1062 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Redisponibilização no Diário da Justiça Eletrônico ;;;0;;
+1063 - Determinação - Determinação de arquivamento de procedimentos investigatórios ;CRIMINAL;;1;F1 - CONHECIMENTO;ENCERRA F1
+108 - Decisão - Decretação de Prisão Criminal ;;;0;;
+10953 - Sem Resolução de Mérito - Pronúncia ;CRIMINAL;1G;1;F1 - CONHECIMENTO;
+10961 - Sem Resolução de Mérito - Impronúncia ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+10962 - Determinação - Regressão de Medida Sócio-Educativa ;CIVEL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;INFANCIA
+10964 - Com Resolução do Mérito - Extinção por Cumprimento de Medida Sócio-Educativa ;CIVEL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;INFANCIA
+10966 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Mudança de Classe Processual ;;;0;;
+11002 - Revogação - Revogação da Suspensão do Processo ;;;0;;
+11003 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Início do Cumprimento da Transação Penal ;CRIMINAL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11008 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Desmembramento de Feitos ;;;0;;
+11009 - Magistrado - Despacho ;;;0;;
+11010 - Despacho - Mero expediente ;;;0;;
+11011 - Homologação - Homologada a Remissão ;;;;;
+11012 - Suspensão ou Sobrestamento - Conflito de Competência ;;;0;;
+11013 - Suspensão ou Sobrestamento - Convenção das Partes ;;;0;;
+11014 - Suspensão ou Sobrestamento - Convenção das Partes para Cumprimento Voluntário da obrigação ;;;0;;
+11015 - Suspensão ou Sobrestamento - Exceção de Incompetência, suspeição ou Impedimento ;;;0;;
+11017 - Suspensão ou Sobrestamento - Incidente de Insanidade Mental ;;;0;;
+11018 - Suspensão ou Sobrestamento - Recebimento de Embargos à Execução ;;;0;;
+11019 - Despacho - Ordenação de entrega de autos ;;;0;;
+11020 - Despacho - Requisição de Informações ;;;0;;
+11021 - Despacho - Conversão ;;;0;;
+11022 - Conversão - Julgamento em Diligência ;;;0;;
+11023 - Despacho - Concessão ;;;0;;
+11024 - Concessão - Assistência Judiciária Gratuita ;;;0;;
+11025 - Despacho - Suspensão ou Sobrestamento ;;;0;;
+112 - Devolução - Ofício ;;;0;;
+113 - Decisão - Decretação de Prisão Civil ;CIVEL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11373 - Sem Resolução de Mérito - Anulação de sentença/acórdão ;;;1;;MOVIMENTO QUE INDICA QUE A FASE ANTERIOR VOLTARÁ DO ZERO
+11374 - Extinção - Devedor não encontrado ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11375 - Extinção - Inexistência de bens penhoráveis ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11376 - Extinção - Ausência do autor à audiência ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11377 - Extinção - Inadmissibilidade do procedimento sumaríssimo ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11378 - Extinção - Incompetência territorial ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11379 - Extinção - Incompetência em razão da pessoa ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11380 - Extinção - Autor falecido e sem habilitação de sucessores ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11381 - Extinção - Ausência de citação de sucessores do réu falecido ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11382 - Determinação - Bloqueio/penhora on line ;;;0;;NORMALMENTE SE DÁ NA F3, MAS PODE SE DAR TAMBÉM NAS DEMAIS FASES (Raro)
+11383 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Ato ordinatório ;;;0;;
+11384 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Liquidação iniciada ;;;0;;para as fases escolhidas é irrelevante 
+11385 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Execução iniciada ;;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11393 - Decretação de Internação - Sanção ;CIVEL;1G;1;F1 - CONHECIMENTO;
+11394 - Sem Resolução de Mérito - Homologada a Remissão ;CIVEL;1G;1;F1 - CONHECIMENTO;
+11395 - Concessão - Remissão ao adolescente com suspensão do processo ;CIVEL;1G;1;F1 - CONHECIMENTO;
+11396 - Sem Resolução de Mérito - Concessão de remissão a adolescente com exclusão do processo ;CIVEL;1G;1;F1 - CONHECIMENTO;
+11401 - Com Resolução do Mérito - Procedência do pedido e procedência do pedido contraposto ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11402 - Com Resolução do Mérito - Procedência do pedido e procedência em parte do pedido contraposto ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11403 - Com Resolução do Mérito - Procedência do pedido e improcedência do pedido contraposto ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11404 - Com Resolução do Mérito - Procedência em parte do pedido e procedência do pedido contraposto ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11405 - Com Resolução do Mérito - Procedência em parte do pedido e procedência em parte do pedido contraposto ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11406 - Com Resolução do Mérito - Procedência em parte do pedido e improcedência do pedido contraposto ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11407 - Com Resolução do Mérito - Improcedência do pedido e procedência do pedido contraposto ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11408 - Com Resolução do Mérito - Improcedência do pedido e procedência em parte do pedido contraposto ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11409 - Com Resolução do Mérito - Improcedência do pedido e improcedência do pedido contraposto ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11411 - Extinção da Punibilidade - Cumprimento da suspensão condicional do processo ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11415 - Concessão - Comutação da pena ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+11423 - Concessão - Medida protetiva ;CRIMINAL;1G;1;F1 - CONHECIMENTO;VIOLENCIA DOMESTICA
+11424 - Concessão em parte - Medida protetiva ;CRIMINAL;1G;1;F1 - CONHECIMENTO;VIOLENCIA DOMESTICA
+11425 - Não-Concessão - Medida protetiva ;CRIMINAL;1G;1;F1 - CONHECIMENTO;VIOLENCIA DOMESTICA
+11426 - Revogação - Medida protetiva ;CRIMINAL;1G;1;F1 - CONHECIMENTO;VIOLENCIA DOMESTICA
+115 - Oficial de Justiça - Recebimento ;;;0;;
+11554 - Concessão - Indulto ;CRIMINAL;1G;;F3 - CUMPRIMENTO DE SENTENÇA;ENCERRA
+11792 - Suspensão ou Sobrestamento - Livramento Condicional ;CRIMINAL;1G;;F3 - CUMPRIMENTO DE SENTENÇA;
+11795 - Com Resolução do Mérito - Procedência do Pedido - Reconhecimento pelo réu ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+11796 - Com Resolução do Mérito - Declaração de competência em conflito ;;;0;;
+118 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Protocolo de Petição ;;;0;;
+11801 - Extinção da Punibilidade - Reparação do dano ;CRIMINAL;1G;1;;ENCERRA QUALQUER FASE
+11876 - Com Resolução do Mérito - Absolvição Sumária do art. 397-CPP ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA
+11877 - Com Resolução do Mérito - Absolvição sumária - crimes dolosos contra a vida ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA
+11878 - Extinção da Punibilidade - Prescrição ;CRIMINAL;1G;1;;ENCERRA QUALQUER FASE
+11879 - Extinção da Punibilidade - Decadência ou perempção ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA
+11975 - Suspensão ou Sobrestamento - Recurso Especial repetitivo ;;;0;;
+11983 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Retificação de movimento ;;;0;;
+12028 - Extinção da Punibilidade - Cumprimento de transação penal ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA
+12037 - Determinação - Quebra de sigilo fiscal ;;;0;;
+12038 - Determinação - Quebra de sigilo bancário ;;;0;;
+12039 - Determinação - Quebra de sigilo telemático ;;;0;;
+12040 - Determinação - Indisponibilidade de bens ;;;0;;
+12065 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Cumprimento de Suspensão ou Sobrestamento ;;;0;;
+12066 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Cumprimento de Levantamento da Suspensão ou Dessobrestamento ;;;0;;
+12067 - Decisão - Levantamento da Suspensão ou Dessobrestamento ;;;0;;
+12068 - Despacho - Levantamento da Suspensão ou Dessobrestamento ;;;0;;
+12098 - Suspensão ou Sobrestamento - Incidente de Resolução de Demandas Repetitivas ;;;0;;
+12099 - Suspensão ou Sobrestamento - Por decisão do Presidente do STJ - IRDR ;;;0;;
+12100 - Suspensão ou Sobrestamento - Por decisão do Presidente do STF - IRDR ;;;;;
+12104 - Pauta - Inclusão em pauta ;;;0;;
+12115 - Inclusão em pauta - Para julgamento de mérito ;;;0;;
+12116 - Inclusão do processo para julgamento eletrônico - Para julgamento de mérito ;;;0;;
+12140 - Conversão - Prisão em Flagrante em Prisão Preventiva ;;;0;;
+12141 - Decisão - Relaxamento do Flagrante ;;;0;;
+12142 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Mudança de Parte ;;;0;;
+12143 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Mudança de Assunto Processual ;;;0;;
+12144 - Decisão - Unificação e Soma de Penas ;CRIMINAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+12146 - Não-Concessão - Liberdade Provisória ;CRIMINAL;;1;F1 - CONHECIMENTO;
+12147 - Desacolhimento de Prisão - Domiciliar ;;;0;;
+12148 - Concessão - Prisão Domiciliar ;;;0;;
+12151 - Declaração - Suspeição ;;;0;;
+12164 - Decisão - Outras Decisões ;;;0;;
+12167 - Precatório - Enviada ao Tribunal ;;;0;;ENCERRA
+12168 - Precatório - Preparada para Envio ;;;0;;
+12174 - Pequeno Valor - Enviada ao Tribunal ;;;0;;
+12175 - Pequeno Valor - Preparada para Envio ;;;0;;
+12176 - Pequeno Valor - Paga ;;;0;;
+12184 - Sem Resolução de Mérito - Suspensão Condicional do Processo ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA
+12185 - Decisão - Decisão Interlocutória de Mérito ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA PARCIALMENTE F1
+12186 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Cancelamento de Distribuição ;GERAL;1G;1;;ENCERRA QUALQUER FASE
+12187 - Com Resolução do Mérito - Homologação de Decisão de Juiz Leigo ;JUIZADO;1G;1;F1 - CONHECIMENTO;ENCERRA
+12189 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Entrega de Documento ;;;0;;
+12199 - Deliberado em Sessão - Julgado ;GERAL;2G;1;F2 - RECURSO;ENCERRA F2
+12200 - Julgado - Mérito ;;;;;
+12203 - Deliberado em Sessão - Adiado ;;;0;;
+12204 - Deliberado em Sessão - Pedido de Vista ;;;0;;
+12205 - Deliberado em Sessão - Retirado ;;;0;;
+12213 - Ratificação - Decisão Monocrática ;;;0;;
+12214 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Processo Encaminhado ;;;0;;
+12255 - Determinação - Redistribuição por prevenção ;;;0;;
+12259 - Suspensão ou Sobrestamento - Prescrição intercorrente (art. 921, § 4o, CPC) ;EXECUTIVOS;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+12260 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Autos restaurados ;;;0;;
+12261 - Recebimento - Emenda a inicial ;;;0;;
+12265 - Eletrônica - Expedida/certificada ;;;0;;
+12266 - Eletrônica - Confirmada ;;;0;;
+12268 - Intimação - Em Secretaria ;;;0;;
+12277 - Cumprimento da pena - Início ;CRIMINAL;;1;F3 - CUMPRIMENTO DE SENTENÇA;INICIA F3
+12282 - Comunicação eletrônica - Expedida/ Certificada ;;;0;;
+12283 - Comunicação eletrônica - Confirmada ;;;0;;
+12287 - Eletrônica - Expedida/Certificada ;;;0;;
+12288 - Eletrônica - Confirmada ;;;0;;
+12290 - Cancelamento - Documento Expedido ;;;0;;
+12291 - Cancelamento - Movimentação processual ;;;0;;
+12293 - Ato cumprido pela parte ou interessado - Ato cumprido pela parte ou interessado (sem atributo) ;;;0;;
+12294 - Ato cumprido pela parte ou interessado - Comparecimento do Réu/ Apenado ;;;0;;
+12295 - Ato cumprido pela parte ou interessado - Depósito de Bens/Dinheiro ;;;0;;
+12296 - Distribuidor - Registro ;GERAL;;1;F1 - CONHECIMENTO;INICIA F1
+12298 - Extinção - Cancelamento de Dívida Ativa ;EXECUTIVOS;;Q;F3 - CUMPRIMENTO DE SENTENÇA;ENCERRA F3
+123 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Remessa ;;;0;;
+12300 - Decisão - Nomeação ;;;0;;
+12303 - Nomeação - Defensor Dativo ;;;0;;
+12307 - Decisão - Decretação de revelia ;;;0;;
+12308 - Concessão - Substituição/Sucessão ;;;0;;
+12309 - Pauta - Retirada ;;;0;;
+12311 - Pauta - Pedido de inclusão ;;;0;;
+12313 - Pauta - Pedido de inclusão em pauta virtual ;;;0;;
+12315 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Devolvidos os autos ;;;0;;
+12318 - Decisão - Reconhecimento de prevenção ;;;0;;
+12319 - Sem Resolução de Mérito - Não conhecimento do pedido ;CIVEL;;1;;ENCERRA QUALQUER FASE
+12325 - Extinção - Perda do objeto ;GERAL;;1;;ENCERRA QUALQUER FASE
+12330 - Com Resolução do Mérito - Pedido conhecido em parte e procedente em parte ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+12332 - Decisão - Prorrogado prazo de conclusão ;;;0;;
+12359 - Decisão - Liminar Prejudicada ;;;0;;
+12387 - Decisão - Decisão de Saneamento e Organização ;;;0;;PODE SER UTIL SE ADOTARMOS OUTRAS FASES INTERMEDIARIA NO F1
+12421 - Determinação - Juízo provisório para medidas urgentes ;;;0;;
+12430 - Determinação - Arquivamento ;GERAL;;;;ENCERRA QUALQUER FASE
+12431 - Admissão - Embargos ;;;0;;EMBARGOS EM EXEQUATUR
+12444 - Decisão - deferimento ;;;0;;
+12445 - Admissão - Recurso Ordinário ;;;0;;
+12449 - Mero expediente - expedição de alvará de levantamento ;;;0;;
+12451 - impugnação à execução - Procedência ;GERAL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+12455 - Decisão - Indeferimento ;;;0;;
+12457 - Determinação - Expedição de precatório/rpv ;;;0;;
+12458 - Sem Resolução de Mérito - Não conhecimento do habeas corpus ;CRIMINAL;;1;F1 - CONHECIMENTO;
+12459 - Sem Resolução de Mérito - Prejudicado ;CRIMINAL;;1;F1 - CONHECIMENTO;
+12467 - Homologação - Desistência de pedido ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+12474 - Determinação - Distribuição ;;;0;;
+12548 - Despacho - Expedição de alvará de levantamento ;;;0;;
+12614 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Remessa para o CEJUSC ;;;0;;PODE SER UTIL SE ADOTARMOS OUTRAS FASES INTERMEDIARIA NO F1
+12615 - Com Resolução do Mérito - Composição Civil ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+12616 - Extinção da Punibilidade - Composição Civil dos Danos ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+12738 - Com Resolução do Mérito - Homologação de Transação Penal ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA F1
+12740 - Audiência - de Conciliação ;;;0;;PODE SER UTIL SE ADOTARMOS OUTRAS FASES INTERMEDIARIA NO F1
+12749 - Audiência - de Instrução ;;;0;;PODE SER UTIL SE ADOTARMOS OUTRAS FASES INTERMEDIARIA NO F1
+12750 - Audiência - de Instrução e Julgamento ;;;0;;PODE SER UTIL SE ADOTARMOS OUTRAS FASES INTERMEDIARIA NO F1
+132 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Recebimento ;;;0;;
+133 - Decisão - Acolhimento de exceção ;;;0;;
+135 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Apensamento ;;;0;;
+137 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Desapensamento ;;;0;;
+138 - Decisão - Rejeição ;;;0;;
+146 - Decisão - Não-Homologação de prisão em flagrante ;;;0;;
+151 - Decisão - Concessão de efeito suspensivo ;;;0;;
+157 - Decisão - Revogação ;;;0;;
+16 - Contador - Cálculo ;;;0;;
+160 - Decisão - Recebimento ;;;0;;
+163 - Decisão - Não-Recebimento ;;;0;;
+172 - Decisão - Deliberação da partilha ;;;0;;
+175 - Homologação - Prisão em flagrante ;;;0;;
+190 - Decisão - Reforma de decisão anterior ;;;0;;
+193 - Magistrado - Julgamento ;GERAL;;1;;ENCERRA QUALQUER FASE
+196 - Com Resolução do Mérito - Extinção da execução ou do cumprimento da sentença ;CIVEL / EXECUTIVOS;;1;F3 - CUMPRIMENTO DE SENTENÇA;ENCERRA F3
+198 - Com Resolução do Mérito - Acolhimento de Embargos de Declaração ;;;0;;
+200 - Com Resolução do Mérito - Não- Acolhimento de Embargos de Declaração ;;;0;;
+202 - Com Resolução do Mérito - Decretação de falência ;CIVEL PURO;;1;F1 - CONHECIMENTO;
+206 - Decisão - Admissão ;;;0;;RAIZ
+207 - Decisão - Não-Admissão ;;;0;;RAIZ
+210 - Com Resolução do Mérito - Concessão ;;;0;;
+214 - Com Resolução do Mérito - Concessão em Parte ;;;0;;
+218 - Julgamento - Sem Resolução de Mérito ;GERAL;;1;F1 - CONHECIMENTO;ENCERRA
+219 - Com Resolução do Mérito - Procedência ;GERAL;;1;F1 - CONHECIMENTO;ENCERRA
+22 - Distribuidor - Baixa Definitiva ;;;1;;ENCERRA QUALQUER FASE
+220 - Com Resolução do Mérito - Improcedência ;GERAL;;1;F1 - CONHECIMENTO;ENCERRA
+221 - Com Resolução do Mérito - Procedência em Parte ;GERAL;;1;F1 - CONHECIMENTO;ENCERRA
+228 - Sem Resolução de Mérito - Arquivamento ;GERAL;;1;;ENCERRA QUALQUER FASE
+230 - Sem Resolução de Mérito - Recurso prejudicado ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+235 - Sem Resolução de Mérito - Não Conhecimento de recurso ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+236 - Sem Resolução de Mérito - Negação de Seguimento ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+237 - Com Resolução do Mérito - Provimento ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+238 - Com Resolução do Mérito - Provimento em Parte ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+239 - Com Resolução do Mérito - Não- Provimento ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+240 - Com Resolução do Mérito - Conhecimento em Parte e Provimento ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+241 - Com Resolução do Mérito - Conhecimento em Parte e Provimento em Parte ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+242 - Com Resolução do Mérito - Conhecimento em Parte e Não-Provimento ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+244 - Sem Resolução de Mérito - Conversão de Agravo de Instrumento em Agravo Retido ;GERAL;2G;1;F2 - RECURSO;ENCERRA
+245 - Arquivamento - Provisório ;GERAL;;;;ENCERRA QUALQUER FASE
+246 - Arquivamento - Definitivo ;GERAL;;;;ENCERRA QUALQUER FASE
+25 - Decisão - Suspensão ou Sobrestamento ;;;0;;
+26 - Distribuidor - Distribuição ;GERAL;1G;1;F1 - CONHECIMENTO;INICIA F1
+263 - Suspensão ou Sobrestamento - Réu revel citado por edital ;;;0;;
+264 - Suspensão ou Sobrestamento - Suspensão Condicional do Processo ;;;0;;
+265 - Suspensão ou Sobrestamento - Recurso Extraordinário com repercussão geral ;;;0;;
+266 - Conversão - Julgamento em Diligência ;;;0;;
+268 - Suspensão ou Sobrestamento - Morte ou perda da capacidade ;;;0;;
+269 - Declaração - Impedimento ou Suspeição ;;;0;;
+270 - Suspensão ou Sobrestamento - Convenção das Partes ;;;0;;
+271 - Suspensão ou Sobrestamento - Exceção de Incompetência, suspeição ou Impedimento ;;;0;;
+272 - Suspensão ou Sobrestamento - A depender do julgamento de outra causa, de outro juízo ou declaração incidente ;;;0;;
+275 - Suspensão ou Sobrestamento - Força maior ;;;0;;
+276 - Suspensão ou Sobrestamento - Execução frustrada ;;;0;;
+277 - Suspensão ou Sobrestamento - Convenção das Partes para Cumprimento Voluntário da obrigação ;;;0;;
+278 - Suspensão ou Sobrestamento - Recebimento de Embargos à Execução ;;;0;;
+279 - Suspensão ou Sobrestamento - Incidente de Insanidade Mental ;;;0;;
+311 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Leilão ou Praça ;CIVEL;1G;1;F3 - CUMPRIMENTO DE SENTENÇA;
+313 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Sessão do Tribunal do Júri ;CRIMINAL;1G;1;F1 - CONHECIMENTO;ENCERRA
+332 - Concessão - Antecipação de tutela ;;;0;;
+334 - Não-Concessão - Assistência judiciária gratuita ;;;0;;
+335 - Acolhimento de exceção - de pré- executividade ;;;0;;
+339 - Concessão - Liminar ;;;0;;
+347 - Revogação - Antecipação de Tutela ;;;0;;
+348 - Revogação - Liminar ;;;0;;
+349 - Revogação - Assistência Judiciária Gratuita ;;;0;;
+352 - Decretação de Prisão Criminal - Temporária ;;;0;;
+353 - Decretação de Prisão Criminal - Preventiva ;;;0;;
+354 - Decretação de Prisão Civil - Alimentos ;;;0;;
+355 - Decretação de Prisão Civil - Depositário infiel ;;;0;;
+357 - Desacolhimento de Prisão - Temporária ;;;0;;
+358 - Desacolhimento de Prisão - Preventiva ;;;0;;
+36 - Distribuidor - Redistribuição ;GERAL;;1;F1 - CONHECIMENTO;INICIA  F1
+371 - Acolhimento de exceção - Incompetência ;;;0;;
+373 - Rejeição - Exceção de Impedimento ou Suspeição ;;;0;;
+374 - Rejeição - Exceção de incompetência ;;;0;;
+377 - Homologação - Acordo em execução ou em cumprimento de sentença ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;ENCERRA F3
+378 - Decisão - Homologação ;;;0;;RAIZ
+381 - Concessão de efeito suspensivo - Recurso ;GERAL;2G;1;F2 - RECURSO;
+383 - Concessão de efeito suspensivo - Impugnação ao cumprimento de sentença ;CIVEL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+385 - Julgamento - Com Resolução do Mérito ;;;0;;RAIZ
+388 - Recebimento - Aditamento da denúncia ;CRIMINAL;;1;F1 - CONHECIMENTO;
+391 - Recebimento - Denúncia ;CRIMINAL;;1;F1 - CONHECIMENTO;
+393 - Recebimento - Queixa ;CRIMINAL;;1;F1 - CONHECIMENTO;
+394 - Recurso - Com efeito suspensivo ;GERAL;2G;1;F2 - RECURSO;
+399 - Rejeição - Aditamento da denúncia ;CRIMINAL;;1;F1 - CONHECIMENTO;
+402 - Rejeição - Denúncia ;CRIMINAL;;1;F1 - CONHECIMENTO;
+404 - Rejeição - Queixa ;CRIMINAL;;1;F1 - CONHECIMENTO;
+417 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Inclusão em pauta ;;;0;;
+429 - Admissão - Recurso extraordinário ;GERAL;;1;F2 - RECURSO;
+430 - Admissão - Recurso especial ;GERAL;;1;F2 - RECURSO;
+432 - Não-Admissão - Recurso Extraordinário ;GERAL;;1;F2 - RECURSO;
+433 - Não-Admissão - Recurso Especial ;GERAL;;1;F2 - RECURSO;
+442 - Concessão - Segurança ;GERAL;;1;F1 - CONHECIMENTO;
+443 - Concessão - Habeas corpus ;GERAL;;1;F1 - CONHECIMENTO;
+444 - Concessão - Habeas data ;GERAL;;1;F1 - CONHECIMENTO;
+446 - Denegação - Segurança ;GERAL;;1;F1 - CONHECIMENTO;
+447 - Denegação - Habeas corpus ;GERAL;;1;F1 - CONHECIMENTO;
+450 - Concessão em Parte - Segurança ;GERAL;;1;F1 - CONHECIMENTO;
+451 - Concessão em Parte - Habeas corpus ;GERAL;;1;F1 - CONHECIMENTO;
+454 - Extinção - Indeferimento da petição inicial ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+455 - Com Resolução do Mérito - Renúncia ao direito pelo autor ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+456 - Sem Resolução de Mérito - Extinção ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+457 - Extinção - Paralisação por negligência das partes ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+458 - Extinção - Abandono da causa ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+459 - Extinção - Ausência de pressupostos processuais ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+460 - Extinção - Perempção, litispendência ou coisa julgada ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+461 - Extinção - Ausência das condições da ação ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+462 - Extinção - Convenção de arbitragem ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+463 - Extinção - Desistência ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+464 - Extinção - Ação intransmissível ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+465 - Extinção - Confusão entre autor e réu ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+466 - Com Resolução do Mérito - Homologação de Transação ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+471 - Com Resolução do Mérito - Pronúncia de Decadência ou Prescrição ;CIVEL;1G;1;F1 - CONHECIMENTO;ENCERRA 
+472 - Arquivamento - Sumaríssimo (art. 852- B, § 1o/CLT) ;TRABALHO;;0;;
+473 - Arquivamento - Ausência do Reclamante ;TRABALHO;;0;;
+478 - Cálculo - Cálculo de Liquidação ;;;0;;
+479 - Cálculo - Custas ;;;0;;
+48 - Serventuário - Escrivão/Diretor de Secretaria/Secretário Jurídico ;;;0;;
+480 - Cálculo - Atualização de conta ;;;0;;
+488 - Distribuidor - Cancelamento de Distribuição ;GERAL;;1;;ENCERRA QUALQUER FASE
+493 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Entrega em carga/vista ;;;0;;
+51 - Escrivão/Diretor de Secretaria/Secretário Jurídico - Conclusão ;;;0;;
+56 - Decisão - Requisição de informações ;;;0;;
+60 - Escrivão/Diretor de Secretaria/Secretário Jurídico - Expedição de documento ;;;0;;
+63 - Decisão - Ordenação de entrega de autos ;;;0;;
+67 - Escrivão/Diretor de Secretaria/Secretário Jurídico - Juntada ;;;0;;
+7 - Decisão - Conversão ;;;0;;
+785 - Não-Concessão - Antecipação de tutela ;;;0;;
+787 - Concessão - Assistência Judiciária Gratuita ;;;0;;
+788 - Rejeição - Exceção de pré-executividade ;;;0;;
+792 - Não-Concessão - Liminar ;;;0;;
+804 - Não-Recebimento - Recurso ;;;0;;
+817 - Decisão - Concessão ;;;0;;
+818 - Concessão - Liberdade provisória ;CRIMINAL;;1;F1 - CONHECIMENTO;
+819 - Concessão - Livramento Condicional ;CRIMINAL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+821 - Conversão - Pena / Medida ;CRIMINAL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+823 - Decretação de Internação - Provisória ;;;0;;
+83 - Decisão - Cancelamento da distribuição ;GERAL;;1;;ENCERRA QUALQUER FASE
+848 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Trânsito em julgado ;GERAL;;1;;ENCERRA QUALQUER FASE
+849 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Reativação ;;;0;;
+861 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Arquivamento ;GERAL;;1;;ENCERRA QUALQUER FASE
+866 - Arquivista - Guarda Intermediária ;;;0;;
+867 - Arquivista - Guarda Permanente ;;;0;;
+870 - Arquivista - Autos Eliminados ;;;0;;
+871 - Com Resolução do Mérito - Acolhimento em parte de Embargos de Declaração ;;;0;;
+873 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Deliberação em Sessão ;;;0;;
+884 - Com Resolução do Mérito - Transação Penal ;CRIMINAL;1G;1;F1 - CONHECIMENTO;
+888 - Decisão - Concessão em parte ;;;0;;
+889 - Concessão em parte - Antecipação de Tutela ;;;0;;
+892 - Concessão em parte - Liminar ;;;0;;
+893 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Desarquivamento ;;;0;;
+897 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Retirada de pauta ;;;0;;
+898 - Suspensão ou Sobrestamento - Por decisão judicial ;;;0;;
+900 - Com Resolução do Mérito - Declaração de competência em conflito ;GERAL;2G;1;F2 - RECURSO;
+901 - Com Resolução do Mérito - Negação de seguimento ;GERAL;2G;1;F2 - RECURSO;
+92 - Escrivão/Diretor de Secretaria/Secretário Jurídico - Publicação ;;;0;;
+928 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Republicação ;;;0;;
+940 - Acolhimento de exceção - Impedimento ou Suspeição ;;;0;;
+941 - Declaração - Incompetência ;;;0;;
+944 - Homologação - Desistência de Recurso ;GERAL;2G;1;F2 - RECURSO;
+945 - Revogação - Decisão anterior ;;;0;;
+947 - Suspensão ou Sobrestamento - Por pendência de AIREsp ;;;0;;
+960 - Suspensão ou Sobrestamento - Conflito de Competência ;;;0;;
+961 - Decisão - Suscitação de Conflito de Competência ;;;0;;
+968 - Decisão - Não-Concessão ;;;0;;
+970 - Escrivão/Diretor de Secretaria/ Secretário Jurídico - Audiência ;;;0;;PODE SER UTIL
+972 - Com Resolução do Mérito - Provimento (art. 557 do CPC) ;CIVEL;2G;1;F2 - RECURSO;
+973 - Com Resolução do Mérito - Extinção da Punibilidade ;CRIMINAL;;1;;ENCERRA QUALQUER FASE
+977 - Arquivista - Recebimento ;;;0;;
+978 - Arquivista - Remessa ;;;0;;
+979 - Contador - Recebimento ;;;0;;
+980 - Contador - Remessa ;;;0;;
+981 - Distribuidor - Recebimento ;;;0;;
+982 - Distribuidor - Remessa ;;;0;;
+985 - Recebimento - Mandado ;;;0;;
+987 - Recebimento - Ofício ;;;0;;
+988 - Concessão - Permissão de saída ;CRIMINAL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
+990 - Concessão - Direito de visita ;CRIMINAL;;1;F3 - CUMPRIMENTO DE SENTENÇA;
