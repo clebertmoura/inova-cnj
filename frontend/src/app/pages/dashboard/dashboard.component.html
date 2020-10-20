@@ -145,26 +145,12 @@
               </nb-card-body>
             </nb-card>
             
-            <!--Grafico-->
-            <div class="row">
-              <div class="col-lg-6">
-                <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="results" [xAxis]="showXAxis"
-                  [yAxis]="showYAxis" [legend]="showLegend" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
-                </ngx-charts-bar-vertical>
-              </div>
-              <div class="col-lg-6">
-                <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="results" [xAxis]="showXAxis"
-                  [yAxis]="showYAxis" [legend]="showLegend" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel">
-                </ngx-charts-bar-vertical>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class>
-                <ng2-smart-table [settings]="configTabelaAnalitcs" [source]="dadosTabelaAnalitcs">
-                </ng2-smart-table>
-              </div>
-            </div>
+            <nb-card>
+              <nb-card-body>
+                <iframe    src="http://161.97.71.108:3000/public/dashboard/4e8d4bbf-eeea-4a85-afbf-b22d8cf3b80e"    
+                frameborder="0"    width="1360"    height="768"    allowtransparency ></iframe>
+              </nb-card-body>
+            </nb-card>
 
           </nb-tab>
 
@@ -323,40 +309,89 @@
           </nb-tab>
 
           <nb-tab tabTitle="Predict">
+            
+            <nb-card>
+              <nb-card-body >
+                <div class="row">
+                  <div class="col-md-3 col-sm-12">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <input type="text" #npu fullWidth nbInput placeholder="NPU">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="col-md-3 col-sm-12">
+                    <div class="form-group">
+                      <button nbButton (click)="pesquisarNpu(npu.value)">Pesquisar</button>
+                    </div>
+                  </div>
+                </div>
+              </nb-card-body>
+            </nb-card>
+    
+            <nb-card #card [(hidden)]="!exibirResultadoPredict">
+              <nb-card-body >
+                <div class="col-md-12">
+                  <!--Stepper-->
+                  <nb-stepper orientation="horizontal">
+                    <nb-step *ngFor="let historico of historicoFases; let i = index" 
+                    label="{{ historico.nome }} - {{ historico.situacao }}"> 
+                      <p>Data Inicio: {{ historico.dataInicio }} </p>
+                      <p>Data Conclusão: {{ historico.dataConclusao }} </p>
+                    </nb-step>
+                  </nb-stepper>
+                </div>
+    
+                <div class="row">
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <h4>Fases do Processo</h4>
+                          <ng2-smart-table [settings]="configTabelaPredict" [source]="dadosTabelaPredict">
+                          </ng2-smart-table>  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                      <h4>Alertas</h4>
+                      <nb-card class="list-card" size="small">
+                        <nb-list>
+                          <nb-list-item *ngFor="let dados of alertas">
+                            <article>
+                              <p>{{dados.nome}}</p>
+                              <h6>{{dados.valor}}</h6>
+                            </article>
+                          </nb-list-item>
+                        </nb-list>
+                      </nb-card>
+                    </div>
+                  </div>
+                </div>
+                
+              </nb-card-body>
+            </nb-card>
+            
+          </nb-tab>
+
+          <nb-tab tabTitle="Configuração">
 
             <nb-card>
+              <nb-card-header>Cadastrar Fase</nb-card-header>
               <nb-card-body>
                 <div class="row">
                   <div class="col-md-3 col-sm-12">
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
-                          <label class="label">Tipo de Justiça:</label>
-                          <nb-select
-                            [(selected)]="tipoJustica"
-                            class="position-select"
-                            fullWidth
-                          >
-                            <nb-option *ngFor="let tipoJustica of tiposJustica" [value]="tipoJustica">{{
-                              tipoJustica.descricao
-                            }}</nb-option>
-                          </nb-select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <div class="form-group">
-                          <label class="label">Tribunal:</label>
-                          <nb-select
-                            [(selected)]="tribunal"
-                            class="position-select"
-                            fullWidth
-                          >
-                          <nb-option *ngFor="let tribunal of tribunais" [value]="tribunal">{{
-                            tribunal.descricao
-                          }}</nb-option>
-                          </nb-select>
+                          <label for="inputFase" class="label">Fase</label>
+                          <input type="text" nbInput fullWidth id="inputFase" placeholder="Fase">
                         </div>
                       </div>
                     </div>
@@ -365,7 +400,7 @@
                         <div class="form-group">
                           <label class="label">Natureza:</label>
                           <nb-select
-                            [(selected)]="natureza"
+                            [(selected)]="naturezaFase"
                             class="position-select"
                             fullWidth
                           >
@@ -377,27 +412,11 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col">
-                        <div class="form-group">
-                          <label class="label">Classe:</label>
-                          <nb-select
-                            [(selected)]="classe"
-                            class="position-select"
-                            fullWidth
-                          >
-                            <nb-option *ngFor="let classe of classes" [value]="classe">{{
-                              classe.descricao
-                            }}</nb-option>
-                          </nb-select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
                       <div class="col-md-6 col-sm-12 col-lg-6">
                         <div class="row">
                           <div class="col-sm-12">
                             <div class="form-group">
-                              <button nbButton (click)="pesquisarAnalitcs()">Pesquisar</button>
+                              <button nbButton >Salvar</button>
                             </div>
                           </div>
                         </div>
@@ -405,109 +424,18 @@
                     </div>
                   </div>
         
-                  <!-- calendario data inicial -->
-                  <div class="col-md-3 col-sm-12">
-                    <div class="calendar-container">
-                      <label class="label">Data Inicial</label>
-                      <nb-calendar
-                        [(date)]="dataInicial"
-                        [boundingMonth]="true"
-                        showWeekNumber
-                      ></nb-calendar>
-                    </div>
-                  </div>
-        
-                  <!-- calendario data final -->
-                  <div class="col-md-3 col-sm-12">
-                    <div class="calendar-container">
-                      <label class="label">Data Final</label>
-                      <nb-calendar
-                        [(date)]="dataFinal"
-                        [boundingMonth]="true"
-                        showWeekNumber
-                      ></nb-calendar>
-                    </div>
-                  </div>
-        
                   <!-- nuvem de assuntos -->
                   <div class="col-md-3 col-sm-12">
                     <div class="form-group">
-                      <label class="label">Núvem de Assuntos:</label>
+                      
                     </div>
                   </div>
                 </div>
         
               </nb-card-body>
             </nb-card>
-
-            <nb-card>
-              <nb-card-body>
-                <nb-actions size="medium" fullWidth>
-                  <nb-action>
-                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                    <span>{{tipoJustica != null ? tipoJustica.descricao : ""}}</span>
-                  </nb-action>
-                  <nb-action>
-                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                    <span>{{tribunal != null ? tribunal.descricao : ""}}</span>
-                  </nb-action>
-                  <nb-action>
-                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                    <span>{{natureza != null ? natureza.descricao : ""}}</span>
-                  </nb-action>
-                  <nb-action>
-                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                    <span>{{classe != null ? classe.descricao : ""}}</span>
-                  </nb-action>
-                </nb-actions>
-              </nb-card-body>
-            </nb-card>
-
-            <div class="row">
-              <div class="col-sm-12 col-sm-12 col-lg-6">
-                <div class="form-group">
-                  <input type="text" #npu nbInput placeholder="NPU" value="12131231231231">
-                </div>
-                <div class="form-group">
-                  <button nbButton (click)="pesquisarNpu(npu.value)">Pesquisar</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <!--Stepper-->
-              <nb-stepper orientation="horizontal">
-                <nb-step *ngFor="let historico of historicoFases; let i = index"
-                  label="{{ historico.nome }} - {{ historico.situacao }}">
-                  <p>Data Inicio: {{ historico.dataInicio }} </p>
-                  <p>Data Conclusão: {{ historico.dataConclusao }} </p>
-                </nb-step>
-              </nb-stepper>
-            </div>
-
-            <div class="row">
-              <div class>
-                <h4>Fases do Processo</h4>
-                <ng2-smart-table [settings]="configTabelaPredict" [source]="dadosTabelaPredict">
-                </ng2-smart-table>
-              </div>
-
-              <div class="col-md-12 col-lg-6 col-xxxl-6">
-                <h4>Alertas</h4>
-                <nb-card class="list-card" size="small">
-                  <nb-list>
-                    <nb-list-item *ngFor="let dados of alertas">
-                      <article>
-                        <p>{{dados.nome}}</p>
-                        <h6>{{dados.valor}}</h6>
-                      </article>
-                    </nb-list-item>
-                  </nb-list>
-                </nb-card>
-              </div>
-            </div>
-
           </nb-tab>
+
         </nb-tabset>
       </nb-card-body>
     </nb-card>

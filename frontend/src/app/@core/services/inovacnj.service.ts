@@ -7,6 +7,7 @@ import { Tribunal } from 'app/models/tribunal';
 import { Natureza } from 'app/models/natureza';
 import { Classe } from '../../models/classe';
 import { FiltroPm } from 'app/models/filtro-pm';
+import { ProcessoPredict } from 'app/models/processo-predict';
 
 @Injectable({
     providedIn: 'root'
@@ -143,11 +144,25 @@ export class InovacnjService {
         return analitcs.resultado;
     }
 
+    public consultarNpuPredict(npu): Observable<ProcessoPredict> {
+        const link  = 'http://localhost:5000/service/processos/';
+        console.log(link + npu);
+        return this.http.get<any[]>(link + npu)
+        //return this.http.get<any[]>(this.url + '/service/processos/' + npu)
+        .pipe(
+            map((response : any[][]) => {
+                console.log(response);
+                return ProcessoPredict.toArray(response);
+            }),
+            catchError(() => of(null))
+        );
+    }
 
     /**
      * Retorna uma coleção de TipoJustica
      */
     public consultarTipoJustica(): Observable<TipoJustica[]> {
+        console.log(this.url + '/v1/tipo-justica');
         return this.http.get<any[]>(this.url + '/v1/tipo-justica')
         .pipe(
             map((response : any[][]) => {

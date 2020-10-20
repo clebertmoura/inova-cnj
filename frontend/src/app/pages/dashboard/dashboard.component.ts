@@ -12,6 +12,7 @@ import { Natureza } from 'app/models/natureza';
 import { Classe } from '../../models/classe';
 import { arrayToTree } from 'performant-array-to-tree';
 import { FiltroPm } from 'app/models/filtro-pm';
+import { ProcessoPredict } from 'app/models/processo-predict';
 
 interface CardSettings {
   title: string;
@@ -33,6 +34,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   tribunal: Tribunal;
   naturezas: Natureza[] = [];
   natureza: Natureza;
+  naturezaFase: Natureza;
   classes: Classe[] = [];
   classe: Classe;
   dataInicial = new Date();
@@ -81,6 +83,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   historicoFases = {};
   dadosTabelaPredict : LocalDataSource = new LocalDataSource();
   alertas = {};
+  exibirResultadoPredict= false;
     
   // config tabela predict
   configTabelaPredict = {
@@ -190,11 +193,18 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   pesquisarNpu(npu) {
-    if (this.inovacnjService.getExisteNpu(npu)) {
-      this.dadosTabelaPredict.load(this.inovacnjService.getDadosFases());
-      this.alertas = this.inovacnjService.getAlertas();
-      this.historicoFases = this.inovacnjService.getHistoricoFases();
-    } 
+    this.inovacnjService.consultarNpuPredict(npu).subscribe(data => {
+      console.log(data);
+      if (data !== null) {
+        this.dadosTabelaPredict.load(data.dadosFases);
+        this.alertas = data.alertas;
+        this.historicoFases = data.historicoFases;
+        this.exibirResultadoPredict = true;
+      } else {
+        this.exibirResultadoPredict = false;
+      }
+    });
+
   }
   
   pesquisarAnalitcs() {

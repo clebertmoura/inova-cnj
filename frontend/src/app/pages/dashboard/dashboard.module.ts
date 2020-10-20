@@ -39,7 +39,6 @@ import { FormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsRoutingModule } from '../forms/forms-routing.module';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { FiltroComponent } from './filtro/filtro.component';
 
 
@@ -69,7 +68,7 @@ import { FiltroComponent } from './filtro/filtro.component';
     NbDatepickerModule,
     FormsRoutingModule,
     FormsModule,
-    TagCloudModule,
+  
   ],
   declarations: [
     DashboardComponent,
