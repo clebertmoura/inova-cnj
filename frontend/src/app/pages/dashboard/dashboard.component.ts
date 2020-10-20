@@ -11,6 +11,7 @@ import { SolarData } from '../../@core/data/solar';
 import { Natureza } from 'app/models/natureza';
 import { Classe } from '../../models/classe';
 import { arrayToTree } from 'performant-array-to-tree';
+import { FiltroPm } from 'app/models/filtro-pm';
 
 interface CardSettings {
   title: string;
@@ -36,6 +37,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
   classe: Classe;
   dataInicial = new Date();
   dataFinal = new Date();
+
+  filtrosPm: FiltroPm[] = [];
 
   // config tabela Analitcs
   dadosTabelaAnalitcs : LocalDataSource = new LocalDataSource();
@@ -164,6 +167,26 @@ export class DashboardComponent implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     this.alive = false;
     this.themeSubscription.unsubscribe();
+  }
+
+  adicionarModeloPm(): void {
+    console.log('adicionarModeloPm');
+    if (this.tribunal != null) {
+      if (this.natureza != null) {
+        const filtroPm = new FiltroPm(this.tribunal, this.natureza, this.classe);
+        this.filtrosPm.push(filtroPm);
+      }
+    }
+  }
+
+  removerModeloPm(filtro: FiltroPm): void {
+    console.log('removerModeloPm');
+    const idx = this.filtrosPm.indexOf(filtro);
+    this.filtrosPm.splice(idx, 1);
+  }
+
+  getUrlModeloPm(filtro: FiltroPm): string {
+    return this.inovacnjService.getUrlModeloPm(filtro);
   }
 
   pesquisarNpu(npu) {

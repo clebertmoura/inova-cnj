@@ -30,10 +30,20 @@ Para desenvolvimento estamos usando apenas 2 arquivos de cada tribunal estadual.
 
 ## Efetuando o build da imagem Docker
 
-Antes de iniciar o ambiente, é necessário buildar a imagem docker do modulo *ia-core*. 
-Para isso, utilize um terminal e acesse o sub-diretório: `./ia-core`, em seguida execute o comando abaixo:
+Antes de iniciar o ambiente, é necessário buildar as imagens docker dos modulos *ia-core*, *frontend* e *ia-server*. 
+Para isso, utilize um terminal e acesse o sub-diretório de cada modulo e execute o respectivo comando abaixo:
 
-> docker build -t ia-core .
+### Build da imagem: inova-cnj-iacore
+
+> docker build -t inova-cnj-iacore .
+
+### Build da imagem: inova-cnj-frontend
+
+> docker build -t inova-cnj-frontend .
+
+### Build da imagem: inova-cnj-iaserver
+
+> docker build -t inova-cnj-iaserver .
 
 ## Iniciando o ambiente
 

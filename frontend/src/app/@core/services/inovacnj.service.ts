@@ -6,6 +6,7 @@ import { TipoJustica } from '../../models/tipo-justica';
 import { Tribunal } from 'app/models/tribunal';
 import { Natureza } from 'app/models/natureza';
 import { Classe } from '../../models/classe';
+import { FiltroPm } from 'app/models/filtro-pm';
 
 @Injectable({
     providedIn: 'root'
@@ -193,6 +194,15 @@ export class InovacnjService {
             }),
             catchError(() => of(null))
         );
+    }
+
+    /**
+     * Retorna uma coleção de Natureza
+     */
+    public getUrlModeloPm(filtro: FiltroPm): string {
+        const urlPm = this.url + `/v1/gerar-modelo-pm?codtribunal=${filtro.tribunal.codigo}&natureza=${filtro.natureza.codigo}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}`;
+        console.log(urlPm)
+        return urlPm;
     }
 
     // sample method from angular doc
