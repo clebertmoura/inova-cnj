@@ -10,10 +10,9 @@ FROM node:12.19.0-alpine3.12 as node
 
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm i npm@latest -g
 RUN npm install
 COPY . .
-RUN npm install -g @angular/cli@^10.0.6
+RUN npm install -g @angular/cli@10.0.6
 RUN ng build --configuration production --output-path=/dist
 
 # Stage 2
