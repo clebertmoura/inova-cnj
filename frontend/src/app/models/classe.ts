@@ -3,6 +3,8 @@ export class Classe {
     codigo: string = null;
     descricao: string = null;
     sigla: string = null;
+    codigoPai: string = null;
+    filhos: Classe[] = [];
 
     static fromJson(json: any[]): Classe {
         let entity: Classe = null;
@@ -11,6 +13,7 @@ export class Classe {
             entity.codigo = json[0];
             entity.descricao = json[1];
             entity.sigla = json[2];
+            entity.codigoPai = json[3];
         }
         return entity;
     }

@@ -3,9 +3,14 @@ import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, Nb
 import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 import { SmartTableData } from 'app/@core/data/smart-table';
 import { InovacnjService } from 'app/@core/services/inovacnj.service';
+import { TipoJustica } from 'app/models/tipo-justica';
+import { Tribunal } from 'app/models/tribunal';
 import { LocalDataSource } from 'ng2-smart-table';
 import { takeWhile } from 'rxjs/operators' ;
 import { SolarData } from '../../@core/data/solar';
+import { Natureza } from 'app/models/natureza';
+import { Classe } from '../../models/classe';
+import { arrayToTree } from 'performant-array-to-tree';
 
 interface CardSettings {
   title: string;
@@ -21,14 +26,14 @@ interface CardSettings {
 
 export class DashboardComponent implements OnDestroy, OnInit {
 
-  tiposJustica: any[] = [];
-  tipoJustica: any;
-  tribunais: any[] = [];
-  tribunal: any;
-  naturezas: any[] = [];
-  natureza: any;
-  classes: any[] = [];
-  classe: any;
+  tiposJustica: TipoJustica[] = [];
+  tipoJustica: TipoJustica;
+  tribunais: Tribunal[] = [];
+  tribunal: Tribunal;
+  naturezas: Natureza[] = [];
+  natureza: Natureza;
+  classes: Classe[] = [];
+  classe: Classe;
   dataInicial = new Date();
   dataFinal = new Date();
 
@@ -147,8 +152,14 @@ export class DashboardComponent implements OnDestroy, OnInit {
     });
     this.inovacnjService.consultarClasse().subscribe(data => {
       this.classes = data;
+      //this.converterParaArvore(this.classes);
     });
   }
+
+  converterParaArvore(data: Classe[]) {
+    console.log(arrayToTree(data, {id: 'codigo', parentId: 'codigoPai', childrenField: 'filhos'}));
+  }
+  
 
   ngOnDestroy(): void {
     this.alive = false;

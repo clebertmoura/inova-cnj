@@ -12,7 +12,7 @@ import { Classe } from '../../models/classe';
 })
 export class InovacnjService {
 
-    private url = 'https://cors-anywhere.herokuapp.com/http://161.97.71.108:8181/api';
+    private url = '/api';
 
     predict = {
         mensagem:"OK",

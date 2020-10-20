@@ -67,6 +67,7 @@
     "normalize.css": "6.0.0",
     "npm": "^6.14.8",
     "pace-js": "1.0.2",
+    "performant-array-to-tree": "^1.7.1",
     "roboto-fontface": "0.8.0",
     "rxjs": "6.6.2",
     "rxjs-compat": "6.3.0",
