@@ -19,6 +19,18 @@ historicoFase = app.model('historicoFase',{
     'dataInicio': fields.String(required=True, description='Data de início da fase')
 })
 
+dadoFase = app.model('dadosFase',{
+    'id': fields.Integer(required=True, description='Nome da fase'),
+    'duracao': fields.Integer(required=True, description='Duração da fase'),
+    'duracaoPrevista': fields.Integer(required=True, description='Estimativa de duração'),
+    'status': fields.String(required=True, description='Status da fase'),
+})
+
+alerta = app.model('alerta', {
+    'nome': fields.String(required=True, description='Nome do alerta'),
+    'valor': fields.String(required=True, description='Valor do alerta'),
+})
+
 resultadoProcesso = app.model('resultado', {
     'processo':fields.String(required=True, description='Número do processo'),
     'siglaTribunal':fields.String(required=True, description='Sigla do tribunal'),
@@ -28,7 +40,9 @@ resultadoProcesso = app.model('resultado', {
     'assunto':fields.String(required=True, description='Assunto processual'),
     'dataAjuizamento':fields.String(required=True, description='Data de ajuizamento'),
     'porteTribunal':fields.String(required=True, description='Porte do tribunal'),
-    'historicoFases':fields.List(fields.Nested(historicoFase))
+    'historicoFases':fields.List(fields.Nested(historicoFase)),
+    'dadosFases':fields.List(fields.Nested(dadoFase)),
+    'alertas':fields.List(fields.Nested(alerta))
 })
 
 resposta = app.model('resposta', {

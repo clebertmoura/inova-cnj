@@ -19,195 +19,67 @@ class ServiceController:
     @staticmethod
     def consultar_processo(request, processo):
         result = {}
+        hist_fases = []
+        histf = {'nome':"", 'situacao':"", 'dataInicio':"", 'dataConclusao':"" }
+        dados_fases = []
+        dadof = {'id':"", 'duracao':-1, 'duracaoPrevista':-1, 'status':""}
         resposta = {'mensagem':"", 'resultado':result}
+        alertas = []
+        alerta = {'nome':"", 'valor':""}
         try:
             resposta['mensagem'] = 'OK'
             resposta['resultado']['processo'] = processo
             retorno = DatabaseController.consultar_processo(processo)
-            print(len(retorno))
             if len(retorno) == 0:
                 resposta['mensagem'] = "Processo não encontrado"
                 return resposta, 404
             else:
                 resposta['resultado']['siglaTribunal'] = retorno[0]['sigla_tribunal']
-                resposta['resultado']['siglaTribunal'] = retorno[0]['sigla_tribunal']
+                resposta['resultado']['orgaoJulgador'] = retorno[0]['orgao_julgador']
+                resposta['resultado']['Natureza'] = retorno[0]['natureza']
+                resposta['resultado']['classe'] = retorno[0]['sigla_tribunal']
+                resposta['resultado']['assunto'] = retorno[0]['assunto']
+                resposta['resultado']['dataAjuizamento'] = retorno[0]['dh_ajuizamento']
+                resposta['resultado']['porteTribunal'] = retorno[0]['porte_tribunal']
+                mes_ajuizamento = retorno[0]['mes_ajuizamento']
+                codigo_localidade = retorno[0]['codigo_localidade']
+                #Consulta as fases
+                ret_hist_fases = DatabaseController.consultar_processo_fase(processo)
+                if len(ret_hist_fases) > 0:
+                    for reg in ret_hist_fases:
+                        histf['nome'] = reg['nome_fase']
+                        histf['situacao'] = reg['status_fase']
+                        histf['dataInicio'] = reg['dt_inicio']
+                        histf['dataConclusao'] = reg['dt_fim']
+                        hist_fases.append(histf.copy())
+                        dadof['id'] = reg['id_fase']
+                        dadof['duracao'] = reg['duracao']
+                        dadof['status'] = reg['status_fase']
+                        prev = 0
+                        #Vai no modelo buscar a previsão
+                        dadof['duracaoPrevista'] = prev
+                        dados_fases.append(dadof.copy())
+                    resposta['resultado']['historicoFases'] = hist_fases
+                    resposta['resultado']['dadosFases'] = dados_fases
+                alerta['nome'] = 'Duração total estimada do processo'
+                alerta['valor'] = '1452 dias'
+                alertas.append(alerta.copy())
+                alerta['nome'] = 'Classificação quanto a possibilidade de duração muito acima do normal'
+                alerta['valor'] = 'Alta possibilidade'
+                alertas.append(alerta.copy())
+                alerta['nome'] = 'Possibilidade de duração muito abaixo do normal'
+                alerta['valor'] = 'Duração Normal'
+                alertas.append(alerta.copy())
+                resposta['resultado']['alertas'] = alertas
+
+
         except Exception as ex:
-            raise ex
-        #    resposta['mensagem'] = str(ex)
-        #    print(ex)
-        #    return resposta, 502
+            resposta['mensagem'] = str(ex)
+            return resposta, 502
+            #raise ex
         return resposta, 200
 
     @staticmethod
     def cadastrar_processo(request):
         return "OK", 200
 
-    # @staticmethod
-    # def submeterModelos(request, nome_modelo):
-    #     resposta = {'chaves': {}, 'status': "", 'mensagem': ""}
-    #     respostas = []
-    #     try:
-    #         dados = ServiceController.converter_json_entrada(request)
-    #         chaves = dados["chaves"]
-    #         entradas = dados["entradas"]
-    #         unidade = dados["unidade"]
-    #         r = RecallAIModelsController()
-    #         json_retornos = r.recallModel(chaves, entradas, nome_modelo, unidade)
-    #         resposta["chaves"] = chaves
-    #         if json_retornos.__len__() > 0:
-    #             for retorno in json_retornos:
-    #                 modelo = retorno["modelo"]
-    #                 resultado = retorno["resultado"]
-    #                 respostaModelo = {'nome_modelo': modelo, 'resultado': resultado}
-    #                 respostas.append(respostaModelo)
-    #                 resposta['resultados'] = respostas
-    #             resposta['status'] = "Sucesso"
-    #         else:
-    #             resposta['status'] = "Erro"
-    #             resposta['mensagem'] = "Modelo nao encontrado para a unidade informada"
-    #         return resposta, 200
-    #     except Exception as ex:
-    #         resposta['status'] = "Erro"
-    #         resposta['mensagem'] = str(ex)
-    #         return resposta, 502
-    #
-    #
-    # @staticmethod
-    # def submeterCicloCompleto(request):
-    #     resposta = {'chaves': {}, 'status': "", 'mensagem': ""}
-    #     respostas = []
-    #     try:
-    #         dados = ServiceController.converter_json_entrada(request)
-    #         #print(dados)
-    #         unidade = dados["unidade"]
-    #         #print(unidade)
-    #         entradas = dados["entradas"]
-    #         #print(entradas)
-    #         chaves = dados["chaves"]
-    #         #print(chaves)
-    #         consolidar = dados["consolidar"]
-    #         #print(consolidar)
-    #         resposta['chaves'] = chaves
-    #         nome_arquivo_transformacao = Utils.localizarTransformacaoUnidade(unidade)
-    #         nome_arquivo_consolidacao = Utils.localizarConsolidacaoUnidade(unidade)
-    #     except Exception as ex:
-    #         resposta['status'] = "Erro"
-    #         resposta['mensagem'] = str(ex)
-    #         print("Erro: " + ex)
-    #         return resposta, 502
-    #     if nome_arquivo_transformacao != "":
-    #         try:
-    #             t = TransformDataController()
-    #             entradas_processadas = t.transformData(nome_arquivo_transformacao, entradas)
-    #             #print(entradas_processadas)
-    #         except Exception as ex1:
-    #             resposta['status'] = "Erro"
-    #             resposta['mensagem'] = str(ex1)
-    #             print(ex1)
-    #             return resposta, 502
-    #         try:
-    #             r = RecallAIModelsController()
-    #             json_retornos = r.recallModel(chaves, entradas_processadas, "", unidade)
-    #             if (consolidar) and (nome_arquivo_consolidacao != ''):
-    #                 cons = ConsolidationsController()
-    #                 json_retornos = cons.consolidateResults(nome_arquivo_consolidacao, json_retornos)
-    #                 #print(json_retornos)
-    #             for retorno in json_retornos:
-    #                 modelo = retorno["modelo"]
-    #                 resultado = retorno["resultado"]
-    #                 respostaModelo = {'nome_modelo': modelo, 'resultado': resultado}
-    #                 respostas.append(respostaModelo)
-    #             resposta['resultados'] = respostas
-    #             resposta['status'] = "Sucesso"
-    #             return resposta, 200
-    #         except Exception as ex2:
-    #             resposta['status'] = "Erro"
-    #             resposta['mensagem'] = ex2
-    #             return resposta, 502
-    #     else:
-    #         resposta['status'] = "Erro"
-    #         resposta['mensagem'] = ""
-    #         return resposta, 502
-    #
-    # @staticmethod
-    # def processarArquivo(request):
-    #     respostaArquivo = {}
-    #     try:
-    #         file = request.files['file']
-    #         unidade = request.values["unidade"]
-    #     except Exception as ex:
-    #         respostaArquivo['status'] = "Erro"
-    #         return respostaArquivo, 502
-    #
-    #     if file and ServiceController.arquivo_permitido(file.filename):
-    #         filename = file.filename
-    #         caminho_inicial = Configs.readConfig(UPLOAD_FOLDER)
-    #         caminho = os.path.join(caminho_inicial, filename)
-    #         if not os.path.exists(caminho):
-    #             try:
-    #                 file.save(caminho)
-    #             except Exception as ex2:
-    #                 print("Erro ao salvar arquivo temporario: " + ex2)
-    #
-    #     nome_arquivo_extrator = Utils.localizarExtratorUnidade(unidade)
-    #
-    #     c = DecodeFileController()
-    #     pastaProcessamento = Configs.readConfig(UPLOAD_FOLDER_PROCESS)
-    #     caminho_inicial = os.path.dirname(os.path.abspath(caminho_inicial))
-    #     caminho_pdf = os.path.join(caminho_inicial, pastaProcessamento)
-    #     caminho_arquivo = os.path.join(caminho_pdf, filename)
-    #     texto = c.ReadFile(nome_arquivo_extrator, caminho_arquivo)
-    #
-    #     if os.path.exists(caminho):
-    #         try:
-    #             os.remove(caminho)
-    #         except:
-    #             print("Erro ao excluir arquivo - " + caminho)
-    #     resposta = c.ExtractDataFile(nome_arquivo_extrator, texto)
-    #
-    #     return resposta, 200
-    #
-    # @staticmethod
-    # def validarArquivo(request):
-    #     respostaArquivo = {}
-    #     try:
-    #         file = request.files['file']
-    #         unidade = request.values["unidade"]
-    #     except Exception as ex:
-    #         respostaArquivo['status'] = "Erro"
-    #         return respostaArquivo, 502
-    #
-    #     if file and ServiceController.arquivo_permitido(file.filename):
-    #         filename = file.filename
-    #         caminho_inicial = Configs.readConfig(UPLOAD_FOLDER)
-    #         caminho = os.path.join(caminho_inicial, filename)
-    #         if not os.path.exists(caminho):
-    #             try:
-    #                 file.save(caminho)
-    #             except Exception as ex2:
-    #                 print("Erro ao salvar arquivo temporario: " + ex2)
-    #     resultado = {
-    #         "Valido": False
-    #     }
-    #
-    #     nome_arquivo_extrator = Utils.localizarExtratorUnidade(unidade)
-    #     c = DecodeFileController()
-    #     pastaProcessamento = Configs.readConfig(UPLOAD_FOLDER_PROCESS)
-    #     caminho_inicial = os.path.dirname(os.path.abspath(caminho_inicial))
-    #     caminho_pdf = os.path.join(caminho_inicial, pastaProcessamento)
-    #     caminho_arquivo = os.path.join(caminho_pdf, filename)
-    #     texto = c.ReadFile(nome_arquivo_extrator, caminho_arquivo)
-    #
-    #     if os.path.exists(caminho):
-    #         try:
-    #             os.remove(caminho)
-    #         except:
-    #             print("Erro ao excluir arquivo - " + caminho)
-    #
-    #     resposta = c.ValidateFile(nome_arquivo_extrator, texto)
-    #     if resposta:
-    #         resultado = {
-    #             "Valido": True
-    #         }
-    #
-    #     return resultado, 200
