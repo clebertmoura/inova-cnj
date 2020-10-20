@@ -66,17 +66,17 @@ services:
     depends_on:
       - postgres
 
-  # frontend:
-  #   image: inova-cnj-frontend   
-  #   environment:
-  #     PGGSSENCMODE: disable 
-  #   ports:
-  #     - "8080:80"
-  #   restart: always
-  #   networks:
-  #     - inova-cnj-network
-  #   depends_on:
-  #     - ia-core
+  frontend:
+    image: inova-cnj-frontend   
+    environment:
+      PGGSSENCMODE: disable 
+    ports:
+      - "8080:80"
+    restart: always
+    networks:
+      - inova-cnj-network
+    depends_on:
+      - ia-core
 
   metabase:
     image: metabase/metabase:v0.36.7
