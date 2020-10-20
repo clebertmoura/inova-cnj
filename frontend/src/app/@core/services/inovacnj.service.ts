@@ -12,7 +12,7 @@ import { Classe } from '../../models/classe';
 })
 export class InovacnjService {
 
-    private url = '/api';
+    private url = 'https://cors-anywhere.herokuapp.com/http://161.97.71.108:8181/api';
 
     predict = {
         mensagem:"OK",
@@ -112,6 +112,36 @@ export class InovacnjService {
             return false;
 
     }
+    public pesquisarAnalitcs(dataInicial, dataFinal, tipoJustica, tribunal, natureza, classe) {
+        const analitcs = {
+            mensagem:"OK",
+            resultado: [
+                    {
+                        natureza:"A",
+                        classe:"Classe A",
+                        duracaoMedia:"Linha comparativa",
+                        faseMaisDemorada:"F1",
+                        assuntoMaisDemorado:"Assunto X"
+                    },
+                    {
+                        natureza:"B",
+                        classe:"Classe B",
+                        duracaoMedia:"Linha comparativa",
+                        faseMaisDemorada:"F2",
+                        assuntoMaisDemorado:"Assunto X"
+                    },
+                    {
+                        natureza:"C",
+                        classe:"Classe C",
+                        duracaoMedia:"Linha comparativa",
+                        faseMaisDemorada:"F3",
+                        assuntoMaisDemorado:"Assunto H"
+                    },
+                ],
+            }
+        return analitcs.resultado;
+    }
+
 
     /**
      * Retorna uma coleção de TipoJustica

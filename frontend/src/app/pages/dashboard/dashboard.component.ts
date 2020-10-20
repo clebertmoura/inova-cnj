@@ -22,28 +22,60 @@ interface CardSettings {
 export class DashboardComponent implements OnDestroy, OnInit {
 
   tiposJustica: any[] = [];
+  tipoJustica: any;
   tribunais: any[] = [];
+  tribunal: any;
   naturezas: any[] = [];
+  natureza: any;
   classes: any[] = [];
-  
-  options: CloudOptions = {
-    width: 1000,
-    height: 400,
-    overflow: false,
-    realignOnResize: false,
+  classe: any;
+  dataInicial = new Date();
+  dataFinal = new Date();
+
+  // config tabela Analitcs
+  dadosTabelaAnalitcs : LocalDataSource = new LocalDataSource();
+  configTabelaAnalitcs = {
+    actions: {
+      add: false,
+      edit: false,
+      delete: false
+    },
+    columns: {
+      natureza: {
+        title: 'Natureza',
+        type: 'string',
+        filter: false
+      },
+      classe: {
+        title: 'Classe',
+        type: 'string',
+        filter: false
+      },
+      duracaoMedia: {
+        title: 'Duração Média',
+        type: 'string',
+        filter: false
+      },
+      faseMaisDemorada: {
+        title: 'Fase Mais Demorada',
+        type: 'string',
+        filter: false
+      },
+      assuntoMaisDemorado: {
+        title: 'Assunto Mais Demorado',
+        type: 'string',
+        filter: false
+      },
+    },
   };
-
-  data: CloudData[] = [
-    { text: 'aaaa', weight: 5, rotate: 10 },
-    { text: 'bbbb', weight: 7, rotate: -20 },
-    { text: 'cccc', weight: 9, rotate: 35 },
-  ];
-
-  historicoFases = {};
-  dadosFases : LocalDataSource = new LocalDataSource();
-  alertas = {};
   
-  settings = {
+  // dados aba predict
+  historicoFases = {};
+  dadosTabelaPredict : LocalDataSource = new LocalDataSource();
+  alertas = {};
+    
+  // config tabela predict
+  configTabelaPredict = {
     actions: {
       add: false,
       edit: false,
@@ -73,22 +105,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
     },
   };
 
-  private alive = true;
-  position: NbGlobalPosition = NbGlobalPhysicalPosition.TOP_RIGHT;
-  date = new Date();
-  date2 = new Date();
- 
-  positions: string[] = [
-    NbGlobalPhysicalPosition.TOP_RIGHT,
-    NbGlobalPhysicalPosition.TOP_LEFT,
-    NbGlobalPhysicalPosition.BOTTOM_LEFT,
-    NbGlobalPhysicalPosition.BOTTOM_RIGHT,
-    NbGlobalLogicalPosition.TOP_END,
-    NbGlobalLogicalPosition.TOP_START,
-    NbGlobalLogicalPosition.BOTTOM_END,
-    NbGlobalLogicalPosition.BOTTOM_START,
-  ];
 
+  private alive = true;
+  
+  //grafico exemplo
   results = [
     { name: 'Germany', value: 8940 },
     { name: 'USA', value: 5000 },
@@ -101,6 +121,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   yAxisLabel = 'Population';
   colorScheme: any;
   themeSubscription: any;
+  //remover quando colocar o meta base
 
   constructor(private themeService: NbThemeService,
               private inovacnjService: InovacnjService) {
@@ -115,10 +136,18 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.inovacnjService.consultarTipoJustica().subscribe(data => console.log(data));
-    this.inovacnjService.consultarTribunal().subscribe(data => console.log(data));
-    this.inovacnjService.consultarNatureza().subscribe(data => console.log(data));
-    this.inovacnjService.consultarClasse().subscribe(data => console.log(data));
+    this.inovacnjService.consultarTipoJustica().subscribe(data => {
+      this.tiposJustica = data;
+    });
+    this.inovacnjService.consultarTribunal().subscribe(data => {
+      this.tribunais = data;
+    });
+    this.inovacnjService.consultarNatureza().subscribe(data => { 
+      this.naturezas = data;
+    });
+    this.inovacnjService.consultarClasse().subscribe(data => {
+      this.classes = data;
+    });
   }
 
   ngOnDestroy(): void {
@@ -128,9 +157,21 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   pesquisarNpu(npu) {
     if (this.inovacnjService.getExisteNpu(npu)) {
-      this.dadosFases.load(this.inovacnjService.getDadosFases());
+      this.dadosTabelaPredict.load(this.inovacnjService.getDadosFases());
       this.alertas = this.inovacnjService.getAlertas();
       this.historicoFases = this.inovacnjService.getHistoricoFases();
     } 
+  }
+  
+  pesquisarAnalitcs() {
+    console.log(this.dataInicial);
+    console.log(this.dataFinal);
+    console.log(this.tipoJustica);
+    console.log(this.tribunal); 
+    console.log(this.natureza);
+    console.log(this.classe);
+
+    this.dadosTabelaAnalitcs.load(this.inovacnjService.pesquisarAnalitcs(
+      this.dataInicial, this.dataFinal, this.tipoJustica, this.tribunal, this.natureza, this.classe));
   }
 }

@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   template: `
     <nb-layout>
       
+      <nb-layout-header fixed>
+        <ngx-header></ngx-header>
+      </nb-layout-header>
+
       <nb-layout-column>
         <ng-content select="router-outlet"></ng-content>
       </nb-layout-column>
