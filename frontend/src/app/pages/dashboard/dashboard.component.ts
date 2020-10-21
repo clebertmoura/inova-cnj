@@ -242,6 +242,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.filtrosPm.splice(idx, 1);
   }
 
+  maximizarModeloPm(filtro: FiltroPm) {
+    filtro.maximized = !filtro.maximized;
+  }
+
   getUrlModeloPm(filtro: FiltroPm): string {
     return this.inovacnjService.getUrlModeloPm(filtro);
   }
