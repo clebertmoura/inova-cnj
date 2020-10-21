@@ -150,9 +150,12 @@ export class InovacnjService {
         return this.http.get<any[]>(link + npu)
         //return this.http.get<any[]>(this.url + '/service/processos/' + npu)
         .pipe(
-            map((response : any[][]) => {
-                console.log(response);
-                return ProcessoPredict.toArray(response);
+            map((response : any) => {
+                if (response.mensagem === "OK") {
+                    return ProcessoPredict.fromJson(response);
+                } else {
+                    return null;
+                }
             }),
             catchError(() => of(null))
         );

@@ -16,24 +16,28 @@ export class ProcessoPredict {
     dadosFases: DadosFase[] = [];
     alertas: Alerta[] = [];
 
-    static fromJson(json: any[]): ProcessoPredict {
+    static fromJson(json: any): ProcessoPredict {
         let entity: ProcessoPredict = null;
         if (json) {
             entity = new ProcessoPredict();
-            entity.processo = json[1][0];
-            entity.siglaTribunal = json[1][1];
-            entity.orgaoJulgador = json[1][2];
-            entity.natureza = json[1][3];
-            entity.classe = json[1][4];
-            entity.assunto = json[1][5];
-            entity.dataAjuizamento = json[1][6];
-            entity.porteTribunal = json[1][7];
+            entity.processo = json.resultado.processo;
+            entity.siglaTribunal = json.resultado.siglaTribunal;
+            entity.siglaTribunal = json.resultado.siglaTribunal;
+            entity.natureza = json.resultado.natureza;
+            entity.classe = json.resultado.classe;
+            entity.assunto = json.resultado.assunto;
+            entity.dataAjuizamento = json.resultado.dataAjuizamento;
+            entity.porteTribunal = json.resultado.porteTribunal;
+            entity.historicoFases = json.resultado.historicoFases;
+            entity.dadosFases = json.resultado.dadosFases;
+            entity.alertas = json.resultado.alertas;
         }
         return entity;
     }
 
-    static toArray(jsonArray: any[][]): ProcessoPredict[] {
+    static toArray(jsonArray: any[]): ProcessoPredict[] {
         let entities: ProcessoPredict[] = [];
+        console.log(jsonArray.length);
         if (jsonArray != null && jsonArray.length > 0) {
             jsonArray.forEach(item => {
                 let entity = ProcessoPredict.fromJson(item);

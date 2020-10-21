@@ -5,19 +5,19 @@ export class DadosFase {
     duracaoPrevista: number = null;
     status: string = null;
     
-    static fromJson(json: any[]): DadosFase {
+    static fromJson(json: any): DadosFase {
         let entity: DadosFase = null;
         if (json) {
             entity = new DadosFase();
-            entity.id = json[0];
-            entity.duracao = json[1];
-            entity.duracaoPrevista = json[2];
-            entity.status = json[3];
+            entity.id = json.id;
+            entity.duracao = json.duracao;
+            entity.duracaoPrevista = json.duracaoPrevista;
+            entity.status = json.status;
         }
         return entity;
     }
 
-    static toArray(jsonArray: any[][]): DadosFase[] {
+    static toArray(jsonArray: any[]): DadosFase[] {
         let entities: DadosFase[] = [];
         if (jsonArray != null && jsonArray.length > 0) {
             jsonArray.forEach(item => {
