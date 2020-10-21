@@ -92,7 +92,7 @@ O projeto contempla uma modelagem dimensional para facilitar a criação de dash
 ![alt text](https://github.com/clebertmoura/inova-cnj/blob/main/dbinova_model.png)
 
 ## Scripts DDL
-DDL do modelo dimensional está definido no arquivo: ./bi/schema/1-init.sql
+DDL do modelo dimensional está definido no arquivo: `./bi/schema/1-init.sql`
 
 
 # ETL dos dados
