@@ -33,6 +33,16 @@ CREATE TABLE inovacnj.assunto
 
 ALTER TABLE inovacnj.assunto OWNER to inovacnj;
 
+-- GRAU
+CREATE TABLE inovacnj.grau_jurisdicao
+(   cod character varying(5) NOT NULL,
+    descricao character varying(50)  NOT NULL,
+    CONSTRAINT pk_grauj PRIMARY KEY (cod)
+);
+
+ALTER TABLE inovacnj.grau_jurisdicao
+    OWNER to inovacnj;
+
 -- MOVIMENTOCNJ
 CREATE TABLE inovacnj.movimentocnj 
 (   cod numeric NOT NULL,
@@ -61,17 +71,6 @@ CREATE TABLE inovacnj.orgao_julgador
 );
 
 ALTER TABLE inovacnj.orgao_julgador OWNER to inovacnj;
-
--- FASE
-CREATE TABLE inovacnj.fase
-(
-	cod numeric NOT NULL,
-	descricao character varying(200) NOT NULL,
-	codpai numeric,
-	CONSTRAINT pk_fase PRIMARY KEY (cod)
-);
-
-ALTER TABLE inovacnj.fase OWNER to inovacnj;
     
 -- PROCESSO
 CREATE TABLE inovacnj.processo
@@ -89,16 +88,6 @@ CREATE TABLE inovacnj.processo
 );
 
 ALTER TABLE inovacnj.processo OWNER to inovacnj;
-    
--- ESFERA_JUSTICA
-CREATE TABLE inovacnj.esfera_justica
-(
-	cod character varying(1) NOT NULL,
-	descricao character varying(50) NOT NULL,
-	CONSTRAINT pk_ejust PRIMARY KEY (cod)
-);
-
-ALTER TABLE inovacnj.esfera_justica OWNER to inovacnj;
 
 -- TRIBUNAL
 CREATE TABLE inovacnj.tribunal
@@ -138,15 +127,49 @@ CONSTRAINT pk_tempo PRIMARY KEY(data)
 
 ALTER TABLE inovacnj.tempo OWNER to inovacnj;
 
--- MOVIMENTO
-CREATE TABLE inovacnj.movimento
-(
-	npu character varying(20) NOT NULL,
-	codmov numeric,
-	dtmov timestamp with time zone,
-	CONSTRAINT pk_movim PRIMARY KEY (npu, codmov, dtmov)
-);
+-- FATOS
 
-ALTER TABLE inovacnj.movimento OWNER to inovacnj;
-                                    
+CREATE TABLE inovacnj.fat_movimentos_te
+(
+    codtribunal text ,
+    grau text ,
+    millisinsercao bigint,
+    codclasse bigint,
+    descclasse text ,
+    codlocalidade text ,
+    competencia text ,
+    dtajuizamento timestamp without time zone,
+    descsistema text,
+    nivelsigilo bigint,
+    npu text ,
+    oj_codibge bigint,
+    oj_cod text ,
+    oj_instancia text ,
+    oj_descricao text ,
+    tramitacao bigint,
+    tamanhoprocesso text ,
+    valorcausa text ,
+    ass_cod bigint,
+    descassunto text ,
+    ass_principal boolean,
+    ass_codlocal bigint,
+    ass_codpainacional bigint,
+    ass_desclocal text ,
+    mov_dtmov timestamp without time zone,
+    mov_codlocal bigint,
+    mov_codpainacional bigint,
+    mov_cod bigint,
+    descmovimento text ,
+    mov_nivelsigilo text ,
+    mov_oj_codibge bigint,
+    mov_oj_cod text ,
+    mov_oj_instancia text ,
+    mov_oj_descricao text ,
+    mov_tpdecisao text ,
+    mov_tprespmov text ,
+    natureza text ,
+    fase text );
+
+ALTER TABLE inovacnj.fat_movimentos_te
+    OWNER to inovacnj;
                                     
