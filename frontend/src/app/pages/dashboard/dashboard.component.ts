@@ -51,6 +51,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
   tipoJusticaProcess: TipoJustica;
   tribunaisProcess: Tribunal[] = [];
   tribunalProcess: Tribunal;
+  orgaosJulgadoresProcess: OrgaoJulgador[] = [];
+  orgaoJulgadorProcess: OrgaoJulgador;
   naturezasProcess: Natureza[] = [];
   naturezaProcess: Natureza;
   classesProcess: Classe[] = [];
@@ -202,6 +204,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     });
     this.inovacnjService.consultarOrgaoJulgador(this.tribunal).subscribe(data => { 
       this.orgaosJulgadores = data;
+      this.orgaosJulgadoresProcess = data;
     });
     this.carregarAssuntosRanking();
     this.dadosTabelaFase.load(this.dadosMockTabelaFase);
@@ -222,6 +225,21 @@ export class DashboardComponent implements OnDestroy, OnInit {
       //   height: 250
       // });
     });
+  }
+
+  limparModeloProcesso() {
+    this.filtrosPm.length = 0;
+    this.tipoJusticaProcess = null;
+    this.orgaoJulgadorProcess = null;
+    this.tribunalProcess = null;
+    this.naturezaProcess = null;
+    this.classeProcess = null;
+  }
+
+  onModelImageLoad(event: any) {
+    console.log(event);
+    console.log(event.srcElement);
+    //jQuery(event.srcElement).croppie();
   }
 
   private carregarAssuntosRanking() {
@@ -251,7 +269,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
     console.log('adicionarModeloPm');
     if (this.tribunalProcess != null) {
       if (this.naturezaProcess != null) {
-        const filtroPm = new FiltroPm(this.tribunalProcess, this.naturezaProcess, this.classeProcess);
+        const filtroPm = new FiltroPm(this.tribunalProcess, this.orgaoJulgadorProcess, 
+          this.naturezaProcess, this.classeProcess);
         this.filtrosPm.push(filtroPm);
       }
     }
@@ -342,6 +361,13 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.inovacnjService.consultarTribunal(tipoJustica).subscribe(data => {
       this.tribunaisProcess = data;
       this.tribunalProcess = null;
+    });
+  }
+
+  carregarOrgaoJulgadorProcess(tribunal) {
+    this.inovacnjService.consultarOrgaoJulgador(tribunal).subscribe(data => {
+      this.orgaosJulgadoresProcess = data;
+      this.orgaoJulgadorProcess = null;
     });
   }
   

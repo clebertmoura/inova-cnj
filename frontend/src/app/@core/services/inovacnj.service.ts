@@ -143,7 +143,7 @@ export class InovacnjService {
      * Retorna um Modelo
      */
     public getUrlModeloPm(filtro: FiltroPm): string {
-        const urlPm = this.url + `/v1/gerar-modelo-pm?codtribunal=${filtro.tribunal.codigo}&natureza=${filtro.natureza.codigo}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '1'}`;
+        const urlPm = this.url + `/v1/gerar-modelo-pm?${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}`;
         console.log(urlPm)
         return urlPm;
     }

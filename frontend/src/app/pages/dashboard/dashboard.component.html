@@ -158,6 +158,7 @@
                     <div class="form-group">
                       <label class="label">Tipo de Justiça:</label>
                       <nb-select
+                        (selectedChange)="carregarTribunalProcess($event)"
                         [(selected)]="tiposJusticaProcess"
                         class="position-select"
                         fullWidth
@@ -174,12 +175,29 @@
                     <div class="form-group">
                       <label class="label">Tribunal:</label>
                       <nb-select
+                        (selectedChange)="carregarOrgaoJulgadorProcess($event)"
                         [(selected)]="tribunalProcess"
                         class="position-select"
                         fullWidth
                       >
                       <nb-option *ngFor="let tribunal of tribunais" [value]="tribunal">{{
                         tribunal.descricao
+                      }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="label">Orgão Julgador:</label>
+                      <nb-select
+                        [(selected)]="orgaoJulgadorProcess"
+                        class="position-select"
+                        fullWidth
+                      >
+                      <nb-option *ngFor="let orgaoJulgador of orgaosJulgadoresProcess" [value]="orgaoJulgador">{{
+                        orgaoJulgador.descricao
                       }}</nb-option>
                       </nb-select>
                     </div>
@@ -220,10 +238,11 @@
                 <div class="row">
                   <div class="col-md-6 col-sm-12 col-lg-6">
                     <div class="row">
-                      <div class="col-sm-12">
-                        <div class="form-group">
-                          <button nbButton (click)="adicionarModeloPm()">Adicionar</button>
-                        </div>
+                      <div class="col-md-6 col-sm-12">
+                        <button nbButton (click)="adicionarModeloPm()">Adicionar</button>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <button nbButton (click)="limparModeloProcesso()">Limpar</button>
                       </div>
                     </div>
                   </div>
@@ -238,7 +257,7 @@
         <div class="row">
           <div *ngFor="let filtro of filtrosPm"
             [class]="filtro.maximized ? 'col-md-12 col-sm-12' : 'col-md-6 col-sm-12'">
-            <nb-card>
+            <nb-card [size]="filtro.maximized ? 'large' : 'medium'">
               <nb-card-header>
                 <div class="row">
                   <div class="col-10 d-flex justify-content-start">
@@ -273,9 +292,10 @@
               </nb-card-header>
               <nb-card-body>
                 <div class="row">
-                  <div class="col-md-11 com-sm-11 modelo">
-                    <img
-                      [src]="getUrlModeloPm(filtro)" onerror="this.src='./assets/images/not_found.png';" alt="Sem dados para exibir o modelo!" />
+                  <div class="col-md-11 com-sm-11 modelo d-flex justify-content-center">
+                    <img [src]="getUrlModeloPm(filtro)" 
+                      (click)="onModelImageLoad($event)"
+                      onerror="this.src='./assets/images/not_found.png';" alt="Sem dados para exibir o modelo!" />
                   </div>
                   <div class="col-md-1 com-sm-1 d-flex justify-content-end">
                     <mat-slider thumbLabel vertical style="height: max-content;"
