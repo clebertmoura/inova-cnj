@@ -143,3 +143,101 @@ Todo o processo de ETL está implementado em um script python, no arquivo: `ETL-
 ## APIs
 
 Na solução foi disponibilizada uma API para consumo dos dados, geração dos modelos de Proccess Mining e de Predição com IA.
+
+## Módulo IA/Estatíticas:
+
+###Descrição:
+
+	O módulo de IA e estatísticas foi criado para disponibilizar previsões e classificações baseadas em inteligência artificial bem como insights estatísticos gerados pelos cientistas de dados a partir dos dados disponíveis.
+
+	Esse módulo faz uso de uma base de processos interna cujo cadastramento poder ser realizado em lote ou individualmente. Esse banco de dados faz uso de informações básicas do processo juntamente com as suas informações de fases geradas. Ao realizar a consulta a esse banco de dados a partir da NPU do processo, o módulo faz uso das informações cadastradas na submissão aos modelos de classificação e regressão, bem como a consulta aos dados de validações estatísticas previamente realizadas para exibição em tela.
+
+###Informações utilizadas do processo:
+
+- NPU
+- Data de ajuizamento
+- Orgão julgador (código e nome)
+- Código da localidade do IBGE do orgão Julgador
+- Natureza do processo
+- Classe (código e descrição)
+- Assunto (código e descrição)
+- Porte do tribunal segundo o CNJ (pequeno, médio ou grande)
+
+###Informações cadastradas das fases dos processos:
+
+- Identificador sequencial da fase
+- Nome da fase
+- Duração da fase
+- Status (concluído, em andamento ou não realizado)
+
+
+###Da geração dos dados:
+
+	Utilizando os dados do datajud agrupados através do Spark utilizado nos demais módulos do sistema na granularidade movimento, foram realizadas diversas transformações, combinações e filtros com a ferramenta KNIME (http://www.knime.com/) em sua versão Community, sem uso de nenhuma funcionalidade específica que não pudesse ser realizada com bancos de dados ou demais ferramentas com versões gratuitas no mercado. Imagens dos fluxos bem como seus dados arquivos para importação estão disponíveis dentro da pasta “etl_knime” dentro da pasta do servidor (ia-server).
+
+###Algumas das operações realizadas:
+
+- Troca de granulosidade para a visualização de processos (geração da informação de primeira e última movimentação por processo)
+- Corte dos dados para trabalhar apenas processos ajuizados a partir de 01/01/2000
+- Corte dos dados para trabalhar processos que tiveram a distribuição como primeiro movimento e o arquivamento definitivo como último movimento
+- Cálculo da duração dos processos como a diferença em dias da última movimentação para a primeira
+- Agrupamento das fases de acordo com a classificação do especialista e cálculo da duração das mesmas como diferença entre a primeira e a última movimentação de cada fase
+- Geração duas visões dos processos que possuem "movimentos críticos” (movimentos cuja duração foi mais do que 100 dias) para indicação na ferramenta. Uma visão utiliza como chave de indexação o tribunal juntamente com a classe e o assunto do processo enquanto a segunda visão acrescenta o órgão julgador à chave anterior
+- Nesta visualização foram utilizados apenas os processos da justiça estadual em todos as suas unidades.
+
+###Modelos de IA
+
+	Neste módulo foram criados 4 modelos de regressão e 1 modelo de classificação, todos fazendo uso da mesma visão de dados que, por decisão de projeto, ignora a identificação do tribunal, utilizando o seu porte como entrada.
+
+- (Regressão) Previsão da duração total do processo, visualizado na seção “Alertas" da tabela
+- (Regressão) Previsão da duração total de cada fase do processo ( fases 1, 2 e 3), visualizado na tabela “Fases do processo"
+- (Classificação) Risco do processo ficar entre os de maior duração (10% de maior duração em dias por natureza do processo)
+
+
+###Insights Estatísticos
+
+	Foram criadas duas visões com dados processados que indicam o percentual de processos com “movimentos críticos” (movimentos onde processo fica parados por mais de100 dias). Enquanto a primeira visão utiliza como chave o tribunal juntamente com a classe e o assunto, a segunda visão acrescenta o orgão julgador a essa chave, segmentando ainda mais a análise. Para geração do indicador que informa a existência “movimentos críticos” foram considerados apenas as chaves onde o percentual de processos com essa característica era superior a 10%.
+	Ao pesquisar por uma NPU que esteja no banco de dados do módulo, o mesmo faz a pesquisa nos dois arquivos previamente processados utilizando as duas chaves de acordo com os dados resgatados do processo, sendo exibidos na seção de alertas juntamente com o percentual informativo caso sejam encontrados.
+
+
+###Tecnologias utilizadas
+
+	Nesta parte da solução foram utilizadas as seguintes ferramenta/tecnologias:
+
+- KNIME Community version na etapa de ETL dos dados
+- Python com Flask & Flask restplus para o serviço RESTFUL com as seguintes bibliotecas adicionais: Pandas e Numpy para manipulação dos dados e scikit learn para os modelos preditivos. Banco de dados embarcado SQLite3.	
+
+
+###Executando o servidor
+
+
+	Para a executar apenas o servidor IA isoladamente necessita-se construir a imagem docker existente na pasta ia-server com o seguinte comando:
+
+	docker build —tag <nome da imagem> .
+
+	(Exemplo de comando: "docker build —tag ia-server ." )
+
+	Após a construção da imagem, executar a mesma com o seguinte comando:
+
+	docker run --name <nome_do_conteiner> -p 5000:5000 <nome_da_imagem>
+
+	(Exemplo de comando: "docker run --name servidor-ia -p 5000:5000 ia-server")
+
+	Após a execução do segundo comando o servidor será colocado no ar escutando a porta 5000 exibindo o swagger do serviço na seguinte URL: http://127.0.0.1:5000/.
+
+###Métodos do serviço
+
+- Consulta de processos por NPU
+
+- Cadastro de processo - a desenvolver
+
+- Cadastro de fase de processo - a desenvolver
+
+
+###Números de processos previamente cadastrados 
+
+As seguintes NPUs estão cadastras previamente no sistema para consulta
+
+109-36.2010.8.17.0900
+1321-62.2010.8.26.0052
+17268-66.2020.8.17.3088
