@@ -1,7 +1,7 @@
 <nb-card>
   <nb-card-body>
     <nb-tabset>
-      <nb-tab tabTitle="Analitcs">
+      <nb-tab tabTitle="Visão Geral">
 
         <nb-card>
           <nb-card-body>
@@ -113,7 +113,7 @@
           </nb-card-body>
         </nb-card>
 
-        <nb-card>
+        <nb-card hidden="true">
           <nb-card-body>
             <nb-actions size="medium" fullWidth>
               <nb-action>
@@ -147,7 +147,7 @@
 
       </nb-tab>
 
-      <nb-tab tabTitle="Process">
+      <nb-tab tabTitle="Fluxo">
 
         <nb-card>
           <nb-card-body>
@@ -308,7 +308,7 @@
         </div>
       </nb-tab>
 
-      <nb-tab tabTitle="Predict">
+      <nb-tab tabTitle="Previsões">
         
         <nb-card>
           <nb-card-body >
@@ -434,7 +434,7 @@
         
       </nb-tab>
 
-      <nb-tab tabTitle="Configuração">
+      <nb-tab tabTitle="Configurações">
 
         <nb-card>
           <nb-card-header>Cadastrar Fase</nb-card-header>
@@ -445,7 +445,7 @@
                   <div class="col">
                     <div class="form-group">
                       <label for="inputFase" class="label">Fase</label>
-                      <input type="text" nbInput fullWidth id="inputFase" placeholder="Fase">
+                      <input type="text" nbInput fullWidth id="inputFase">
                     </div>
                   </div>
                 </div>
@@ -470,12 +470,21 @@
                     <div class="row">
                       <div class="col-sm-12">
                         <div class="form-group">
-                          <button nbButton >Salvar</button>
+                          <button nbButton (click)="openDialog(dialog)">Salvar</button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <ng-template #dialog let-data let-ref="dialogRef">
+                  <nb-card>
+                    <nb-card-header>Mensagem</nb-card-header>
+                    <nb-card-body>Fase cadastrada com sucesso!</nb-card-body>
+                    <nb-card-footer>
+                      <button nbButton (click)="ref.close()">Fechar</button>
+                    </nb-card-footer>
+                  </nb-card>
+                </ng-template>
               </div>
     
               <div class="col">
@@ -486,7 +495,7 @@
                       <div class="form-group">
                         <mat-selection-list #movimento>
                           <mat-list-option *ngFor="let movimento of movimentos">
-                            {{movimento.descricao}}
+                            {{movimento.codigo}} - {{movimento.descricao}}
                           </mat-list-option>
                         </mat-selection-list>
                       </div>
@@ -501,7 +510,7 @@
                 <div class="row">
                   <div class="col">
                     <div class="form-group">
-                      <ng2-smart-table fullWidth [settings]="configTabelaFase" [source]="dadosTabelaFase">
+                      <ng2-smart-table fullWidth [settings]="configTabelaFase" [source]="dadosTabelaFase" (deleteConfirm)="onDeleteConfirm($event)">
                       </ng2-smart-table>  
                     </div>
                   </div>
