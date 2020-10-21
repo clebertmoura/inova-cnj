@@ -13,6 +13,7 @@ import { Classe } from '../../models/classe';
 import { arrayToTree } from 'performant-array-to-tree';
 import { FiltroPm } from 'app/models/filtro-pm';
 import { ProcessoPredict } from 'app/models/processo-predict';
+import { DomSanitizer } from '@angular/platform-browser';
 
 interface CardSettings {
   title: string;
@@ -39,6 +40,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
   classe: Classe;
   dataInicial = new Date();
   dataFinal = new Date();
+
+  dashboardUrl: any;
 
   filtrosPm: FiltroPm[] = [];
 
@@ -135,6 +138,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   //remover quando colocar o meta base
 
   constructor(private themeService: NbThemeService,
+              private sanitizer: DomSanitizer,
               private inovacnjService: InovacnjService) {
 
     this.themeSubscription = this.themeService.getJsTheme().subscribe(config => {
@@ -143,7 +147,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
         domain: [colors.primaryLight, colors.infoLight, colors.successLight, colors.warningLight, colors.dangerLight],
       };
     });
-
+    this.setDashboardUrl();
   }
 
   ngOnInit(): void {
@@ -192,6 +196,27 @@ export class DashboardComponent implements OnDestroy, OnInit {
     return this.inovacnjService.getUrlModeloPm(filtro);
   }
 
+  /**
+   * Retorna uma coleção de Natureza
+   */
+  setDashboardUrl(): any {
+    let url = 'http://161.97.71.108:3000/public/dashboard/4e8d4bbf-eeea-4a85-afbf-b22d8cf3b80e?';
+    if (this.tipoJustica != null) {
+      url += `tipo_justica=${this.tipoJustica.codigo}&`
+    }
+    if (this.tribunal != null) {
+      url += `tribunal=${this.tribunal.codigo}&`
+    }
+    if (this.natureza != null) {
+      url += `natureza=${this.natureza.codigo}&`
+    }
+    if (this.classe != null) {
+      url += `classe=${this.classe.descricao}&`
+    }
+    console.log(url);
+    this.dashboardUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
   pesquisarNpu(npu) {
     this.inovacnjService.consultarNpuPredict(npu).subscribe(data => {
       console.log(data);
@@ -214,6 +239,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
     console.log(this.tribunal); 
     console.log(this.natureza);
     console.log(this.classe);
+
+    this.setDashboardUrl();
 
     this.dadosTabelaAnalitcs.load(this.inovacnjService.pesquisarAnalitcs(
       this.dataInicial, this.dataFinal, this.tipoJustica, this.tribunal, this.natureza, this.classe));

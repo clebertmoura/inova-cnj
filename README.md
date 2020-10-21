@@ -14,24 +14,30 @@ Projeto elaborado pela equipe do TJPE para Hackathon Inova CNJ no Desafio 01.
 ## Arquitetura e módulos do projeto
 
 - *ia-core*
-> Módulo principal que realiza o processamento dos dados e tratamento. Também é responsável pela implementação dos modelos preditivos.
+> Módulo responsável por realizar o processamento dos dados, tratamento e carga na base de dados. É também responsável pela implementação dos modelos de Process Mining. Disponibiliza uma API, para consulta aos dados e modelos.
 
-- *backend*
-> Módulo backend onde são implementadas as regras de negócio e que disponibiliza as APIs
+- *ia-server*
+> Módulo responsável por implementar os modelos preditivos com inteligência artificial. Disponibiliza uma API para consulta.
 
-- *bi*
-> Projeto que contem os artefatos do modelo dimensional
+- *frontend*
+> Módulo que disponibiliza a interface do usuário. Se comunica com as APIs disponibilizadas pelos modulos `ia-core` e `ia-server`.
+
 
 ## Preparação dos dados
 
-Efetuar o download do arquivo base.zip disponível em: https://owncloud.app.tjpe.jus.br/index.php/s/qTFibYvDQPoURMH, senha: desafiocnj, e descompactar na pasta ./work.
+Na pasta `work` está disponível o arquivo `base.zip` que contem um subconjunto dos dados diponibilizados pelo CNJ. Este arquivo deve ser descompactado dentro da pasta `work`.
 
-Para desenvolvimento estamos usando apenas 2 arquivos de cada tribunal estadual.
+Para demonstração, estamos utilizado apenas os arquivos dos Tribunais Estaduais, incluindo todos os arquivos do TJPE, e mais 1 arquivo dos demais tribunais.
 
 ## Efetuando o build da imagem Docker
 
-Antes de iniciar o ambiente, é necessário buildar as imagens docker dos modulos *ia-core*, *frontend* e *ia-server*. 
-Para isso, utilize um terminal e acesse o sub-diretório de cada modulo e execute o respectivo comando abaixo:
+Antes de iniciar o ambiente, é necessário buildar as imagens docker dos modulos `ia-core`, `ia-server` e `frontend`.
+
+Para isso, execute o script abaixo:
+
+> ./build-images.sh
+
+Ou se preferir, faça o build separadamente acessando o sub-diretório de cada modulo e executando o comando respectivo abaixo:
 
 ### Build da imagem: inova-cnj-iacore
 
@@ -47,7 +53,7 @@ Para isso, utilize um terminal e acesse o sub-diretório de cada modulo e execut
 
 ## Iniciando o ambiente
 
-Para executar localmente, é necessário que o docker local estaja com o swarm manager ativado, para isso, execute o comando abaixo:
+Para inicar o ambiente, é necessário que o docker local esteja com o swarm manager ativado, para isso, execute o comando abaixo:
 
 > docker swarm init
 
@@ -71,9 +77,13 @@ No diretório raiz do projeto, executar o comando abaixo:
 
 ## Acessar o jupyter notebook
 
-Para acessar a console do jupyter
+Para acessar a console do jupyter, é necessário saber qual a URL de acesso. Para isso, acesse os logs do container ia-core, digitando o seguinte comando:
 
-http://127.0.0.1:8888/?token=adcd2bc95167732e71741f5e9f15cbb9d097013840c66d8b
+> docker-compose logs -f ia-core
+
+Os logs serão exibidos, com uma URL similar a URL abaixo:
+
+> http://127.0.0.1:8888/?token=adcd2bc95167732e71741f5e9f15cbb9d097013840c66d8b
 
 # Modelo de dados
 
@@ -83,3 +93,19 @@ O projeto contempla uma modelagem dimensional para facilitar a criação de dash
 
 ## Scripts DDL
 DDL do modelo dimensional está definido no arquivo: ./bi/schema/1-init.sql
+
+
+# ETL dos dados
+
+Para processamento, tratamento e carga dos dados estamos utilizando a tecnologia PySpark da Apache, que possíbiliza realizar o processamento de elevados volumes de dados de forma escalável. Esta ferramenta é amplamente utilizada em projetos de BigData.
+
+## Processo de ETL
+
+Todo o processo de ETL está implementado em um script python, no arquivo: `ETL-CarregarDadosNasDimensoes.ipynb`, com comentários em cada seção.
+
+1. Primeiramente, efetuamos o carregamento das dimensões utilizando os arquivos CSV fornecidos.
+2. Com base na estrutura dos arquivos JSON fornecidos, definimos um SCHEMA (estrutura de dados) prevendo todos os atributos e relacionamentos existentes;
+3. O script faz a leitura do diretório de forma recursiva para efetuar o carrgamento de todos os arquivos no diretório;
+4. Cada arquivo é carregado para um dataframe e depois todos os dataframes são unidos em um único;
+5. As linhas duplicadas são removidas
+6. 

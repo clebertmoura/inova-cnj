@@ -145,12 +145,10 @@
               </nb-card-body>
             </nb-card>
             
-            <nb-card>
-              <nb-card-body>
-                <iframe    src="http://161.97.71.108:3000/public/dashboard/4e8d4bbf-eeea-4a85-afbf-b22d8cf3b80e"    
-                frameborder="0"    width="1360"    height="768"    allowtransparency ></iframe>
-              </nb-card-body>
-            </nb-card>
+            <iframe 
+                [src]="dashboardUrl"    
+                frameborder="0" scrolling="no" width="100%" style="min-height: 1800px;"
+                allowtransparency ></iframe>
 
           </nb-tab>
 
