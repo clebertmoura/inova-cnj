@@ -264,7 +264,17 @@
                 </div>
               </nb-card-header>
               <nb-card-body>
-                <img style="width: 100%;" [src]="getUrlModeloPm(filtro)" onerror="this.src='./assets/images/not_found.png';" alt="Sem dados para exibir o modelo!" />
+                <div class="row">
+                  <div class="col-12">
+                    <img style="width: 100%;" [src]="getUrlModeloPm(filtro)" onerror="this.src='./assets/images/not_found.png';" alt="Sem dados para exibir o modelo!" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col d-flex justify-content-center">
+                    Sensibilidade: {{filtro.sensibilidade}}
+                    <mat-slider min="1" max="100" step="1" [value]="filtro.sensibilidade"></mat-slider>
+                  </div>
+                </div>
               </nb-card-body>
             </nb-card>
           </div>
