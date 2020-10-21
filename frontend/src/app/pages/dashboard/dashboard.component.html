@@ -157,7 +157,7 @@
                   <div class="col">
                     <div class="form-group">
                       <label class="label">Tipo de Justiça:</label>
-                      <nb-select (selectedChange)="carregarTribunal($event)"
+                      <nb-select
                         [(selected)]="tipoJustica"
                         class="position-select"
                         fullWidth
@@ -173,7 +173,7 @@
                   <div class="col">
                     <div class="form-group">
                       <label class="label">Tribunal:</label>
-                      <nb-select (selectedChange)="carregarOrgaoJulgador($event)"
+                      <nb-select
                         [(selected)]="tribunal"
                         class="position-select"
                         fullWidth
