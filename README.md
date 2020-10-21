@@ -238,6 +238,6 @@ Na solução foi disponibilizada uma API para consumo dos dados, geração dos m
 
 As seguintes NPUs estão cadastras previamente no sistema para consulta
 
-109-36.2010.8.17.0900
-1321-62.2010.8.26.0052
-17268-66.2020.8.17.3088
+- 109-36.2010.8.17.0900
+- 1321-62.2010.8.26.0052
+- 17268-66.2020.8.17.3088
