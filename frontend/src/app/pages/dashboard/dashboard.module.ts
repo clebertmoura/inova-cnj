@@ -13,7 +13,7 @@ import {
   NbStepperModule,
   NbInputModule,
   NbCheckboxModule,
-  NbDatepickerModule
+  NbDatepickerModule, NbCalendarRangeModule
 } from '@nebular/theme';
 
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -60,6 +60,7 @@ import { MatListModule } from '@angular/material/list';
     NbButtonModule,
     NgxEchartsModule,
     NbCalendarModule,
+    NbCalendarRangeModule,
     NbStepperModule,
     NgxChartsModule,
     Ng2SmartTableModule,

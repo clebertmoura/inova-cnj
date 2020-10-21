@@ -106,27 +106,11 @@
                   <!-- calendario data inicial -->
                   <div class="col-md-3 col-sm-12">
                     <div class="calendar-container">
-                      <label class="label">Data Inicial</label>
-                      <nb-calendar
-                        [(date)]="dataInicial"
-                        [boundingMonth]="true"
-                        showWeekNumber
-                      ></nb-calendar>
+                      <label class="label">Período</label>
+                      <nb-calendar-range [(range)]="rangeDatas" showWeekNumber></nb-calendar-range>
                     </div>
                   </div>
-        
-                  <!-- calendario data final -->
-                  <div class="col-md-3 col-sm-12">
-                    <div class="calendar-container">
-                      <label class="label">Data Final</label>
-                      <nb-calendar
-                        [(date)]="dataFinal"
-                        [boundingMonth]="true"
-                        showWeekNumber
-                      ></nb-calendar>
-                    </div>
-                  </div>
-        
+                
                   <!-- nuvem de assuntos -->
                   <div class="col-md-3 col-sm-12">
                     <div class="form-group">
@@ -250,37 +234,7 @@
                       </div>
                     </div>
                   </div>
-        
-                  <!-- calendario data inicial -->
-                  <div class="col-md-3 col-sm-12">
-                    <div class="calendar-container">
-                      <label class="label">Data Inicial</label>
-                      <nb-calendar
-                        [(date)]="dataInicial"
-                        [boundingMonth]="true"
-                        showWeekNumber
-                      ></nb-calendar>
-                    </div>
-                  </div>
-        
-                  <!-- calendario data final -->
-                  <div class="col-md-3 col-sm-12">
-                    <div class="calendar-container">
-                      <label class="label">Data Final</label>
-                      <nb-calendar
-                        [(date)]="dataFinal"
-                        [boundingMonth]="true"
-                        showWeekNumber
-                      ></nb-calendar>
-                    </div>
-                  </div>
-        
-                  <!-- nuvem de assuntos -->
-                  <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                      <label class="label">Núvem de Assuntos:</label>
-                    </div>
-                  </div>
+
                 </div>
         
               </nb-card-body>
