@@ -109,6 +109,47 @@ export class DashboardComponent implements OnDestroy, OnInit {
     },
   };
 
+  // config tabela fase
+  dadosTabelaFase : LocalDataSource = new LocalDataSource();
+  configTabelaFase = {
+    actions: {
+      add: false,
+      edit: false,
+      delete: false
+    },
+    columns: {
+      fase: {
+        title: 'Fase',
+        type: 'string',
+        filter: false
+      },
+      natureza: {
+        title: 'Natureza',
+        type: 'string',
+        filter: false
+      },
+    },
+  };
+  dadosMockTabelaFase = [
+    {
+      fase: 'F0 - NÃO CLASSIFICADO',
+      natureza: 'CIVEL',
+    },
+    {
+      fase: 'F1 - CONHECIMENTO',
+      natureza: 'CRIMINAL',
+    },
+    {
+      fase: 'F2 - RECURSO',
+      natureza: 'CRIMINAL',
+    },
+    {
+      fase: 'F3 - CUMPRIMENTO DE SENTENÇA',
+      natureza: 'JUIZADO',
+    },
+  ];
+  
+
 
   private alive = true;
   
@@ -152,6 +193,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       this.orgaosJulgadores = data;
     });
     this.carregarAssuntosRanking();
+    this.dadosTabelaFase.load(this.dadosMockTabelaFase);
   }
 
   private carregarAssuntosRanking() {
@@ -242,7 +284,21 @@ export class DashboardComponent implements OnDestroy, OnInit {
         this.exibirResultadoNaoLocalizado = true;
       }
     });
+  }
 
+  carregarTribunal(tipoJustica) {
+    this.inovacnjService.consultarTribunal(tipoJustica).subscribe(data => {
+      this.tribunais = data;
+      this.tribunal = null;
+    });
+  }
+
+  carregarOrgaoJulgador(tribunal) {
+    console.log(tribunal.descricao);
+    this.inovacnjService.consultarOrgaoJulgador(tribunal).subscribe(data => {
+      this.orgaosJulgadores = data;
+      this.orgaoJulgador = null;
+    });
   }
   
   pesquisarAnalitcs() {

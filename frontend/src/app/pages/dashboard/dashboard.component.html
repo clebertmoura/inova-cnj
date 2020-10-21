@@ -14,7 +14,7 @@
                       <div class="col">
                         <div class="form-group">
                           <label class="label">Tipo de Justiça:</label>
-                          <nb-select
+                          <nb-select (selectedChange)="carregarTribunal($event)"
                             [(selected)]="tipoJustica"
                             class="position-select"
                             fullWidth
@@ -30,7 +30,7 @@
                       <div class="col">
                         <div class="form-group">
                           <label class="label">Tribunal:</label>
-                          <nb-select
+                          <nb-select (selectedChange)="carregarOrgaoJulgador($event)"
                             [(selected)]="tribunal"
                             class="position-select"
                             fullWidth
@@ -116,7 +116,6 @@
                     <div class="form-group">
                       <label class="label">Núvem de Assuntos:</label>
                       <angular-tag-cloud
-                        [data]="data"
                         [width]="options.width"
                         [height]="options.height"
                         [overflow]="options.overflow">
@@ -138,6 +137,10 @@
                   <nb-action>
                     <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                     <span>{{tribunal != null ? tribunal.descricao : ""}}</span>
+                  </nb-action>
+                  <nb-action>
+                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                    <span>{{orgaoJulgador != null ? orgaoJulgador.descricao : ""}}</span>
                   </nb-action>
                   <nb-action>
                     <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
@@ -407,7 +410,6 @@
                     </div>
                   </div>
         
-                  <!-- nuvem de assuntos -->
                   <div class="col">
                     <label class="label">Movimentos</label>
                     <nb-card class="list-card" size="small">
@@ -425,7 +427,19 @@
                     </nb-card>
                   </div>
                 </div>
-        
+
+                <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <ng2-smart-table fullWidth [settings]="configTabelaFase" [source]="dadosTabelaFase">
+                          </ng2-smart-table>  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </nb-card-body>
             </nb-card>
           </nb-tab>
