@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
-import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService, NbCalendarRange, NbDateService } from '@nebular/theme';
+import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService, NbCalendarRange, NbDateService, NbDialogService } from '@nebular/theme';
 import { SmartTableData } from 'app/@core/data/smart-table';
 import { InovacnjService } from 'app/@core/services/inovacnj.service';
 import { TipoJustica } from 'app/models/tipo-justica';
@@ -17,6 +17,8 @@ import { DatePipe } from '@angular/common';
 import { Movimento } from 'app/models/movimento';
 import { OrgaoJulgador } from 'app/models/orgao-julgador';
 import { AssuntoRanking } from '../../models/assunto-ranking';
+
+import { TemplateRef } from '@angular/core';
 
 declare var jQuery: any;
 
@@ -43,6 +45,16 @@ export class DashboardComponent implements OnDestroy, OnInit {
   naturezaFase: Natureza;
   classes: Classe[] = [];
   classe: Classe;
+
+  //aba Process
+  tiposJusticaProcess: TipoJustica[] = [];
+  tipoJusticaProcess: TipoJustica;
+  tribunaisProcess: Tribunal[] = [];
+  tribunalProcess: Tribunal;
+  naturezasProcess: Natureza[] = [];
+  naturezaProcess: Natureza;
+  classesProcess: Classe[] = [];
+  classeProcess: Classe;
 
   assuntosRanking: AssuntoRanking[] = [];
 
@@ -101,7 +113,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
     actions: {
       add: false,
       edit: false,
-      delete: false
+      columnTitle: 'Ação',
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
     },
     columns: {
       fase: {
@@ -150,7 +166,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
               private sanitizer: DomSanitizer,
               private datePipe: DatePipe,
               private inovacnjService: InovacnjService,
-              private dateService: NbDateService<Date>) {
+              private dateService: NbDateService<Date>,
+              private dialogService: NbDialogService) {
 
     this.themeSubscription = this.themeService.getJsTheme().subscribe(config => {
       const colors: any = config.variables;
@@ -164,15 +181,19 @@ export class DashboardComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
     this.inovacnjService.consultarTipoJustica().subscribe(data => {
       this.tiposJustica = data;
+      this.tiposJusticaProcess = data;
     });
     this.inovacnjService.consultarTribunal(this.tipoJustica).subscribe(data => {
       this.tribunais = data;
+      this.tribunaisProcess = data;
     });
     this.inovacnjService.consultarNatureza().subscribe(data => { 
       this.naturezas = data;
+      this.naturezasProcess = data;
     });
     this.inovacnjService.consultarClasse().subscribe(data => {
       this.classes = data;
+      this.classesProcess = data;
       let arvoreClasses = this.converterParaArvore(this.classes);
       console.log(arvoreClasses);
     });
@@ -228,9 +249,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   adicionarModeloPm(): void {
     console.log('adicionarModeloPm');
-    if (this.tribunal != null) {
-      if (this.natureza != null) {
-        const filtroPm = new FiltroPm(this.tribunal, this.natureza, this.classe);
+    if (this.tribunalProcess != null) {
+      if (this.naturezaProcess != null) {
+        const filtroPm = new FiltroPm(this.tribunalProcess, this.naturezaProcess, this.classeProcess);
         this.filtrosPm.push(filtroPm);
       }
     }
@@ -310,14 +331,39 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   carregarOrgaoJulgador(tribunal) {
-    console.log(tribunal.descricao);
     this.inovacnjService.consultarOrgaoJulgador(tribunal).subscribe(data => {
       this.orgaosJulgadores = data;
       this.orgaoJulgador = null;
+    });
+  }
+
+  //aba process
+  carregarTribunalProcess(tipoJustica) {
+    this.inovacnjService.consultarTribunal(tipoJustica).subscribe(data => {
+      this.tribunaisProcess = data;
+      this.tribunalProcess = null;
     });
   }
   
   pesquisarAnalitcs() {
     this.setDashboardUrl();
   }
+
+  openDialog(dialog: TemplateRef<any>) {
+    this.dialogService.open(
+      dialog,
+      {
+        context: "",
+        closeOnEsc: false,
+      });
+  }
+
+  onDeleteConfirm(event): void {
+    if (window.confirm('Deseja excluir?')) {
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+  }
+    
 }
