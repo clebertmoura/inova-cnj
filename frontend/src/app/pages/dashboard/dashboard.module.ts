@@ -40,6 +40,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsRoutingModule } from '../forms/forms-routing.module';
 import { FiltroComponent } from './filtro/filtro.component';
+import { MatListModule } from '@angular/material/list';
 
 
 
@@ -68,6 +69,7 @@ import { FiltroComponent } from './filtro/filtro.component';
     NbDatepickerModule,
     FormsRoutingModule,
     FormsModule,
+    MatListModule,
   
   ],
   declarations: [

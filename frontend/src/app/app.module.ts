@@ -20,7 +20,7 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-import { TagCloudModule } from 'angular-tag-cloud-module';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,7 +40,7 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
-    TagCloudModule,
+    MatListModule,
   ],
   bootstrap: [AppComponent],
 })
