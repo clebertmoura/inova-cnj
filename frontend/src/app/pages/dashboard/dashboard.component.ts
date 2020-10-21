@@ -175,6 +175,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
     if (this.tribunal != null) {
       url += `tribunal=${this.tribunal.codigo}&`
     }
+    if (this.orgaoJulgador != null) {
+      url += `%25C3%25B3rg%25C3%25A3o_julgador=${this.orgaoJulgador.descricao}&`
+    }
     if (this.natureza != null) {
       url += `natureza=${this.natureza.codigo}&`
     }
