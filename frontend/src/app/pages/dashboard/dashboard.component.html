@@ -45,6 +45,22 @@
                     <div class="row">
                       <div class="col">
                         <div class="form-group">
+                          <label class="label">Orgão Julgador:</label>
+                          <nb-select
+                            [(selected)]="orgaoJulgador"
+                            class="position-select"
+                            fullWidth
+                          >
+                          <nb-option *ngFor="let orgaoJulgador of orgaosJulgadores" [value]="orgaoJulgador">{{
+                            orgaoJulgador.descricao
+                          }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
                           <label class="label">Natureza:</label>
                           <nb-select
                             [(selected)]="natureza"
@@ -407,10 +423,21 @@
                   </div>
         
                   <!-- nuvem de assuntos -->
-                  <div class="col-md-3 col-sm-12">
-                    <div class="form-group">
-                      
-                    </div>
+                  <div class="col">
+                    <label class="label">Movimentos</label>
+                    <nb-card class="list-card" size="small">
+                      <nb-card-body>
+                        <div class="col-md-12 col-sm-12">
+                          <div class="form-group">
+                            <mat-selection-list #movimento>
+                              <mat-list-option *ngFor="let movimento of movimentos">
+                                {{movimento.descricao}}
+                              </mat-list-option>
+                            </mat-selection-list>
+                          </div>
+                        </div>
+                      </nb-card-body>
+                    </nb-card>
                   </div>
                 </div>
         

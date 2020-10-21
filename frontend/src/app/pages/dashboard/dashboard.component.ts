@@ -15,6 +15,8 @@ import { FiltroPm } from 'app/models/filtro-pm';
 import { ProcessoPredict } from 'app/models/processo-predict';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
+import { Movimento } from 'app/models/movimento';
+import { OrgaoJulgador } from 'app/models/orgao-julgador';
 
 interface CardSettings {
   title: string;
@@ -42,6 +44,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   rangeDatas: NbCalendarRange<Date>;
 
+  movimentos: Movimento[] = [];
+  orgaosJulgadores: OrgaoJulgador[] = [];
+  orgaoJulgador: OrgaoJulgador;
   dataInicial = new Date();
   dataFinal = new Date();
 
@@ -49,43 +54,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   filtrosPm: FiltroPm[] = [];
 
-  // config tabela Analitcs
-  dadosTabelaAnalitcs : LocalDataSource = new LocalDataSource();
-  configTabelaAnalitcs = {
-    actions: {
-      add: false,
-      edit: false,
-      delete: false
-    },
-    columns: {
-      natureza: {
-        title: 'Natureza',
-        type: 'string',
-        filter: false
-      },
-      classe: {
-        title: 'Classe',
-        type: 'string',
-        filter: false
-      },
-      duracaoMedia: {
-        title: 'Duração Média',
-        type: 'string',
-        filter: false
-      },
-      faseMaisDemorada: {
-        title: 'Fase Mais Demorada',
-        type: 'string',
-        filter: false
-      },
-      assuntoMaisDemorado: {
-        title: 'Assunto Mais Demorado',
-        type: 'string',
-        filter: false
-      },
-    },
-  };
-  
   // dados aba predict
   historicoFases = [];
   dadosTabelaPredict : LocalDataSource = new LocalDataSource();
@@ -126,21 +94,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   private alive = true;
   
-  //grafico exemplo
-  results = [
-    { name: 'Germany', value: 8940 },
-    { name: 'USA', value: 5000 },
-    { name: 'France', value: 7200 },
-  ];
-  showLegend = true;
-  showXAxis = true;
-  showYAxis = true;
-  xAxisLabel = 'Country';
-  yAxisLabel = 'Population';
   colorScheme: any;
   themeSubscription: any;
-  //remover quando colocar o meta base
-
+  
   constructor(private themeService: NbThemeService,
               private sanitizer: DomSanitizer,
               private datePipe: DatePipe,
@@ -170,6 +126,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
       this.classes = data;
       let arvoreClasses = this.converterParaArvore(this.classes);
       console.log(arvoreClasses);
+    });
+    this.inovacnjService.consultarMovimento().subscribe(data => { 
+      this.movimentos = data;
+    });
+    this.inovacnjService.consultarOrgaoJulgador().subscribe(data => { 
+      this.orgaosJulgadores = data;
     });
   }
 
@@ -246,16 +208,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
   
   pesquisarAnalitcs() {
-    console.log(this.dataInicial);
-    console.log(this.dataFinal);
-    console.log(this.tipoJustica);
-    console.log(this.tribunal); 
-    console.log(this.natureza);
-    console.log(this.classe);
-
     this.setDashboardUrl();
-
-    this.dadosTabelaAnalitcs.load(this.inovacnjService.pesquisarAnalitcs(
-      this.dataInicial, this.dataFinal, this.tipoJustica, this.tribunal, this.natureza, this.classe));
   }
 }
