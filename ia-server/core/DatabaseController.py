@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 
 class DatabaseController:
@@ -53,15 +54,19 @@ class DatabaseController:
         #Dados
         processo = processo['processo']
         siglaTribunal = processo['siglaTribunal']
-        orgaoJulgador = processo['siglaTribunal']
-        natureza = processo['siglaTribunal']
-        classe = processo['siglaTribunal']
-        assunto = processo['siglaTribunal']
-        codigo_orgaoJulgador = processo['siglaTribunal']
-        codigo_classe = processo['siglaTribunal']
-        codigo_assunto = processo['siglaTribunal']
-        dataAjuizamento = processo['siglaTribunal']
-        porteTribunal = processo['siglaTribunal']
+        orgaoJulgador = processo['orgaoJulgador']
+        natureza = processo['natureza']
+        classe = processo['classe']
+        assunto = processo['assunto']
+        codigo_orgaoJulgador = processo['codigo_orgaoJulgador']
+        codigo_classe = processo['codigo_classe']
+        codigo_assunto = processo['codigo_assunto']
+        dataAjuizamento = processo['dataAjuizamento']
+        porteTribunal = processo['porteTribunal']
+        #pega o mes do ajuizamento
+        mes_ajuizamento = 1
+        if dataAjuizamento != '':
+            mes_ajuizamento = 1
         #Conecta na base
         conn = sqlite3.connect('./data/processos.db')
         cursor = conn.cursor()

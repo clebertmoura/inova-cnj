@@ -129,9 +129,9 @@ class ServiceController:
 
 
         except Exception as ex:
-            #resposta['mensagem'] = str(ex)
-            #return resposta, 502
-            raise ex
+            resposta['mensagem'] = str(ex)
+            return resposta, 502
+            #raise ex
         return resposta, 200
 
     @staticmethod
