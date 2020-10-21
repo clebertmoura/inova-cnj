@@ -4,12 +4,12 @@ Projeto elaborado para Hackathon Inova CNJ, desafio 01.
 
 ## Equipe
 
-Cleber Tavares de Moura <cleber.moura@tjpe.jus.br>
-Hadautho <cleber.moura@tjpe.jus.br>
-Fábio Cruz Tavares <fabio.cruz.tavares@tjpe.jus.br>
-Suely Batista Cleonice <cleber.moura@tjpe.jus.br>
-Luiz Henrique Seus <cleber.moura@tjpe.jus.br>
-Faustino <cleber.moura@tjpe.jus.br>
+- Cleber Tavares de Moura <cleber.moura@tjpe.jus.br>
+- Fabio Cruz Tavares <fabio.cruz.tavares@tjpe.jus.br>
+- Hadautho Roberto Barros Da Silva <hadautho.barros@tjpe.jus.br>
+- Jose Faustino Macedo De Souza Ferreira <faustino.ferreira@tjpe.jus.br>
+- Luiz Henrique Nogueira Seus <luiz.seus@tjpe.jus.br>
+- Suely Cleonice Batista <suely.batista@tjpe.jus.br>
 
 ## Tecnologias utilizadas
 
