@@ -299,6 +299,15 @@
                 </div>
               </nb-card-body>
             </nb-card>
+
+            <nb-card #card [(hidden)]="!exibirResultadoNaoLocalizado">
+              <nb-card-body >
+                <div class="col-md-12">
+                  Processo não localizado
+                </div>
+                
+              </nb-card-body>
+            </nb-card>
     
             <nb-card #card [(hidden)]="!exibirResultadoPredict">
               <nb-card-body >

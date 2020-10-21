@@ -59,7 +59,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   dadosTabelaPredict : LocalDataSource = new LocalDataSource();
   alertas = [];
   exibirResultadoPredict= false;
-    
+  exibirResultadoNaoLocalizado= false;  
   // config tabela predict
   configTabelaPredict = {
     actions: {
@@ -68,19 +68,19 @@ export class DashboardComponent implements OnDestroy, OnInit {
       delete: false
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
+      nome: {
+        title: 'Nome',
+        type: 'string',
         filter: false
       },
       duracao: {
         title: 'Duração',
-        type: 'number',
+        type: 'string',
         filter: false
       },
       duracaoPrevista: {
         title: 'Duração Prevista',
-        type: 'number',
+        type: 'string',
         filter: false
       },
       status: {
@@ -203,8 +203,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
         this.alertas = data.alertas;
         this.historicoFases = data.historicoFases;
         this.exibirResultadoPredict = true;
+        this.exibirResultadoNaoLocalizado = false;
       } else {
         this.exibirResultadoPredict = false;
+        this.exibirResultadoNaoLocalizado = true;
       }
     });
 

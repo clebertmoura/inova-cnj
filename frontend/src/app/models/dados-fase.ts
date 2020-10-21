@@ -1,15 +1,15 @@
 export class DadosFase {
     // Raw attributes
-    id: string = null;
-    duracao: number = null;
-    duracaoPrevista: number = null;
+    nome: string = null;
+    duracao: string = null;
+    duracaoPrevista: string = null;
     status: string = null;
     
     static fromJson(json: any): DadosFase {
         let entity: DadosFase = null;
         if (json) {
             entity = new DadosFase();
-            entity.id = json.id;
+            entity.nome = json.nome;
             entity.duracao = json.duracao;
             entity.duracaoPrevista = json.duracaoPrevista;
             entity.status = json.status;

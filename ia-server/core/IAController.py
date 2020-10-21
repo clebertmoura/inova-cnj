@@ -1,4 +1,3 @@
-import sqlite3
 import pickle
 
 from pandas.io.json import json_normalize
@@ -10,7 +9,7 @@ class IAController:
     def prever_duracao_total(processo_info):
         resultado = 0
         #Carrega o modelo
-        modelo = pickle.load(open('../data/modelo_duracao_regressao_duracao.sav', 'rb'))
+        modelo = pickle.load(open('data/modelo_duracao_regressao_duracao.sav', 'rb'))
         # Obtem as informacoes do
         if isinstance(processo_info, dict):
             dados = json_normalize(processo_info)
@@ -27,8 +26,9 @@ class IAController:
 
         resultado = modelo.predict(dados[colunas_x + dummies])
 
+        print(type(resultado))
 
-        return resultado
+        return int(round(resultado[0]))
 
     @staticmethod
     def prever_duracao_fase(processo_info, fase):
@@ -41,11 +41,11 @@ class IAController:
 
         # Carrega o modelo
         if fase == 'F1':
-            modelo = pickle.load(open('../data/modelo_duracao_regressao_fase_1.sav', 'rb'))
+            modelo = pickle.load(open('data/modelo_duracao_regressao_fase_1.sav', 'rb'))
         elif fase == 'F2':
-            modelo = pickle.load(open('../data/modelo_duracao_regressao_fase_2.sav', 'rb'))
+            modelo = pickle.load(open('data/modelo_duracao_regressao_fase_2.sav', 'rb'))
         elif fase == 'F3':
-            modelo = pickle.load(open('../data/modelo_duracao_regressao_fase_3.sav', 'rb'))
+            modelo = pickle.load(open('data/modelo_duracao_regressao_fase_3.sav', 'rb'))
 
         colunas_x = ['classeProcessual', 'codigoLocalidade',
                      'orgaoJulgador_codigoOrgao', 'assunto_codigoNacional',
@@ -58,7 +58,9 @@ class IAController:
 
         resultado = modelo.predict(dados[colunas_x + dummies])
 
-        return resultado
+        print(type(resultado))
+
+        return int(round(resultado[0]))
 
     @staticmethod
     def classificar(processo_info, arquivo_classificador, campos, alvo, usa_dummies):
