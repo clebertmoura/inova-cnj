@@ -41,8 +41,6 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsRoutingModule } from '../forms/forms-routing.module';
 import { FiltroComponent } from './filtro/filtro.component';
 import { MatListModule } from '@angular/material/list';
-import { TagCloudModule } from 'angular-tag-cloud-module';
-
 
 @NgModule({
   imports: [
@@ -71,7 +69,6 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
     FormsRoutingModule,
     FormsModule,
     MatListModule,
-    TagCloudModule
   ],
   declarations: [
     DashboardComponent,

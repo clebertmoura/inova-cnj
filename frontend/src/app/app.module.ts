@@ -24,7 +24,6 @@ import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 registerLocaleData(ptBr)
 import { MatListModule } from '@angular/material/list';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,7 +44,6 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     MatListModule,
-    TagCloudModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }],
   bootstrap: [AppComponent],

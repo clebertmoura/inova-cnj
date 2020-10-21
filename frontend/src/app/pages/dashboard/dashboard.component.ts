@@ -18,7 +18,7 @@ import { Movimento } from 'app/models/movimento';
 import { OrgaoJulgador } from 'app/models/orgao-julgador';
 import { AssuntoRanking } from '../../models/assunto-ranking';
 
-import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
+declare var jQuery: any;
 
 interface CardSettings {
   title: string;
@@ -45,20 +45,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
   classe: Classe;
 
   assuntosRanking: AssuntoRanking[] = [];
-
-  options: CloudOptions = {
-    // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
-    width: 1000,
-    // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
-    height: 400,
-    overflow: false,
-  };
- 
-  data: CloudData[] = [
-    {text: 'Weight-8-link-color', weight: 8, link: 'https://google.com', color: '#ffaaee'},
-    {text: 'Weight-10-link', weight: 10, link: 'https://google.com', tooltip: 'display a tooltip'},
-    // ...
-  ];
 
   rangeDatas: NbCalendarRange<Date>;
 
@@ -198,6 +184,23 @@ export class DashboardComponent implements OnDestroy, OnInit {
     });
     this.carregarAssuntosRanking();
     this.dadosTabelaFase.load(this.dadosMockTabelaFase);
+
+    jQuery(document).ready(function() {
+      var words = [
+        {text: "Lorem", weight: 13},
+        {text: "Ipsum", weight: 10.5},
+        {text: "Dolor", weight: 9.4},
+        {text: "Sit", weight: 8},
+        {text: "Amet", weight: 6.2},
+        {text: "Consectetur", weight: 5},
+        {text: "Adipiscing", weight: 5},
+        /* ... */
+      ];
+      // jQuery('#nuvemAssuntos').jQCloud(words, {
+      //   width: 300,
+      //   height: 250
+      // });
+    });
   }
 
   private carregarAssuntosRanking() {
