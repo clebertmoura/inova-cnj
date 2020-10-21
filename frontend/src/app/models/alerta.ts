@@ -3,17 +3,17 @@ export class Alerta {
     nme: string = null;
     valor: string = null;
     
-    static fromJson(json: any[]): Alerta {
+    static fromJson(json: any): Alerta {
         let entity: Alerta = null;
         if (json) {
             entity = new Alerta();
-            entity.nme = json[0];
-            entity.valor = json[1];
+            entity.nme = json.nome;
+            entity.valor = json.valor;
         }
         return entity;
     }
 
-    static toArray(jsonArray: any[][]): Alerta[] {
+    static toArray(jsonArray: any[]): Alerta[] {
         let entities: Alerta[] = [];
         if (jsonArray != null && jsonArray.length > 0) {
             jsonArray.forEach(item => {
