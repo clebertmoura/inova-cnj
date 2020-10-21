@@ -1,479 +1,488 @@
-<nb-card>
-  <nb-card-body>
-    <nb-tabset>
-      <nb-tab tabTitle="Analitcs">
+    <nb-card>
+      <nb-card-body>
+        <nb-tabset>
+          <nb-tab tabTitle="Visão Geral">
 
-        <nb-card>
-          <nb-card-body>
-            <div class="row">
-              <div class="col-md-4 col-sm-12">
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Tipo de Justiça:</label>
-                      <nb-select (selectedChange)="carregarTribunal($event)"
-                        [(selected)]="tipoJustica"
-                        class="position-select"
-                        fullWidth
-                      >
-                        <nb-option *ngFor="let tipoJustica of tiposJustica" [value]="tipoJustica">{{
-                          tipoJustica.descricao
-                        }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Tribunal:</label>
-                      <nb-select (selectedChange)="carregarOrgaoJulgador($event)"
-                        [(selected)]="tribunal"
-                        class="position-select"
-                        fullWidth
-                      >
-                      <nb-option *ngFor="let tribunal of tribunais" [value]="tribunal">{{
-                        tribunal.descricao
-                      }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Orgão Julgador:</label>
-                      <nb-select
-                        [(selected)]="orgaoJulgador"
-                        class="position-select"
-                        fullWidth
-                      >
-                      <nb-option *ngFor="let orgaoJulgador of orgaosJulgadores" [value]="orgaoJulgador">{{
-                        orgaoJulgador.descricao
-                      }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Natureza:</label>
-                      <nb-select
-                        [(selected)]="natureza"
-                        class="position-select"
-                        fullWidth
-                      >
-                        <nb-option *ngFor="let natureza of naturezas" [value]="natureza">{{
-                          natureza.descricao
-                        }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Classe:</label>
-                      <nb-select
-                        [(selected)]="classe"
-                        class="position-select"
-                        fullWidth
-                      >
-                        <nb-option *ngFor="let classe of classes" [value]="classe">{{
-                          classe.descricao
-                        }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 col-sm-12 col-lg-6">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <div class="form-group">
-                          <button nbButton (click)="pesquisarAnalitcs()">Pesquisar</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-    
-              <!-- calendario data inicial -->
-              <div class="col-md-3 col-sm-12">
-                <div class="calendar-container">
-                  <label class="label">Período</label>
-                  <nb-calendar-range [(range)]="rangeDatas" showWeekNumber></nb-calendar-range>
-                </div>
-              </div>
-            
-              <!-- nuvem de assuntos -->
-            </div>       
-          </nb-card-body>
-        </nb-card>
-
-        <nb-card>
-          <nb-card-body>
-            <nb-actions size="medium" fullWidth>
-              <nb-action>
-                <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                <span>{{tipoJustica != null ? tipoJustica.descricao : ""}}</span>
-              </nb-action>
-              <nb-action>
-                <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                <span>{{tribunal != null ? tribunal.descricao : ""}}</span>
-              </nb-action>
-              <nb-action>
-                <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                <span>{{orgaoJulgador != null ? orgaoJulgador.descricao : ""}}</span>
-              </nb-action>
-              <nb-action>
-                <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                <span>{{natureza != null ? natureza.descricao : ""}}</span>
-              </nb-action>
-              <nb-action>
-                <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                <span>{{classe != null ? classe.descricao : ""}}</span>
-              </nb-action>
-            </nb-actions>
-          </nb-card-body>
-        </nb-card>
-        
-        <iframe 
-            [src]="dashboardUrl"    
-            frameborder="0" scrolling="no" width="100%" style="min-height: 1800px;"
-            allowtransparency ></iframe>
-
-      </nb-tab>
-
-      <nb-tab tabTitle="Process">
-
-        <nb-card>
-          <nb-card-body>
-            <div class="row">
-              <div class="col-md-4 col-sm-12">
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Tipo de Justiça:</label>
-                      <nb-select (selectedChange)="carregarTribunal($event)"
-                        [(selected)]="tipoJustica"
-                        class="position-select"
-                        fullWidth
-                      >
-                        <nb-option *ngFor="let tipoJustica of tiposJustica" [value]="tipoJustica">{{
-                          tipoJustica.descricao
-                        }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Tribunal:</label>
-                      <nb-select (selectedChange)="carregarOrgaoJulgador($event)"
-                        [(selected)]="tribunal"
-                        class="position-select"
-                        fullWidth
-                      >
-                      <nb-option *ngFor="let tribunal of tribunais" [value]="tribunal">{{
-                        tribunal.descricao
-                      }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Natureza:</label>
-                      <nb-select
-                        [(selected)]="natureza"
-                        class="position-select"
-                        fullWidth
-                      >
-                        <nb-option *ngFor="let natureza of naturezas" [value]="natureza">{{
-                          natureza.descricao
-                        }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Classe:</label>
-                      <nb-select
-                        [(selected)]="classe"
-                        class="position-select"
-                        fullWidth
-                      >
-                        <nb-option *ngFor="let classe of classes" [value]="classe">{{
-                          classe.descricao
-                        }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 col-sm-12 col-lg-6">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        <div class="form-group">
-                          <button nbButton (click)="adicionarModeloPm()">Adicionar</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-    
-          </nb-card-body>
-        </nb-card>
-
-        <div class="row">
-          <div class="col-md-6 col-sm-12" *ngFor="let filtro of filtrosPm">
             <nb-card>
-              <nb-card-header>
-                <div class="row">
-                  <div class="col-10 d-flex justify-content-start">
-                    <nb-actions size="small" fullWidth>
-                      <nb-action *ngIf="filtro.tribunal != null">
-                        <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                        <span>{{filtro.tribunal.codigo}}</span>
-                      </nb-action>
-                      <nb-action *ngIf="filtro.natureza != null">
-                        <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                        <span>{{filtro.natureza.descricao}}</span>
-                      </nb-action>
-                      <nb-action *ngIf="filtro.classe != null">
-                        <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                        <span>{{filtro.classe.descricao}}</span>
-                      </nb-action>
-                    </nb-actions>
-                  </div>
-                  <div class="col-2 d-flex justify-content-end">
-                    <nb-action>
-                      <nb-icon class="action-icon" icon="close-circle-outline" (click)="removerModeloPm(filtro)"></nb-icon>
-                    </nb-action>
-                  </div>
-                </div>
-              </nb-card-header>
               <nb-card-body>
-                <img style="width: 100%;" [src]="getUrlModeloPm(filtro)" onerror="this.src='./assets/images/not_found.png';" alt="Sem dados para exibir o modelo!" />
+                <div class="row">
+                  <div class="col-md-4 col-sm-12">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="label">Tipo de Justiça:</label>
+                          <nb-select (selectedChange)="carregarTribunal($event)"
+                            [(selected)]="tipoJustica"
+                            class="position-select"
+                            fullWidth
+                          >
+                            <nb-option *ngFor="let tipoJustica of tiposJustica" [value]="tipoJustica">{{
+                              tipoJustica.descricao
+                            }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="label">Tribunal:</label>
+                          <nb-select (selectedChange)="carregarOrgaoJulgador($event)"
+                            [(selected)]="tribunal"
+                            class="position-select"
+                            fullWidth
+                          >
+                          <nb-option *ngFor="let tribunal of tribunais" [value]="tribunal">{{
+                            tribunal.descricao
+                          }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="label">Orgão Julgador:</label>
+                          <nb-select
+                            [(selected)]="orgaoJulgador"
+                            class="position-select"
+                            fullWidth
+                          >
+                          <nb-option *ngFor="let orgaoJulgador of orgaosJulgadores" [value]="orgaoJulgador">{{
+                            orgaoJulgador.descricao
+                          }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="label">Natureza:</label>
+                          <nb-select
+                            [(selected)]="natureza"
+                            class="position-select"
+                            fullWidth
+                          >
+                            <nb-option *ngFor="let natureza of naturezas" [value]="natureza">{{
+                              natureza.descricao
+                            }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="label">Classe:</label>
+                          <nb-select
+                            [(selected)]="classe"
+                            class="position-select"
+                            fullWidth
+                          >
+                            <nb-option *ngFor="let classe of classes" [value]="classe">{{
+                              classe.descricao
+                            }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <button nbButton (click)="pesquisarAnalitcs()">Pesquisar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <!-- calendario data inicial -->
+                  <div class="col-md-3 col-sm-12">
+                    <div class="calendar-container">
+                      <label class="label">Período</label>
+                      <nb-calendar-range [(range)]="rangeDatas" showWeekNumber></nb-calendar-range>
+                    </div>
+                  </div>
+                
+                  <!-- nuvem de assuntos -->
+                    </div>
               </nb-card-body>
             </nb-card>
-          </div>
-        </div>
-      </nb-tab>
 
-      <nb-tab tabTitle="Predict">
-        
-        <nb-card>
-          <nb-card-body >
-            <div class="row">
-              <div class="col-md-3 col-sm-12">
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <input type="text" #npu fullWidth nbInput placeholder="NPU">
-                    </div>
-                  </div>
-                </div>
-              </div>
-    
-              <div class="col-md-3 col-sm-12">
-                <div class="form-group">
-                  <button nbButton (click)="pesquisarNpu(npu.value)">Pesquisar</button>
-                </div>
-              </div>
-            </div>
-          </nb-card-body>
-        </nb-card>
-
-        <nb-card #card [(hidden)]="!exibirResultadoNaoLocalizado">
-          <nb-card-body >
-            <div class="col-md-12">
-              Processo não localizado
-            </div>
-          </nb-card-body>
-        </nb-card>
-
-        <nb-card #card [(hidden)]="!exibirResultadoPredict">
-          <nb-card-body >
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col">
-                  <div class="form-group">
-                    <h4>Dados do Processo</h4>
-                    <div class="row">
-                      <div class="col-md-3">
-                        <div class="summary-container">
-                            <div><label class="label">Tribunal</label></div>
-                            <div class="h6">{{ dadosProcessoSiglaTribunal }}</div>
-                        </div>
-                      </div>
-                      <div class="col-md-9">
-                        <div class="summary-container">
-                              <div><label class="label">Orgão Julgador</label></div>
-                              <div class="h6">{{ dadosProcessoOrgaoJulgador }}</div> 
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-3">
-                        <div class="summary-container">
-                            <div><label class="label">Natureza</label></div>
-                            <div class="h6">{{ dadosProcessoNatureza }}</div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="summary-container">
-                              <div><label class="label">Classe</label></div>
-                              <div class="h6">{{ dadosProcessoClasse }}</div> 
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="summary-container">
-                              <div><label class="label">Assunto</label></div>
-                              <div class="h6">{{ dadosProcessoAssunto }}</div> 
-                        </div>
-                      </div>
-                    </div> 
-                  </div>
-                </div>
-              </div>
-            </div>
-          
-          <br>
-
-            <div class="col-md-12">
-              <!--Stepper-->
-              <nb-stepper orientation="horizontal">
-                <nb-step *ngFor="let historico of historicoFases; let i = index" 
-                label="{{ historico.nome }} - {{ historico.situacao }}"> 
-                  <p>Data Inicio: {{ historico.dataInicio }} </p>
-                  <p>Data Conclusão: {{ historico.dataConclusao }} </p>
-                </nb-step>
-              </nb-stepper>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 col-sm-12">
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <h4>Fases do Processo</h4>
-                      <ng2-smart-table [settings]="configTabelaPredict" [source]="dadosTabelaPredict">
-                      </ng2-smart-table>  
-                    </div>
-                  </div>
-                </div>
-              </div>
-    
-              <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                  <h4>Alertas</h4>
-                  <nb-card class="list-card" size="small">
-                    <nb-list>
-                      <nb-list-item *ngFor="let dados of alertas">
-                        <article>
-                          <p>{{dados.nome}}</p>
-                          <h6>{{dados.valor}}</h6>
-                        </article>
-                      </nb-list-item>
-                    </nb-list>
-                  </nb-card>
-                </div>
-              </div>
-            </div>
+            <nb-card hidden="true">
+              <nb-card-body>
+                <nb-actions size="medium" fullWidth>
+                  <nb-action>
+                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                    <span>{{tipoJustica != null ? tipoJustica.descricao : ""}}</span>
+                  </nb-action>
+                  <nb-action>
+                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                    <span>{{tribunal != null ? tribunal.descricao : ""}}</span>
+                  </nb-action>
+                  <nb-action>
+                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                    <span>{{orgaoJulgador != null ? orgaoJulgador.descricao : ""}}</span>
+                  </nb-action>
+                  <nb-action>
+                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                    <span>{{natureza != null ? natureza.descricao : ""}}</span>
+                  </nb-action>
+                  <nb-action>
+                    <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                    <span>{{classe != null ? classe.descricao : ""}}</span>
+                  </nb-action>
+                </nb-actions>
+              </nb-card-body>
+            </nb-card>
             
-          </nb-card-body>
-        </nb-card>
-        
-      </nb-tab>
+            <iframe 
+                [src]="dashboardUrl"    
+                frameborder="0" scrolling="no" width="100%" style="min-height: 1800px;"
+                allowtransparency ></iframe>
 
-      <nb-tab tabTitle="Configuração">
+          </nb-tab>
 
-        <nb-card>
-          <nb-card-header>Cadastrar Fase</nb-card-header>
-          <nb-card-body>
-            <div class="row">
-              <div class="col-md-3 col-sm-12">
+          <nb-tab tabTitle="Fluxo">
+
+            <nb-card>
+              <nb-card-body>
                 <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label for="inputFase" class="label">Fase</label>
-                      <input type="text" nbInput fullWidth id="inputFase" placeholder="Fase">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label class="label">Natureza:</label>
-                      <nb-select
-                        [(selected)]="naturezaFase"
-                        class="position-select"
-                        fullWidth
-                      >
-                        <nb-option *ngFor="let natureza of naturezas" [value]="natureza">{{
-                          natureza.descricao
-                        }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 col-sm-12 col-lg-6">
+                  <div class="col-md-4 col-sm-12">
                     <div class="row">
-                      <div class="col-sm-12">
+                      <div class="col">
                         <div class="form-group">
-                          <button nbButton >Salvar</button>
+                          <label class="label">Tipo de Justiça:</label>
+                          <nb-select (selectedChange)="carregarTribunalProcess($event)"
+                            [(selected)]="tipoJusticaProcess"
+                            class="position-select"
+                            fullWidth
+                          >
+                            <nb-option *ngFor="let tipoJustica of tiposJusticaProcess" [value]="tipoJustica">{{
+                              tipoJustica.descricao
+                            }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="label">Tribunal:</label>
+                          <nb-select
+                            [(selected)]="tribunalProcess"
+                            class="position-select"
+                            fullWidth
+                          >
+                          <nb-option *ngFor="let tribunal of tribunaisProcess" [value]="tribunal">{{
+                            tribunal.descricao
+                          }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="label">Natureza:</label>
+                          <nb-select
+                            [(selected)]="naturezaProcess"
+                            class="position-select"
+                            fullWidth
+                          >
+                            <nb-option *ngFor="let natureza of naturezasProcess" [value]="natureza">{{
+                              natureza.descricao
+                            }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="label">Classe:</label>
+                          <nb-select
+                            [(selected)]="classeProcess"
+                            class="position-select"
+                            fullWidth
+                          >
+                            <nb-option *ngFor="let classe of classesProcess" [value]="classe">{{
+                              classe.descricao
+                            }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <button nbButton (click)="adicionarModeloPm()">Adicionar</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
                 </div>
-              </div>
-    
-              <div class="col">
-                <label class="label">Movimentos</label>
-                <nb-card class="list-card" size="small">
-                  <nb-card-body>
-                    <div class="col-md-12 col-sm-12">
-                      <div class="form-group">
-                        <mat-selection-list #movimento>
-                          <mat-list-option *ngFor="let movimento of movimentos">
-                            {{movimento.descricao}}
-                          </mat-list-option>
-                        </mat-selection-list>
+        
+              </nb-card-body>
+            </nb-card>
+
+            <div class="row">
+              <div class="col-md-6 col-sm-12" *ngFor="let filtro of filtrosPm">
+                <nb-card>
+                  <nb-card-header>
+                    <div class="row">
+                      <div class="col-10 d-flex justify-content-start">
+                        <nb-actions size="small" fullWidth>
+                          <nb-action *ngIf="filtro.tribunal != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.tribunal.codigo}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.natureza != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.natureza.descricao}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.classe != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.classe.descricao}}</span>
+                          </nb-action>
+                        </nb-actions>
+                      </div>
+                      <div class="col-2 d-flex justify-content-end">
+                        <nb-action>
+                          <nb-icon class="action-icon" icon="close-circle-outline" (click)="removerModeloPm(filtro)"></nb-icon>
+                        </nb-action>
                       </div>
                     </div>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <img style="width: 100%;" [src]="getUrlModeloPm(filtro)" onerror="this.src='./assets/images/not_found.png';" alt="Sem dados para exibir o modelo!" />
                   </nb-card-body>
                 </nb-card>
               </div>
             </div>
+          </nb-tab>
 
-            <div class="row">
-              <div class="col-md-12 col-sm-12">
+          <nb-tab tabTitle="Previsões">
+            
+            <nb-card>
+              <nb-card-body >
                 <div class="row">
-                  <div class="col">
+                  <div class="col-md-3 col-sm-12">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <input type="text" #npu fullWidth nbInput placeholder="NPU">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="col-md-3 col-sm-12">
                     <div class="form-group">
-                      <ng2-smart-table fullWidth [settings]="configTabelaFase" [source]="dadosTabelaFase">
-                      </ng2-smart-table>  
+                      <button nbButton (click)="pesquisarNpu(npu.value)">Pesquisar</button>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </nb-card-body>
-        </nb-card>
-      </nb-tab>
-    </nb-tabset>
-  </nb-card-body>
-</nb-card>
+              </nb-card-body>
+            </nb-card>
+
+            <nb-card #card [(hidden)]="!exibirResultadoNaoLocalizado">
+              <nb-card-body >
+                <div class="col-md-12">
+                  Processo não localizado
+                </div>
+              </nb-card-body>
+            </nb-card>
+
+            <nb-card #card [(hidden)]="!exibirResultadoPredict">
+              <nb-card-body >
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <h4>Dados do Processo</h4>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="summary-container">
+                                <div><label class="label">Tribunal</label></div>
+                                <div class="h6">{{ dadosProcessoSiglaTribunal }}</div>
+                            </div>
+                          </div>
+                          <div class="col-md-9">
+                            <div class="summary-container">
+                                  <div><label class="label">Orgão Julgador</label></div>
+                                  <div class="h6">{{ dadosProcessoOrgaoJulgador }}</div> 
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="summary-container">
+                                <div><label class="label">Natureza</label></div>
+                                <div class="h6">{{ dadosProcessoNatureza }}</div>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="summary-container">
+                                  <div><label class="label">Classe</label></div>
+                                  <div class="h6">{{ dadosProcessoClasse }}</div> 
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="summary-container">
+                                  <div><label class="label">Assunto</label></div>
+                                  <div class="h6">{{ dadosProcessoAssunto }}</div> 
+                            </div>
+                          </div>
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+              <br>
+    
+                <div class="col-md-12">
+                  <!--Stepper-->
+                  <nb-stepper orientation="horizontal">
+                    <nb-step *ngFor="let historico of historicoFases; let i = index" 
+                    label="{{ historico.nome }} - {{ historico.situacao }}"> 
+                      <p>Data Inicio: {{ historico.dataInicio }} </p>
+                      <p>Data Conclusão: {{ historico.dataConclusao }} </p>
+                    </nb-step>
+                  </nb-stepper>
+                </div>
+    
+                <div class="row">
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <h4>Fases do Processo</h4>
+                          <ng2-smart-table [settings]="configTabelaPredict" [source]="dadosTabelaPredict">
+                          </ng2-smart-table>  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                      <h4>Alertas</h4>
+                      <nb-card class="list-card" size="small">
+                        <nb-list>
+                          <nb-list-item *ngFor="let dados of alertas">
+                            <article>
+                              <p>{{dados.nome}}</p>
+                              <h6>{{dados.valor}}</h6>
+                            </article>
+                          </nb-list-item>
+                        </nb-list>
+                      </nb-card>
+                    </div>
+                  </div>
+                </div>
+                
+              </nb-card-body>
+            </nb-card>
+            
+          </nb-tab>
+
+          <nb-tab tabTitle="Configurações">
+
+            <nb-card>
+              <nb-card-header>Cadastrar Fase</nb-card-header>
+              <nb-card-body>
+                <div class="row">
+                  <div class="col-md-3 col-sm-12">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label for="inputFase" class="label">Fase</label>
+                          <input type="text" nbInput fullWidth id="inputFase" placeholder="Fase">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <label class="label">Natureza:</label>
+                          <nb-select
+                            [(selected)]="naturezaFase"
+                            class="position-select"
+                            fullWidth
+                          >
+                            <nb-option *ngFor="let natureza of naturezas" [value]="natureza">{{
+                              natureza.descricao
+                            }}</nb-option>
+                          </nb-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <button nbButton (click)="openDialog(dialog)">Salvar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <ng-template #dialog let-data let-ref="dialogRef">
+                      <nb-card>
+                        <nb-card-header>Mensagem</nb-card-header>
+                        <nb-card-body>Fase cadastrada com sucesso!</nb-card-body>
+                        <nb-card-footer>
+                          <button nbButton (click)="ref.close()">Fechar</button>
+                        </nb-card-footer>
+                      </nb-card>
+                    </ng-template>
+                  </div>
+        
+                  <div class="col">
+                    <label class="label">Movimentos</label>
+                    <nb-card class="list-card" size="small">
+                      <nb-card-body>
+                        <div class="col-md-12 col-sm-12">
+                          <div class="form-group">
+                            <mat-selection-list #movimento>
+                              <mat-list-option *ngFor="let movimento of movimentos">
+                                {{movimento.codigo}} - {{movimento.descricao}}
+                              </mat-list-option>
+                            </mat-selection-list>
+                          </div>
+                        </div>
+                      </nb-card-body>
+                    </nb-card>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12 col-sm-12">
+                    <div class="row">
+                      <div class="col">
+                        <div class="form-group">
+                          <ng2-smart-table fullWidth [settings]="configTabelaFase" [source]="dadosTabelaFase" (deleteConfirm)="onDeleteConfirm($event)">
+                          </ng2-smart-table>  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </nb-tab>
+        </nb-tabset>
+      </nb-card-body>
+    </nb-card>
