@@ -4,11 +4,9 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from flask import Flask, request
 from flask_restplus import Api, Resource, fields
-from flask_cors import CORS
 from core.ServiceController import ServiceController
 
 flask_app = Flask(__name__)
-CORS(flask_app)
 
 app = Api(flask_app, version = '1.0', title= 'HACKATHON CNJ 1.0', description='HACKATHON CNJ 1.0 REST Service')
 
