@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
-import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService } from '@nebular/theme';
+import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService, NbCalendarRange, NbDateService } from '@nebular/theme';
 import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 import { SmartTableData } from 'app/@core/data/smart-table';
 import { InovacnjService } from 'app/@core/services/inovacnj.service';
@@ -14,6 +14,7 @@ import { arrayToTree } from 'performant-array-to-tree';
 import { FiltroPm } from 'app/models/filtro-pm';
 import { ProcessoPredict } from 'app/models/processo-predict';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DatePipe } from '@angular/common';
 
 interface CardSettings {
   title: string;
@@ -38,6 +39,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
   naturezaFase: Natureza;
   classes: Classe[] = [];
   classe: Classe;
+
+  rangeDatas: NbCalendarRange<Date>;
+
   dataInicial = new Date();
   dataFinal = new Date();
 
@@ -83,9 +87,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
   };
   
   // dados aba predict
-  historicoFases = {};
+  historicoFases = [];
   dadosTabelaPredict : LocalDataSource = new LocalDataSource();
-  alertas = {};
+  alertas = [];
   exibirResultadoPredict= false;
     
   // config tabela predict
@@ -139,7 +143,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   constructor(private themeService: NbThemeService,
               private sanitizer: DomSanitizer,
-              private inovacnjService: InovacnjService) {
+              private datePipe: DatePipe,
+              private inovacnjService: InovacnjService,
+              private dateService: NbDateService<Date>) {
 
     this.themeSubscription = this.themeService.getJsTheme().subscribe(config => {
       const colors: any = config.variables;
@@ -202,7 +208,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   setDashboardUrl(): any {
     let url = 'http://161.97.71.108:3000/public/dashboard/4e8d4bbf-eeea-4a85-afbf-b22d8cf3b80e?';
     if (this.tipoJustica != null) {
-      url += `tipo_justica=${this.tipoJustica.codigo}&`
+      url += `justi%25C3%25A7a=${this.tipoJustica.codigo}&`
     }
     if (this.tribunal != null) {
       url += `tribunal=${this.tribunal.codigo}&`
@@ -212,6 +218,13 @@ export class DashboardComponent implements OnDestroy, OnInit {
     }
     if (this.classe != null) {
       url += `classe=${this.classe.descricao}&`
+    }
+    if (this.rangeDatas != null) {
+      if (this.rangeDatas.start != null && this.rangeDatas.end != null) {
+        const dateStart = this.datePipe.transform(this.rangeDatas.start,"yyyy-MM-dd");
+        const dateEnd = this.datePipe.transform(this.rangeDatas.end,"yyyy-MM-dd");
+        url += `datas=${dateStart}~${dateEnd}`;
+      }
     }
     console.log(url);
     this.dashboardUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);

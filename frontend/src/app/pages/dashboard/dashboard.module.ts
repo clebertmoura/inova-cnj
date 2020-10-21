@@ -13,7 +13,7 @@ import {
   NbStepperModule,
   NbInputModule,
   NbCheckboxModule,
-  NbDatepickerModule
+  NbDatepickerModule, NbCalendarRangeModule
 } from '@nebular/theme';
 
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -59,6 +59,7 @@ import { FiltroComponent } from './filtro/filtro.component';
     NbButtonModule,
     NgxEchartsModule,
     NbCalendarModule,
+    NbCalendarRangeModule,
     NbStepperModule,
     NgxChartsModule,
     Ng2SmartTableModule,
@@ -68,7 +69,6 @@ import { FiltroComponent } from './filtro/filtro.component';
     NbDatepickerModule,
     FormsRoutingModule,
     FormsModule,
-  
   ],
   declarations: [
     DashboardComponent,
