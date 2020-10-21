@@ -99,6 +99,22 @@ Os logs serão exibidos, com uma URL similar a URL abaixo:
 
 > http://127.0.0.1:8888/?token=adcd2bc95167732e71741f5e9f15cbb9d097013840c66d8b
 
+## Acessar o pgAdmin
+
+Para acessar a console do pgAdmin, acesse o link com as credenciais abaixo:
+
+- Endereço: http://127.0.0.1:16543
+- e-mail: cleber.moura@tjpe.jus.br
+- senha: inovacnj@admin
+
+## Acessar o metabase
+
+Para acessar o metabase, acesse o link abaixo:
+
+- Endereço: http://127.0.0.1:3000
+
+No primeiro acesso, será solicitada a criação do usuário administrador.
+
 # Modelo de dados
 
 O projeto contempla uma modelagem dimensional para facilitar a criação de dashboards com indicadores de performance.
@@ -124,3 +140,6 @@ Todo o processo de ETL está implementado em um script python, no arquivo: `ETL-
 5. As linhas duplicadas são removidas
 6. O resultado é persistido em uma tabela FATO.
 
+## APIs
+
+Na solução foi disponibilizada uma API para consumo dos dados, geração dos modelos de Proccess Mining e de Predição com IA.
