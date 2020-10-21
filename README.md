@@ -47,7 +47,7 @@ Para isso, utilize um terminal e acesse o sub-diretório de cada modulo e execut
 
 ## Iniciando o ambiente
 
-Para executar localmente, é necessário que o docker local estaja com o swarm manager ativado, para isso, execute o comando abaixo:
+Para executar localmente, é necessário que o docker local esteja com o swarm manager ativado, para isso, execute o comando abaixo:
 
 > docker swarm init
 
