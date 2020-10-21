@@ -149,7 +149,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
     },
   ];
   
-
+  dadosProcessoOrgaoJulgador: String;
+  dadosProcessoSiglaTribunal: String;
+  dadosProcessoClasse: String;
+  dadosProcessoNatureza: String;
+  dadosProcessoAssunto: String;
 
   private alive = true;
   
@@ -279,6 +283,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
         this.historicoFases = data.historicoFases;
         this.exibirResultadoPredict = true;
         this.exibirResultadoNaoLocalizado = false;
+        this.dadosProcessoSiglaTribunal = data.siglaTribunal;
+        this.dadosProcessoOrgaoJulgador = data.orgaoJulgador;
+        this.dadosProcessoClasse = data.classe;
+        this.dadosProcessoNatureza = data.natureza;
+        this.dadosProcessoAssunto = data.assunto;
       } else {
         this.exibirResultadoPredict = false;
         this.exibirResultadoNaoLocalizado = true;

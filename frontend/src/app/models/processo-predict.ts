@@ -22,7 +22,7 @@ export class ProcessoPredict {
             entity = new ProcessoPredict();
             entity.processo = json.resultado.processo;
             entity.siglaTribunal = json.resultado.siglaTribunal;
-            entity.siglaTribunal = json.resultado.siglaTribunal;
+            entity.orgaoJulgador = json.resultado.orgaoJulgador;
             entity.natureza = json.resultado.natureza;
             entity.classe = json.resultado.classe;
             entity.assunto = json.resultado.assunto;

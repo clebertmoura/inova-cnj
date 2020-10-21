@@ -94,12 +94,32 @@ class ServiceController:
                 previsaoDuracaoTotal = IAController.prever_duracao_total(proposta_ia.copy())
                 alerta['valor'] = str(previsaoDuracaoTotal) + ' dias'
                 alertas.append(alerta.copy())
+                class_demora = IAController.classificar(proposta_ia.copy())
                 alerta['nome'] = 'Classificação quanto a possibilidade de duração muito acima do normal'
-                alerta['valor'] = 'Alta possibilidade'
+                if class_demora[0] == 'DEMORADO':
+                    class_demora_str = 'Alta probabilidade de demora'
+                else:
+                    class_demora_str = 'Baixa probabilidade de demora'
+                alerta['valor'] = class_demora_str
                 alertas.append(alerta.copy())
-                alerta['nome'] = 'Possibilidade de duração muito abaixo do normal'
-                alerta['valor'] = 'Duração Normal'
-                alertas.append(alerta.copy())
+
+                possui_mov_crit_1, pct_mov_crit_1 = IAController.possui_hist_mov_critico_trib_classe_assunto(proposta_ia)
+                print(possui_mov_crit_1)
+                print(round(pct_mov_crit_1 * 100,2))
+                if possui_mov_crit_1:
+                    alerta['nome'] = 'Para o mesmo tribunal, classe e assunto deste processo existem outros com movimentações críticas no percentual de'
+                    alerta['valor'] = str(round(pct_mov_crit_1 * 100,2)) + ' %'
+                    alertas.append(alerta.copy())
+
+                possui_mov_crit_2, pct_mov_crit_2 = IAController.possui_hist_mov_critico_trib_orgao_classe_assunto(
+                    proposta_ia)
+                print(possui_mov_crit_2)
+                print(round(pct_mov_crit_2 * 100, 2))
+                if possui_mov_crit_2:
+                    alerta[
+                        'nome'] = 'Para o mesmo tribunal, orgão julgador, classe e assunto deste processo existem outros com movimentações críticas no percentual de'
+                    alerta['valor'] = str(round(pct_mov_crit_2 * 100, 2)) + ' %'
+                    alertas.append(alerta.copy())
                 resposta['resultado']['alertas'] = alertas
 
 

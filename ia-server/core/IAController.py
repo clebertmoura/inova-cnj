@@ -1,4 +1,5 @@
 import pickle
+import pandas as pd
 
 from pandas.io.json import json_normalize
 
@@ -18,7 +19,7 @@ class IAController:
         colunas_x = ['classeProcessual', 'codigoLocalidade',
                      'orgaoJulgador_codigoOrgao', 'assunto_codigoNacional',
                      'mes_ajuizamento']
-        alvo_y = ['duracao_dias']
+        #alvo_y = ['duracao_dias']
         dummies = ['G1', 'G2', 'JE', 'TR', 'CRIMINAL', 'CIVIL', 'JUIZADOS',
                      'EXECUTIVOS', 'OUTROS', 'PEQUENO', 'MÉDIO', 'GRANDE']
 
@@ -50,7 +51,7 @@ class IAController:
         colunas_x = ['classeProcessual', 'codigoLocalidade',
                      'orgaoJulgador_codigoOrgao', 'assunto_codigoNacional',
                      'mes_ajuizamento']
-        alvo_y = ['duracao_' + fase]
+        #alvo_y = ['duracao_' + fase]
         dummies = ['G1', 'G2', 'JE', 'TR', 'CRIMINAL', 'CIVIL', 'JUIZADOS',
                    'EXECUTIVOS', 'OUTROS', 'PEQUENO', 'MÉDIO', 'GRANDE']
 
@@ -63,21 +64,20 @@ class IAController:
         return int(round(resultado[0]))
 
     @staticmethod
-    def classificar(processo_info, arquivo_classificador, campos, alvo, usa_dummies):
-        resultado = 0
-        # Obtem as informacoes do
+    def classificar(processo_info):
+        resultado = ""
+        # Obtem as informacoes da entrada
         if isinstance(processo_info, dict):
             dados = json_normalize(processo_info)
         else:
             dados = processo_info.copy()
 
         # Carrega o modelo
-        modelo = pickle.load(open(arquivo_classificador, 'rb'))
+        modelo = pickle.load(open('data/modelo_class_proc_mais_demorados.sav', 'rb'))
 
         colunas_x = ['classeProcessual', 'codigoLocalidade',
                      'orgaoJulgador_codigoOrgao', 'assunto_codigoNacional',
                      'mes_ajuizamento']
-        alvo_y = ['duracao_']
         dummies = ['G1', 'G2', 'JE', 'TR', 'CRIMINAL', 'CIVIL', 'JUIZADOS',
                    'EXECUTIVOS', 'OUTROS', 'PEQUENO', 'MÉDIO', 'GRANDE']
 
@@ -86,6 +86,43 @@ class IAController:
         resultado = modelo.predict(dados[colunas_x + dummies])
 
         return resultado
+
+    @staticmethod
+    def possui_hist_mov_critico_trib_orgao_classe_assunto(processo_info):
+        possui = False
+        pct = 0.0
+        #Monta a chave
+        chave = processo_info['siglaTribunal'] + '|' + \
+            str(processo_info['orgaoJulgador_codigoOrgao']) + '|' + \
+            str(processo_info['classeProcessual']) + '|' + \
+            str(processo_info['assunto_codigoNacional'])
+        print(chave)
+        #Carrega o arquivo
+        dados = pd.read_csv('data/mov_criticos_tribunal_orgao_classe_assunto.csv', sep=";")
+        #filtra
+        dados_chave = dados[dados['chave']==chave]
+        if dados_chave.size > 0:
+            possui = True
+            pct = dados_chave['pct_movs_acima_100_dias'].values[0]
+        return possui, pct
+
+    @staticmethod
+    def possui_hist_mov_critico_trib_classe_assunto(processo_info):
+        possui = False
+        pct = 0.0
+        # Monta a chave
+        chave = processo_info['siglaTribunal'] + '|' + \
+                str(processo_info['classeProcessual']) + '|' + \
+                str(processo_info['assunto_codigoNacional'])
+        print(chave)
+        # Carrega o arquivo
+        dados = pd.read_csv('data/mov_criticos_tribunal_classe_assunto.csv', sep=";")
+        # filtra
+        dados_chave = dados[dados['chave'] == chave]
+        if dados_chave.size > 0:
+            possui = True
+            pct = dados_chave['pct_movs_acima_100_dias'].values[0]
+        return possui, pct
 
     @staticmethod
     def ajuste_dummies(dados):

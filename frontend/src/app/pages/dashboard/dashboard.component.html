@@ -314,12 +314,57 @@
                 <div class="col-md-12">
                   Processo não localizado
                 </div>
-                
               </nb-card-body>
             </nb-card>
-    
+
             <nb-card #card [(hidden)]="!exibirResultadoPredict">
               <nb-card-body >
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <h4>Dados do Processo</h4>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="summary-container">
+                                <div><label class="label">Tribunal</label></div>
+                                <div class="h6">{{ dadosProcessoSiglaTribunal }}</div>
+                            </div>
+                          </div>
+                          <div class="col-md-9">
+                            <div class="summary-container">
+                                  <div><label class="label">Orgão Julgador</label></div>
+                                  <div class="h6">{{ dadosProcessoOrgaoJulgador }}</div> 
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="summary-container">
+                                <div><label class="label">Natureza</label></div>
+                                <div class="h6">{{ dadosProcessoNatureza }}</div>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="summary-container">
+                                  <div><label class="label">Classe</label></div>
+                                  <div class="h6">{{ dadosProcessoClasse }}</div> 
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="summary-container">
+                                  <div><label class="label">Assunto</label></div>
+                                  <div class="h6">{{ dadosProcessoAssunto }}</div> 
+                            </div>
+                          </div>
+                        </div> 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+              <br>
+    
                 <div class="col-md-12">
                   <!--Stepper-->
                   <nb-stepper orientation="horizontal">
