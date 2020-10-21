@@ -185,7 +185,7 @@ Na solução foi disponibilizada uma API para consumo dos dados, geração dos m
 - Geração duas visões dos processos que possuem "movimentos críticos” (movimentos cuja duração foi mais do que 100 dias) para indicação na ferramenta. Uma visão utiliza como chave de indexação o tribunal juntamente com a classe e o assunto do processo enquanto a segunda visão acrescenta o órgão julgador à chave anterior
 - Nesta visualização foram utilizados apenas os processos da justiça estadual em todos as suas unidades.
 
-##Modelos de IA
+## Modelos de IA
 
 	Neste módulo foram criados 4 modelos de regressão e 1 modelo de classificação, todos fazendo uso da mesma visão de dados que, por decisão de projeto, ignora a identificação do tribunal, utilizando o seu porte como entrada.
 
@@ -194,13 +194,13 @@ Na solução foi disponibilizada uma API para consumo dos dados, geração dos m
 - (Classificação) Risco do processo ficar entre os de maior duração (10% de maior duração em dias por natureza do processo)
 
 
-##Insights Estatísticos
+## Insights Estatísticos
 
 	Foram criadas duas visões com dados processados que indicam o percentual de processos com “movimentos críticos” (movimentos onde processo fica parados por mais de100 dias). Enquanto a primeira visão utiliza como chave o tribunal juntamente com a classe e o assunto, a segunda visão acrescenta o orgão julgador a essa chave, segmentando ainda mais a análise. Para geração do indicador que informa a existência “movimentos críticos” foram considerados apenas as chaves onde o percentual de processos com essa característica era superior a 10%.
 	Ao pesquisar por uma NPU que esteja no banco de dados do módulo, o mesmo faz a pesquisa nos dois arquivos previamente processados utilizando as duas chaves de acordo com os dados resgatados do processo, sendo exibidos na seção de alertas juntamente com o percentual informativo caso sejam encontrados.
 
 
-##Tecnologias utilizadas
+## Tecnologias utilizadas
 
 	Nesta parte da solução foram utilizadas as seguintes ferramenta/tecnologias:
 
@@ -208,7 +208,7 @@ Na solução foi disponibilizada uma API para consumo dos dados, geração dos m
 - Python com Flask & Flask restplus para o serviço RESTFUL com as seguintes bibliotecas adicionais: Pandas e Numpy para manipulação dos dados e scikit learn para os modelos preditivos. Banco de dados embarcado SQLite3.	
 
 
-##Executando o servidor
+## Executando o servidor
 
 
 	Para a executar apenas o servidor IA isoladamente necessita-se construir a imagem docker existente na pasta ia-server com o seguinte comando:
@@ -225,7 +225,7 @@ Na solução foi disponibilizada uma API para consumo dos dados, geração dos m
 
 	Após a execução do segundo comando o servidor será colocado no ar escutando a porta 5000 exibindo o swagger do serviço na seguinte URL: http://127.0.0.1:5000/.
 
-##Métodos do serviço
+## Métodos do serviço
 
 - Consulta de processos por NPU
 
@@ -234,7 +234,7 @@ Na solução foi disponibilizada uma API para consumo dos dados, geração dos m
 - Cadastro de fase de processo - a desenvolver
 
 
-##Números de processos previamente cadastrados 
+## Números de processos previamente cadastrados 
 
 As seguintes NPUs estão cadastras previamente no sistema para consulta
 
