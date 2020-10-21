@@ -9,7 +9,7 @@ class DatabaseController:
         dados = {}
         conn = sqlite3.connect('./data/processos.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT sigla_tribunal, orgao_julgador, natureza, grau, classe, natureza, assunto, dh_ajuizamento, porte_tribunal, mes_ajuizamento, codigo_localidade from processo where npu =?", (processo,))
+        cursor.execute("SELECT sigla_tribunal, orgao_julgador, natureza, grau, classe, natureza, assunto, dh_ajuizamento, porte_tribunal, mes_ajuizamento, codigo_localidade, cod_orgao_julgador, cod_assunto, cod_classe from processo where npu =?", (processo,))
         for dado in cursor:
             dados['sigla_tribunal'] = dado[0]
             dados['orgao_julgador'] = dado[1]
@@ -22,6 +22,9 @@ class DatabaseController:
             dados['porte_tribunal'] = dado[8]
             dados['mes_ajuizamento'] = dado[9]
             dados['codigo_localidade'] = dado[10]
+            dados['cod_orgao_julgador'] = dado[11]
+            dados['cod_assunto'] = dado[12]
+            dados['cod_classe'] = dado[13]
             resultado.append(dados)
 
         conn.close()
@@ -42,8 +45,6 @@ class DatabaseController:
             dados['dt_inicio'] = dado[4]
             dados['dt_fim'] = dado[5]
             resultado.append(dados.copy())
-        print('!!!!!!')
-        print(resultado)
         conn.close()
         return resultado
 

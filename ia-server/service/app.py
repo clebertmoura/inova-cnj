@@ -4,11 +4,14 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
 from flask import Flask, request
 from flask_restplus import Api, Resource, fields
+from flask_cors import CORS
 from core.ServiceController import ServiceController
 
 flask_app = Flask(__name__)
+CORS(flask_app)
 
 app = Api(flask_app, version = '1.0', title= 'HACKATHON CNJ 1.0', description='HACKATHON CNJ 1.0 REST Service')
+
 
 ns = app.namespace('', description='HACKATHON CNJ 1.0 REST')
 
@@ -20,9 +23,9 @@ historicoFase = app.model('historicoFase',{
 })
 
 dadoFase = app.model('dadosFase',{
-    'id': fields.Integer(required=True, description='Nome da fase'),
-    'duracao': fields.Integer(required=True, description='Duração da fase'),
-    'duracaoPrevista': fields.Integer(required=True, description='Estimativa de duração'),
+    'nome': fields.String(required=True, description='Nome da fase'),
+    'duracao': fields.String(required=True, description='Duração da fase'),
+    'duracaoPrevista': fields.String(required=True, description='Estimativa de duração'),
     'status': fields.String(required=True, description='Status da fase'),
 })
 
