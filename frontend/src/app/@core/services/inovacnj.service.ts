@@ -56,8 +56,8 @@ export class InovacnjService {
     /**
      * Retorna uma coleção de Tribunal
      */
-    public consultarTribunal(): Observable<Tribunal[]> {
-        return this.http.get<any[]>(this.url + '/v1/tribunal')
+    public consultarTribunal(tipoJustica?: TipoJustica): Observable<Tribunal[]> {
+        return this.http.get<any[]>(this.url + '/v1/tribunal' + (tipoJustica != null ? `&tipo=${tipoJustica.codigo}` : ''))
         .pipe(
             map((response : any[][]) => {
                 return Tribunal.toArray(response);
@@ -107,8 +107,8 @@ export class InovacnjService {
     /**
      * Retorna uma coleção de Movimento
      */
-    public consultarOrgaoJulgador(): Observable<OrgaoJulgador[]> {
-        return this.http.get<any[]>(this.url + '/v1/orgao-julgador')
+    public consultarOrgaoJulgador(tribunal?: Tribunal): Observable<OrgaoJulgador[]> {
+        return this.http.get<any[]>(this.url + '/v1/orgao-julgador' + (tribunal != null ? `&codtribunal=${tribunal.codigo}` : ''))
         .pipe(
             map((response : any[][]) => {
                 return OrgaoJulgador.toArray(response);

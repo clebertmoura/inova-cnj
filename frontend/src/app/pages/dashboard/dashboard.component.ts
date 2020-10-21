@@ -116,7 +116,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.inovacnjService.consultarTipoJustica().subscribe(data => {
       this.tiposJustica = data;
     });
-    this.inovacnjService.consultarTribunal().subscribe(data => {
+    this.inovacnjService.consultarTribunal(this.tipoJustica).subscribe(data => {
       this.tribunais = data;
     });
     this.inovacnjService.consultarNatureza().subscribe(data => { 
@@ -130,7 +130,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.inovacnjService.consultarMovimento().subscribe(data => { 
       this.movimentos = data;
     });
-    this.inovacnjService.consultarOrgaoJulgador().subscribe(data => { 
+    this.inovacnjService.consultarOrgaoJulgador(this.tribunal).subscribe(data => { 
       this.orgaosJulgadores = data;
     });
   }
