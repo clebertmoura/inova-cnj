@@ -1,6 +1,15 @@
-# inova-cnj
+# EITA - Mais que dados, informação estratégica
 
-Projeto elaborado pela equipe do TJPE para Hackathon Inova CNJ no Desafio 01.
+Projeto elaborado para Hackathon Inova CNJ, desafio 01.
+
+## Equipe
+
+Cleber Tavares de Moura <cleber.moura@tjpe.jus.br>
+Hadautho <cleber.moura@tjpe.jus.br>
+Fábio Cruz Tavares <fabio.cruz.tavares@tjpe.jus.br>
+Suely Batista Cleonice <cleber.moura@tjpe.jus.br>
+Luiz Henrique Seus <cleber.moura@tjpe.jus.br>
+Faustino <cleber.moura@tjpe.jus.br>
 
 ## Tecnologias utilizadas
 
@@ -13,6 +22,10 @@ Projeto elaborado pela equipe do TJPE para Hackathon Inova CNJ no Desafio 01.
 
 ## Arquitetura e módulos do projeto
 
+O diagrama abaixo, apresenta os módulos da solução, com as respectivas tecnologias embarcadas em cada container.
+
+![alt text](https://github.com/clebertmoura/inova-cnj/blob/main/diagrama-tecnologias.png)
+
 - *ia-core*
 > Módulo responsável por realizar o processamento dos dados, tratamento e carga na base de dados. É também responsável pela implementação dos modelos de Process Mining. Disponibiliza uma API, para consulta aos dados e modelos.
 
@@ -21,7 +34,6 @@ Projeto elaborado pela equipe do TJPE para Hackathon Inova CNJ no Desafio 01.
 
 - *frontend*
 > Módulo que disponibiliza a interface do usuário. Se comunica com as APIs disponibilizadas pelos modulos `ia-core` e `ia-server`.
-
 
 ## Preparação dos dados
 
@@ -99,13 +111,14 @@ DDL do modelo dimensional está definido no arquivo: `./bi/schema/1-init.sql`
 
 Para processamento, tratamento e carga dos dados estamos utilizando a tecnologia PySpark da Apache, que possíbiliza realizar o processamento de elevados volumes de dados de forma escalável. Esta ferramenta é amplamente utilizada em projetos de BigData.
 
-## Processo de ETL
+## O processo de ETL
 
 Todo o processo de ETL está implementado em um script python, no arquivo: `ETL-CarregarDadosNasDimensoes.ipynb`, com comentários em cada seção.
 
 1. Primeiramente, efetuamos o carregamento das dimensões utilizando os arquivos CSV fornecidos.
 2. Com base na estrutura dos arquivos JSON fornecidos, definimos um SCHEMA (estrutura de dados) prevendo todos os atributos e relacionamentos existentes;
 3. O script faz a leitura do diretório de forma recursiva para efetuar o carrgamento de todos os arquivos no diretório;
-4. Cada arquivo é carregado para um dataframe e depois todos os dataframes são unidos em um único;
+4. Cada arquivo é carregado para um dataframe e depois todos os dataframes são unidos em um único dataframe;
 5. As linhas duplicadas são removidas
-6. 
+6. O resultado é persistido em uma tabela FATO.
+
