@@ -48,3 +48,23 @@ class DatabaseController:
         conn.close()
         return resultado
 
+    @staticmethod
+    def cadastrar_processo(processo):
+        #Dados
+        processo = processo['processo']
+        siglaTribunal = processo['siglaTribunal']
+        orgaoJulgador = processo['siglaTribunal']
+        natureza = processo['siglaTribunal']
+        classe = processo['siglaTribunal']
+        assunto = processo['siglaTribunal']
+        codigo_orgaoJulgador = processo['siglaTribunal']
+        codigo_classe = processo['siglaTribunal']
+        codigo_assunto = processo['siglaTribunal']
+        dataAjuizamento = processo['siglaTribunal']
+        porteTribunal = processo['siglaTribunal']
+        #Conecta na base
+        conn = sqlite3.connect('./data/processos.db')
+        cursor = conn.cursor()
+        sql = ''
+        cursor.execute(sql, (processo, siglaTribunal, orgaoJulgador,))
+        cursor.close()

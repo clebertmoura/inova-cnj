@@ -29,6 +29,8 @@ class ServiceController:
         proposta_ia = {"processo":"", "grau":"", "siglaTribunal":"", "codigoLocalidade":0,
         "orgaoJulgador_codigoOrgao":"", "Natureza":"", "classeProcessual":0,
         "assunto_codigoNacional":0, "mes_ajuizamento":0, "Porte":""}
+        #Remove pontos e barras do numero do processo
+        processo = str(processo).replace(".","").replace("/","").replace("\\","").replace("-","")
         try:
             resposta['mensagem'] = 'OK'
             resposta['resultado']['processo'] = processo
@@ -76,7 +78,7 @@ class ServiceController:
                         duracao = reg['duracao']
                         duracao_str = str(reg['duracao']) + ' dias'
                         if duracao < 0:
-                            duracao_str = ""
+                            duracao_str = " - "
                         dadof['duracao'] = duracao_str
                         dadof['status'] = reg['status_fase']
                         prev = 0
@@ -84,8 +86,11 @@ class ServiceController:
                         print('Chamada ao modelo - Duração da fase')
                         print(proposta_ia)
                         print(nome_fase)
-                        prev = IAController.prever_duracao_fase(proposta_ia.copy(), nome_fase)
-                        dadof['duracaoPrevista'] = str(prev) + ' dias'
+                        previsao_str = ' - '
+                        if reg['status_fase'] != 'Concluído':
+                            prev = IAController.prever_duracao_fase(proposta_ia.copy(), nome_fase)
+                            previsao_str = str(prev) + ' dias'
+                        dadof['duracaoPrevista'] = previsao_str
                         dados_fases.append(dadof.copy())
                     resposta['resultado']['historicoFases'] = hist_fases
                     resposta['resultado']['dadosFases'] = dados_fases
@@ -97,9 +102,9 @@ class ServiceController:
                 class_demora = IAController.classificar(proposta_ia.copy())
                 alerta['nome'] = 'Classificação quanto a possibilidade de duração muito acima do normal'
                 if class_demora[0] == 'DEMORADO':
-                    class_demora_str = 'Alta probabilidade de demora'
+                    class_demora_str = 'Alta probabilidade'
                 else:
-                    class_demora_str = 'Baixa probabilidade de demora'
+                    class_demora_str = 'Baixa probabilidade'
                 alerta['valor'] = class_demora_str
                 alertas.append(alerta.copy())
 
@@ -131,5 +136,11 @@ class ServiceController:
 
     @staticmethod
     def cadastrar_processo(request):
+        dados = ServiceController.converter_json_entrada(request)
+
+        processo = dados['processo']
+
+
+
         return "OK", 200
 
