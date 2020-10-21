@@ -20,11 +20,11 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 registerLocaleData(ptBr)
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
+import { TagCloudModule } from 'angular-tag-cloud-module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,6 +45,7 @@ import {MatListModule} from '@angular/material/list';
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     MatListModule,
+    TagCloudModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }],
   bootstrap: [AppComponent],

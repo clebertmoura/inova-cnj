@@ -10,6 +10,7 @@ import { FiltroPm } from 'app/models/filtro-pm';
 import { ProcessoPredict } from 'app/models/processo-predict';
 import { OrgaoJulgador } from 'app/models/orgao-julgador';
 import { Movimento } from 'app/models/movimento';
+import { AssuntoRanking } from '../../models/assunto-ranking';
 
 @Injectable({
     providedIn: 'root'
@@ -57,7 +58,7 @@ export class InovacnjService {
      * Retorna uma coleção de Tribunal
      */
     public consultarTribunal(tipoJustica?: TipoJustica): Observable<Tribunal[]> {
-        return this.http.get<any[]>(this.url + '/v1/tribunal' + (tipoJustica != null ? `&tipo=${tipoJustica.codigo}` : ''))
+        return this.http.get<any[]>(this.url + '/v1/tribunal' + (tipoJustica != null ? `?tipo=${tipoJustica.codigo}` : ''))
         .pipe(
             map((response : any[][]) => {
                 return Tribunal.toArray(response);
@@ -108,10 +109,31 @@ export class InovacnjService {
      * Retorna uma coleção de Movimento
      */
     public consultarOrgaoJulgador(tribunal?: Tribunal): Observable<OrgaoJulgador[]> {
-        return this.http.get<any[]>(this.url + '/v1/orgao-julgador' + (tribunal != null ? `&codtribunal=${tribunal.codigo}` : ''))
+        return this.http.get<any[]>(this.url + '/v1/orgao-julgador' + (tribunal != null ? `?codtribunal=${tribunal.codigo}` : ''))
         .pipe(
             map((response : any[][]) => {
                 return OrgaoJulgador.toArray(response);
+            }),
+            catchError(() => of(null))
+        );
+    }
+
+    /**
+     * Retorna uma coleção de Movimento
+     */
+    public consultarAssuntoRanking(tipoJustica?: TipoJustica, 
+            tribunal?: Tribunal, orgaoJulgador?: OrgaoJulgador, 
+            natureza?: Natureza, classe?: Classe): Observable<AssuntoRanking[]> {
+        return this.http.get<any[]>(this.url + '/v1/assuntos-ranking?' 
+            + (tipoJustica != null ? `&tipo=${tipoJustica.codigo}` : '')
+            + (tribunal != null ? `&codtribunal=${tribunal.codigo}` : '')
+            + (orgaoJulgador != null ? `&codorgaoj=${orgaoJulgador.codigo}` : '')
+            + (natureza != null ? `&natureza=${natureza.codigo}` : '')
+            + (classe != null ? `&codclasse=${classe.codigo}` : '')
+        )
+        .pipe(
+            map((response : any[][]) => {
+                return AssuntoRanking.toArray(response);
             }),
             catchError(() => of(null))
         );

@@ -115,6 +115,12 @@
                   <div class="col-md-3 col-sm-12">
                     <div class="form-group">
                       <label class="label">Núvem de Assuntos:</label>
+                      <angular-tag-cloud
+                        [data]="data"
+                        [width]="options.width"
+                        [height]="options.height"
+                        [overflow]="options.overflow">
+                      </angular-tag-cloud>
                     </div>
                   </div>
                 </div>

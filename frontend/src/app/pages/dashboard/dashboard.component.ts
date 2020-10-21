@@ -1,6 +1,5 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService, NbCalendarRange, NbDateService } from '@nebular/theme';
-import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 import { SmartTableData } from 'app/@core/data/smart-table';
 import { InovacnjService } from 'app/@core/services/inovacnj.service';
 import { TipoJustica } from 'app/models/tipo-justica';
@@ -17,6 +16,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 import { Movimento } from 'app/models/movimento';
 import { OrgaoJulgador } from 'app/models/orgao-julgador';
+import { AssuntoRanking } from '../../models/assunto-ranking';
+
+import { CloudData, CloudOptions } from 'angular-tag-cloud-module';
 
 interface CardSettings {
   title: string;
@@ -41,6 +43,22 @@ export class DashboardComponent implements OnDestroy, OnInit {
   naturezaFase: Natureza;
   classes: Classe[] = [];
   classe: Classe;
+
+  assuntosRanking: AssuntoRanking[] = [];
+
+  options: CloudOptions = {
+    // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
+    width: 1000,
+    // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
+    height: 400,
+    overflow: false,
+  };
+ 
+  data: CloudData[] = [
+    {text: 'Weight-8-link-color', weight: 8, link: 'https://google.com', color: '#ffaaee'},
+    {text: 'Weight-10-link', weight: 10, link: 'https://google.com', tooltip: 'display a tooltip'},
+    // ...
+  ];
 
   rangeDatas: NbCalendarRange<Date>;
 
@@ -133,7 +151,22 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.inovacnjService.consultarOrgaoJulgador(this.tribunal).subscribe(data => { 
       this.orgaosJulgadores = data;
     });
+    this.carregarAssuntosRanking();
   }
+
+  private carregarAssuntosRanking() {
+    this.inovacnjService.consultarAssuntoRanking(this.tipoJustica, this.tribunal, this.orgaoJulgador, this.natureza, this.classe).subscribe(data => {
+      this.assuntosRanking = data;
+      if (this.assuntosRanking != null && this.assuntosRanking.length > 0) {
+        this.assuntosRanking.forEach((elem) => {
+        })
+      }
+    });
+  }
+
+  tagClicked(tag) {
+		console.log(tag);
+	}
 
   converterParaArvore(data: Classe[]) {
     return arrayToTree(data, {id: 'codigo', parentId: 'codigoPai', childrenField: 'filhos'});
