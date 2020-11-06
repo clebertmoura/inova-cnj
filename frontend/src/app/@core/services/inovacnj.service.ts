@@ -6,7 +6,7 @@ import { TipoJustica } from '../../models/tipo-justica';
 import { Tribunal } from 'app/models/tribunal';
 import { Natureza } from 'app/models/natureza';
 import { Classe } from '../../models/classe';
-import { FiltroPm } from 'app/models/filtro-pm';
+import { FiltroPm, ImageFormatPm, MetricaPm } from 'app/models/filtro-pm';
 import { ProcessoPredict } from 'app/models/processo-predict';
 import { OrgaoJulgador } from 'app/models/orgao-julgador';
 import { Movimento } from 'app/models/movimento';
@@ -143,7 +143,7 @@ export class InovacnjService {
      * Retorna um Modelo
      */
     public getUrlModeloPm(filtro: FiltroPm): string {
-        const urlPm = this.url + `/v1/gerar-modelo-pm?${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}`;
+        const urlPm = FiltroPm.buildUrlModeloPm(filtro, this.url);
         console.log(urlPm)
         return urlPm;
     }

@@ -5,7 +5,7 @@ import { InovacnjService } from 'app/@core/services/inovacnj.service';
 import { TipoJustica } from 'app/models/tipo-justica';
 import { Tribunal } from 'app/models/tribunal';
 import { LocalDataSource } from 'ng2-smart-table';
-import { takeWhile } from 'rxjs/operators' ;
+import { takeWhile, delay } from 'rxjs/operators';
 import { SolarData } from '../../@core/data/solar';
 import { Natureza } from 'app/models/natureza';
 import { Classe } from '../../models/classe';
@@ -18,7 +18,13 @@ import { Movimento } from 'app/models/movimento';
 import { OrgaoJulgador } from 'app/models/orgao-julgador';
 import { AssuntoRanking } from '../../models/assunto-ranking';
 
+import * as svgPanZoom from 'svg-pan-zoom';
+
 import { TemplateRef } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { timer } from 'rxjs';
+import { MatSliderChange } from '@angular/material/slider';
+import { MetricaPm } from '../../models/filtro-pm';
 
 declare var jQuery: any;
 
@@ -57,6 +63,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
   naturezaProcess: Natureza;
   classesProcess: Classe[] = [];
   classeProcess: Classe;
+
+  metricasPm: MetricaPm[] = [
+    MetricaPm.Frequency, MetricaPm.Performance
+  ];
 
   assuntosRanking: AssuntoRanking[] = [];
 
@@ -169,7 +179,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
               private datePipe: DatePipe,
               private inovacnjService: InovacnjService,
               private dateService: NbDateService<Date>,
-              private dialogService: NbDialogService) {
+              private dialogService: NbDialogService,
+              protected http: HttpClient) {
 
     this.themeSubscription = this.themeService.getJsTheme().subscribe(config => {
       const colors: any = config.variables;
@@ -225,6 +236,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       //   height: 250
       // });
     });
+
   }
 
   limparModeloProcesso() {
@@ -234,12 +246,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.tribunalProcess = null;
     this.naturezaProcess = null;
     this.classeProcess = null;
-  }
-
-  onModelImageLoad(event: any) {
-    console.log(event);
-    console.log(event.srcElement);
-    //jQuery(event.srcElement).croppie();
   }
 
   private carregarAssuntosRanking() {
@@ -269,11 +275,54 @@ export class DashboardComponent implements OnDestroy, OnInit {
     console.log('adicionarModeloPm');
     if (this.tribunalProcess != null) {
       if (this.naturezaProcess != null) {
-        const filtroPm = new FiltroPm(this.tribunalProcess, this.orgaoJulgadorProcess, 
+        const filtro = new FiltroPm(this.tribunalProcess, this.orgaoJulgadorProcess, 
           this.naturezaProcess, this.classeProcess);
-        this.filtrosPm.push(filtroPm);
+        this.filtrosPm.push(filtro);
+        var idx = this.filtrosPm.indexOf(filtro);
+        this.downloadModeloPmSvgContent(filtro);
+        timer(100).subscribe(val => {
+          this.initFiltroModeloSvg(filtro, idx);
+          filtro.svgObject.resize();
+          filtro.svgObject.fit();
+        });
       }
     }
+  }
+
+  downloadModeloPmSvgContent(filtro: FiltroPm) {
+    const headers = new HttpHeaders();
+    headers.set('Accept', 'image/svg+xml');
+    var obs = this.http.get(filtro.url, {headers: headers, responseType: 'text'});
+    obs.subscribe(response => {
+      if (response != null) {
+        filtro.svgContent = this.sanitizer.bypassSecurityTrustHtml(response);
+      }
+    });
+    return obs;
+  }
+
+  onChangeSensibilidade(event: MatSliderChange, filtro: FiltroPm, idx: number) {
+    console.log('onChangeSensibilidade', event);
+    filtro.updateUrl();
+    this.downloadModeloPmSvgContent(filtro).subscribe(val => {
+      filtro.svgObject = null;
+      this.initFiltroModeloSvg(filtro, idx);
+      timer(50).subscribe(val2 => {
+        filtro.svgObject.reset();
+      });
+    });
+  }
+
+  onChangeMetrica(event: MatSliderChange, filtro: FiltroPm, idx: number) {
+    console.log('onChangeMetrica', event);
+    filtro.updateUrl();
+    this.downloadModeloPmSvgContent(filtro).subscribe(val => {
+      filtro.svgObject = null;
+      this.initFiltroModeloSvg(filtro, idx);
+      timer(50).subscribe(val2 => {
+        filtro.svgObject.reset();
+      });
+    });
   }
 
   removerModeloPm(filtro: FiltroPm): void {
@@ -282,12 +331,27 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.filtrosPm.splice(idx, 1);
   }
 
-  maximizarModeloPm(filtro: FiltroPm) {
+  maximizarModeloPm(filtro: FiltroPm, idx: number) {
     filtro.maximized = !filtro.maximized;
+    this.initFiltroModeloSvg(filtro, idx);
+    timer(100).subscribe(val => {
+      filtro.svgObject.resize();
+      filtro.svgObject.center();
+    });
   }
 
-  getUrlModeloPm(filtro: FiltroPm): string {
-    return this.inovacnjService.getUrlModeloPm(filtro);
+  initFiltroModeloSvg(filtro: FiltroPm, idx: number) {
+    if (filtro.svgObject == null) {
+      var svgElement = jQuery(`#divModeloPm_${idx} svg`)[0];
+      svgElement.setAttribute('width', '100%');
+      svgElement.setAttribute('height', '100%');
+      filtro.svgObject = svgPanZoom(svgElement, {
+        zoomEnabled: true,
+        controlIconsEnabled: true,
+        fit: true,
+        center: true,
+      });
+    }
   }
 
   /**
