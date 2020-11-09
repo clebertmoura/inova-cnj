@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
-import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService, NbCalendarRange, NbDateService, NbDialogService } from '@nebular/theme';
+import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService, NbCalendarRange, NbDateService, NbDialogService, NbToastrService } from '@nebular/theme';
 import { SmartTableData } from 'app/@core/data/smart-table';
 import { InovacnjService } from 'app/@core/services/inovacnj.service';
 import { TipoJustica } from 'app/models/tipo-justica';
@@ -180,6 +180,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
               private inovacnjService: InovacnjService,
               private dateService: NbDateService<Date>,
               private dialogService: NbDialogService,
+              private toastrService: NbToastrService,
               protected http: HttpClient) {
 
     this.themeSubscription = this.themeService.getJsTheme().subscribe(config => {
@@ -277,13 +278,17 @@ export class DashboardComponent implements OnDestroy, OnInit {
       if (this.naturezaProcess != null) {
         const filtro = new FiltroPm(this.tribunalProcess, this.orgaoJulgadorProcess, 
           this.naturezaProcess, this.classeProcess);
-        this.filtrosPm.push(filtro);
-        var idx = this.filtrosPm.indexOf(filtro);
-        this.downloadModeloPmSvgContent(filtro);
-        timer(100).subscribe(val => {
-          this.initFiltroModeloSvg(filtro, idx);
-          filtro.svgObject.resize();
-          filtro.svgObject.fit();
+        this.downloadModeloPmSvgContent(filtro).subscribe(response => {
+          this.filtrosPm.push(filtro);
+          var idx = this.filtrosPm.indexOf(filtro);
+          timer(100).subscribe(val => {
+            this.initFiltroModeloSvg(filtro, idx);
+            filtro.svgObject.resize();
+            filtro.svgObject.fit();
+          });
+        }, error => {
+          console.error(error);
+          this.toastrService.warning('Não existem dados para geração do modelo.', `Sem dados!`);
         });
       }
     }
