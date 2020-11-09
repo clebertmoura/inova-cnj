@@ -42,7 +42,7 @@ import { FormsRoutingModule } from '../forms/forms-routing.module';
 import { FiltroComponent } from './filtro/filtro.component';
 import { MatListModule } from '@angular/material/list';
 import { MatSliderModule } from '@angular/material/slider';
-
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   imports: [
@@ -72,6 +72,7 @@ import { MatSliderModule } from '@angular/material/slider';
     FormsModule,
     MatListModule,
     MatSliderModule,
+    MatRadioModule
   ],
   declarations: [
     DashboardComponent,

@@ -255,7 +255,7 @@
         </nb-card>
 
         <div class="row">
-          <div *ngFor="let filtro of filtrosPm"
+          <div *ngFor="let filtro of filtrosPm; let idx = index"
             [class]="filtro.maximized ? 'col-md-12 col-sm-12' : 'col-md-6 col-sm-12'">
             <nb-card [size]="filtro.maximized ? 'large' : 'medium'">
               <nb-card-header>
@@ -281,7 +281,7 @@
                       <nb-action>
                         <nb-icon class="action-icon" icon="maximize" 
                           [icon]="filtro.maximized ? 'minimize' : 'maximize'"
-                          (click)="maximizarModeloPm(filtro)"></nb-icon>
+                          (click)="maximizarModeloPm(filtro, idx)"></nb-icon>
                       </nb-action>
                       <nb-action>
                         <nb-icon class="action-icon" icon="close-circle-outline" (click)="removerModeloPm(filtro)"></nb-icon>
@@ -290,19 +290,49 @@
                   </div>
                 </div>
               </nb-card-header>
-              <nb-card-body>
-                <div class="row">
-                  <div class="col-md-11 com-sm-11 modelo d-flex justify-content-center">
-                    <img [src]="getUrlModeloPm(filtro)" 
-                      (click)="onModelImageLoad($event)"
-                      onerror="this.src='./assets/images/not_found.png';" alt="Sem dados para exibir o modelo!" />
-                  </div>
-                  <div class="col-md-1 com-sm-1 d-flex justify-content-end">
-                    <mat-slider thumbLabel vertical style="height: max-content;"
-                      min="1" max="100" step="10" [(value)]="filtro.sensibilidade"></mat-slider>
+              <nb-card-body class="expandHeight">
+                <div class="row expandHeight">
+                  <div class="col d-flex justify-content-center modelosvg"
+                    *ngIf="filtro.svgContent != null" 
+                    [innerHTML]="filtro.svgContent" id="divModeloPm_{{idx}}">
                   </div>
                 </div>
               </nb-card-body>
+              <nb-card-footer>
+                <div class="row">
+                  <div class="col-md-6 col-sm-12 align-self-center">
+                    <div class="row">
+                      <div class="col-12">
+                        Sensibilidade do modelo
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-slider thumbLabel horizontal color="primary"
+                        (change)="onChangeSensibilidade($event, filtro, idx)"
+                        min="0" max="100" step="10" [(value)]="filtro.sensibilidade"></mat-slider>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                      <div class="col-12" style="padding-bottom: 0.75em;">
+                        Métrica
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-radio-group aria-label="Selecione a metrica" [(ngModel)]="filtro.metrica"
+                          color="primary"
+                          (change)="onChangeMetrica($event, filtro, idx)">
+                          <mat-radio-button *ngFor="let item of metricasPm" color="primary"
+                            [value]="item">{{item == 'FREQUENCY' ? 'Frequência ' : 'Performance '}} <span>&nbsp;</span></mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </nb-card-footer>
             </nb-card>
           </div>
         </div>

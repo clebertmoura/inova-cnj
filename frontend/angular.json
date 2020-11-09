@@ -56,7 +56,8 @@
               "node_modules/chart.js/dist/Chart.min.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/jqcloud2/dist/jqcloud.min.js",
-              "node_modules/croppie/croppie.min.js"
+              "node_modules/croppie/croppie.min.js",
+              "node_modules/svg-pan-zoom/dist/svg-pan-zoom.min.js"
             ],
             "allowedCommonJsDependencies": [
               "angular2-chartjs",
@@ -129,7 +130,8 @@
               "node_modules/chart.js/dist/Chart.min.js",
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/jqcloud2/dist/jqcloud.min.js",
-              "node_modules/croppie/croppie.min.js"
+              "node_modules/croppie/croppie.min.js",
+              "node_modules/svg-pan-zoom/dist/svg-pan-zoom.min.js"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

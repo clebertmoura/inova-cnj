@@ -24,6 +24,7 @@ import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 registerLocaleData(ptBr)
 import { MatListModule } from '@angular/material/list';
+import { InlineSVGModule } from 'ng-inline-svg';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +33,7 @@ import { MatListModule } from '@angular/material/list';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    InlineSVGModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),
