@@ -12,6 +12,11 @@ cd ./ia-server
 
 echo "Gerando a build do imagem: frontend ..."
 cd ..
+cd ./backend
+./build-image.sh
+
+echo "Gerando a build do imagem: frontend ..."
+cd ..
 cd ./frontend
 ./build-image.sh
 

@@ -69,7 +69,15 @@ services:
   ia-server:
     image: inova-cnj-iaserver
     ports:
-      - "5000:5000"
+      - "5010:5000"
+    restart: always
+    networks:
+      - inova-cnj-network
+
+  backend:
+    image: inova-cnj-backend
+    ports:
+      - "5020:5000"
     restart: always
     networks:
       - inova-cnj-network

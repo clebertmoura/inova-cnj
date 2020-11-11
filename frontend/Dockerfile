@@ -1,12 +1,12 @@
 # Stage 1
 FROM node:12.19.0-alpine3.12 as node
 
-#ENV http_proxy=http://192.168.251.227:8080
-#ENV https_proxy=http://192.168.251.227:8080
-#ENV no_proxy=*.tjpe.gov.br,*.tjpe.jus.br,localhost
-#ENV HTTP_PROXY=http://192.168.251.227:8080
-#ENV HTTPS_PROXY=http://192.168.251.227:8080
-#ENV NO_PROXY=*.tjpe.gov.br,*.tjpe.jus.br,localhost
+# ENV http_proxy=http://192.168.251.227:8080 \
+#     https_proxy=http://192.168.251.227:8080 \
+#     no_proxy=*.tjpe.gov.br,*.tjpe.jus.br,localhost \
+#     HTTP_PROXY=http://192.168.251.227:8080 \
+#     HTTPS_PROXY=http://192.168.251.227:8080 \
+#     NO_PROXY=*.tjpe.gov.br,*.tjpe.jus.br,localhost
 
 WORKDIR /app
 COPY package.json package-lock.json ./
