@@ -1,17 +1,20 @@
 FROM jupyter/pyspark-notebook:4a112c0f11eb
 
-#ENV http_proxy=http://192.168.251.227:8080
-#ENV https_proxy=http://192.168.251.227:8080
-#ENV no_proxy=*.tjpe.gov.br,*.tjpe.jus.br,localhost
-#ENV HTTP_PROXY=http://192.168.251.227:8080
-#ENV HTTPS_PROXY=http://192.168.251.227:8080
-#ENV NO_PROXY=*.tjpe.gov.br,*.tjpe.jus.br,localhost
+# ENV http_proxy=http://192.168.251.227:8080 \
+#     https_proxy=http://192.168.251.227:8080 \
+#     no_proxy=*.tjpe.gov.br,*.tjpe.jus.br,localhost \
+#     HTTP_PROXY=http://192.168.251.227:8080 \
+#     HTTPS_PROXY=http://192.168.251.227:8080 \
+#     NO_PROXY=*.tjpe.gov.br,*.tjpe.jus.br,localhost
+
+# Copia as configurações do jupyter
+COPY /config/* /home/$NB_USER/
 
 USER root
 
-RUN apt-get update
-RUN apt-get -y upgrade
-RUN apt-get -y install graphviz
+RUN apt-get update && \
+    apt-get -y install graphviz && \
+    apt-get clean
 
 USER $NB_UID
 
