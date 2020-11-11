@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { throwError as observableThrowError, Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, retry } from 'rxjs/operators';
 import { TipoJustica } from '../../models/tipo-justica';
 import { Tribunal } from 'app/models/tribunal';
 import { Natureza } from 'app/models/natureza';
@@ -11,6 +11,7 @@ import { ProcessoPredict } from 'app/models/processo-predict';
 import { OrgaoJulgador } from 'app/models/orgao-julgador';
 import { Movimento } from 'app/models/movimento';
 import { AssuntoRanking } from '../../models/assunto-ranking';
+import { Fase } from 'app/models/fase';
 
 @Injectable({
     providedIn: 'root'
@@ -19,15 +20,19 @@ export class InovacnjService {
 
     //private url = 'https://cors-anywhere.herokuapp.com/http://161.97.71.108:8181/api';
     private url = '/api';
+    private urlFase = '/service/fases';
 
     constructor(protected http: HttpClient) {
     }
 
+    // Headers
+    httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    }
+
     public consultarNpuPredict(npu): Observable<ProcessoPredict> {
         const link  = '/service/processos/';
-        console.log(link + npu);
         return this.http.get<any[]>(link + npu)
-        //return this.http.get<any[]>(this.url + '/service/processos/' + npu)
         .pipe(
             map((response : any) => {
                 if (response.mensagem === "OK") {
@@ -155,6 +160,57 @@ export class InovacnjService {
             window.location.href = '/';
         }
         return observableThrowError(httpError);
+    }
+
+    public salvarFase(fase: Fase): Observable<Fase> {
+        return this.http.post<Fase>(this.urlFase, JSON.stringify(fase), this.httpOptions)
+        .pipe(
+            //retry(2),
+            map((response : any) => {
+                return Fase.fromJson(response);
+            }),
+            catchError(this.handleError)
+        )
+    }
+    
+    public atualizarFase(fase: Fase): Observable<Fase> {
+        return this.http.put<Fase>(this.urlFase + '/' + fase.codigo, JSON.stringify(fase), this.httpOptions)
+        .pipe(
+            //retry(1),
+            map((response : any) => {
+                return Fase.fromJson(response);
+            }),
+            catchError(this.handleError)
+        )
+    }
+  
+    public deletarFase(fase: Fase) {
+        return this.http.delete<Fase>(this.urlFase + '/' + fase.codigo, this.httpOptions)
+        .pipe(
+            retry(1),
+            catchError(this.handleError)
+        )
+    }
+
+    public consultarFase(codigo): Observable<Fase> {
+        return this.http.get<any[]>(this.urlFase + '/' + codigo)
+        .pipe(
+            map((response : any) => {
+                    return Fase.fromJson(response);
+            }),
+            catchError(() => of(null))
+        );
+    }
+
+    public consultarFases(): Observable<Fase[]> {
+        return this.http.get<any[]>(this.urlFase)
+        .pipe(
+            map((response : any) => {
+                console.log(response);
+                    return Fase.toArray(response);
+            }),
+            catchError(() => of(null))
+        );
     }
 
 }

@@ -475,7 +475,15 @@
                   <div class="col">
                     <div class="form-group">
                       <label for="inputFase" class="label">Fase</label>
-                      <input type="text" nbInput fullWidth id="inputFase">
+                      <input type="text" nbInput fullWidth id="inputFase" [(ngModel)]="nomeFase">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="inputDescricao" class="label">Descrição</label>
+                      <input type="text" nbInput fullWidth id="inputDescricao" [(ngModel)]="descricaoFase">
                     </div>
                   </div>
                 </div>
@@ -500,21 +508,12 @@
                     <div class="row">
                       <div class="col-sm-12">
                         <div class="form-group">
-                          <button nbButton (click)="openDialog(dialog)">Salvar</button>
+                          <button nbButton (click)="onSaveConfirm($event)">Salvar</button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <ng-template #dialog let-data let-ref="dialogRef">
-                  <nb-card>
-                    <nb-card-header>Mensagem</nb-card-header>
-                    <nb-card-body>Fase cadastrada com sucesso!</nb-card-body>
-                    <nb-card-footer>
-                      <button nbButton (click)="ref.close()">Fechar</button>
-                    </nb-card-footer>
-                  </nb-card>
-                </ng-template>
               </div>
     
               <div class="col">

@@ -25,6 +25,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { timer } from 'rxjs';
 import { MatSliderChange } from '@angular/material/slider';
 import { MetricaPm } from '../../models/filtro-pm';
+import { Fase } from 'app/models/fase';
 
 declare var jQuery: any;
 
@@ -119,6 +120,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
     },
   };
 
+  // aba configuracao
+  idFase: number;
+  nomeFase: string;
+  descricaoFase: string;
+
   // config tabela fase
   dadosTabelaFase : LocalDataSource = new LocalDataSource();
   configTabelaFase = {
@@ -132,37 +138,24 @@ export class DashboardComponent implements OnDestroy, OnInit {
       confirmDelete: true,
     },
     columns: {
-      fase: {
+      codigo: {
+        title: 'Código',
+        type: 'number',
+        filter: false
+      },
+      nome: {
         title: 'Fase',
         type: 'string',
         filter: false
       },
-      natureza: {
-        title: 'Natureza',
+      descricao: {
+        title: 'Descrição',
         type: 'string',
         filter: false
       },
     },
   };
-  dadosMockTabelaFase = [
-    {
-      fase: 'F0 - NÃO CLASSIFICADO',
-      natureza: 'CIVEL',
-    },
-    {
-      fase: 'F1 - CONHECIMENTO',
-      natureza: 'CRIMINAL',
-    },
-    {
-      fase: 'F2 - RECURSO',
-      natureza: 'CRIMINAL',
-    },
-    {
-      fase: 'F3 - CUMPRIMENTO DE SENTENÇA',
-      natureza: 'JUIZADO',
-    },
-  ];
-  
+    
   dadosProcessoOrgaoJulgador: String;
   dadosProcessoSiglaTribunal: String;
   dadosProcessoClasse: String;
@@ -219,7 +212,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
       this.orgaosJulgadoresProcess = data;
     });
     this.carregarAssuntosRanking();
-    this.dadosTabelaFase.load(this.dadosMockTabelaFase);
+    this.inovacnjService.consultarFases().subscribe(data => { 
+      this.dadosTabelaFase.load(data);  
+    });
+    
 
     jQuery(document).ready(function() {
       var words = [
@@ -439,23 +435,38 @@ export class DashboardComponent implements OnDestroy, OnInit {
       this.orgaoJulgadorProcess = null;
     });
   }
-  
+
   pesquisarAnalitcs() {
     this.setDashboardUrl();
   }
 
-  openDialog(dialog: TemplateRef<any>) {
-    this.dialogService.open(
-      dialog,
-      {
-        context: "",
-        closeOnEsc: false,
+  onSaveConfirm(event): void {
+    if (window.confirm('Deseja salvar?')) {
+      let novaFase = new Fase();
+      novaFase.nome = this.nomeFase;
+      novaFase.descricao = this.descricaoFase;
+      
+      this.inovacnjService.salvarFase(novaFase).subscribe(data => {
+        this.nomeFase = "";
+        this.descricaoFase = "";
+
+        this.inovacnjService.consultarFases().subscribe(data => { 
+          this.dadosTabelaFase.load(data);  
+        });
+        
+        event.confirm.resolve();
       });
+    } else {
+      event.confirm.reject();
+    }
   }
+  
 
   onDeleteConfirm(event): void {
     if (window.confirm('Deseja excluir?')) {
-      event.confirm.resolve();
+      this.inovacnjService.deletarFase(event.data).subscribe(data => {
+        event.confirm.resolve();
+      });
     } else {
       event.confirm.reject();
     }
