@@ -8,7 +8,7 @@ FROM jupyter/pyspark-notebook:4a112c0f11eb
 #     NO_PROXY=*.tjpe.gov.br,*.tjpe.jus.br,localhost
 
 # Copia as configurações do jupyter
-COPY /config/* /home/$NB_USER/
+COPY /config/* /home/$NB_USER/.jupyter/
 
 USER root
 
