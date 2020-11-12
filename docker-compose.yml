@@ -73,18 +73,13 @@ services:
 
   metabase:
     image: metabase/metabase:v0.36.7
+    env_file: .env/dev.env
     restart: always
     ports:
       - 3000:3000
     volumes:
       - inova-cnj-metabase-data:/metabase-data
     environment:
-      MB_DB_TYPE: postgres
-      MB_DB_DBNAME: dbmetabase
-      MB_DB_PORT: 5432
-      MB_DB_USER: metabase
-      MB_DB_PASS: metabase@admin
-      MB_DB_HOST: postgres
       JAVA_TIMEZONE: America/Recife
       JAVA_TOOL_OPTIONS: -Xmx1g -Duser.country=BR -Duser.language=pt
     restart: always
