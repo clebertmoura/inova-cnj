@@ -31,13 +31,16 @@ O diagrama abaixo, apresenta os módulos da solução, com as respectivas tecnol
 ![alt text](https://github.com/clebertmoura/inova-cnj/blob/main/diagrama-tecnologias.png)
 
 - *ia-core*
-> Módulo responsável por realizar o processamento dos dados, tratamento e carga na base de dados. É também responsável pela implementação dos modelos de Process Mining. Disponibiliza uma API, para consulta aos dados e modelos.
+> Módulo responsável por realizar o processamento dos dados, tratamento e carga na base de dados. É também responsável pela implementação dos modelos de Process Mining.
 
 - *ia-server*
 > Módulo responsável por implementar os modelos preditivos com inteligência artificial. Disponibiliza uma API para consulta.
 
+- *backend*
+> Módulo que disponibiliza as APIs que serão consumidas pelo modulo `frontend`.
+
 - *frontend*
-> Módulo que disponibiliza a interface do usuário. Se comunica com as APIs disponibilizadas pelos modulos `ia-core` e `ia-server`.
+> Módulo que disponibiliza a interface do usuário. Se comunica com as APIs disponibilizadas pelos modulos `backend` e `ia-server`.
 
 ## Preparação dos dados
 
@@ -93,29 +96,30 @@ No diretório raiz do projeto, executar o comando abaixo:
 
 ## Acessar o jupyter notebook
 
-Para acessar a console do jupyter, é necessário saber qual a URL de acesso. Para isso, acesse os logs do container ia-core, digitando o seguinte comando:
+Para acessar a console do jupyter, acesse o link com as credenciais abaixo:
 
-> docker-compose logs -f ia-core
+- Endereço: http://161.97.71.108:8888
+- Senha: Será fornecida pela equipe.
 
-Os logs serão exibidos, com uma URL similar a URL abaixo:
-
-> http://127.0.0.1:8888/?token=adcd2bc95167732e71741f5e9f15cbb9d097013840c66d8b
+Por segurança, as credenciais de acesso no ambiente Live Demo, serão fornecidas pela equipe.
 
 ## Acessar o pgAdmin
 
 Para acessar a console do pgAdmin, acesse o link com as credenciais abaixo:
 
-- Endereço: http://127.0.0.1:16543
-- e-mail: cleber.moura@tjpe.jus.br
-- senha: inovacnj@admin
+- Endereço: http://161.97.71.108:16543
+
+Por segurança, as credenciais de acesso no ambiente Live Demo, serão fornecidas pela equipe.
 
 ## Acessar o metabase
 
 Para acessar o metabase, acesse o link abaixo:
 
-- Endereço: http://127.0.0.1:3000
+- Endereço: http://161.97.71.108:3000
 
 No primeiro acesso, será solicitada a criação do usuário administrador.
+
+Por segurança, as credenciais de acesso no ambiente Live Demo, serão fornecidas pela equipe.
 
 # Modelo de dados
 
