@@ -1,4 +1,4 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "python.dataScience.jupyterServerURI": "http://127.0.0.1:8888/?token=3919d3cda2dc243acd701252ef6b8f7a862c3a9dacfa4a14"
+    "jupyter.jupyterServerType": "remote"
 }
