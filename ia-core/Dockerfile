@@ -18,6 +18,6 @@ RUN apt-get update && \
 
 USER $NB_UID
 
-RUN pip install pm4py flask psycopg2-binary flask-restplus
+RUN pip install pm4py svgutils flask psycopg2-binary flask-restplus
 
 EXPOSE 8888 8080
