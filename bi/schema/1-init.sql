@@ -96,6 +96,10 @@ CREATE TABLE inovacnj.tribunal
     sigla character varying(5) ,
     tipo character varying(20) ,
     porte character varying(10) ,
+    latitude real,
+    longitude real,
+    coduf numeric,
+    uf character varying(2),
     CONSTRAINT pk_tribunal PRIMARY KEY (cod)
 );	
 
