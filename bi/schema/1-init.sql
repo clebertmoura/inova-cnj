@@ -3,7 +3,6 @@ CREATE DATABASE dbmetabase;
 CREATE USER metabase WITH PASSWORD 'metabase@admin';
 GRANT ALL PRIVILEGES ON DATABASE dbmetabase TO metabase;
 
-
 -- BASE DE DADOS INOVA CNJ
 
 CREATE SCHEMA inovacnj
@@ -19,29 +18,29 @@ CREATE TABLE inovacnj.classe
     CONSTRAINT pk_classe PRIMARY KEY (cod)
 );
 
-ALTER TABLE inovacnj.classe
-  OWNER to inovacnj;
+ALTER TABLE inovacnj.classe OWNER to inovacnj;
 
 -- ASSUNTO
 CREATE TABLE inovacnj.assunto 
-(
-	cod numeric NOT NULL,
-	descricao character varying(400) NOT NULL,
-    codpai numeric,
-	CONSTRAINT pk_assunto PRIMARY KEY (cod)
+(cod numeric NOT NULL,
+ descricao character varying(400) NOT NULL,
+ codpai numeric,
+ CONSTRAINT pk_assunto PRIMARY KEY (cod)
 );
 
 ALTER TABLE inovacnj.assunto OWNER to inovacnj;
 
--- GRAU
+-- GRAU_JURISDICAO
 CREATE TABLE inovacnj.grau_jurisdicao
 (   cod character varying(5) NOT NULL,
     descricao character varying(50)  NOT NULL,
-    CONSTRAINT pk_grauj PRIMARY KEY (cod)
+    CONSTRAINT pk_graujur PRIMARY KEY (cod) 
 );
 
-ALTER TABLE inovacnj.grau_jurisdicao
-    OWNER to inovacnj;
+COMMENT ON COLUMN inovacnj.grau_jurisdicao.cod IS 'Chave primária da tabela.';
+COMMENT ON COLUMN inovacnj.grau_jurisdicao.descricao IS 'Jurisdição do processo. Valores: SUP - Tribunal Superior, G2 - 2º Grau, TR - Turma Recursal, G1 - 1º grau, JE- Juizados Especiais, TRU - Turma Regional de Uniformização, TNU - Turma Nacional de Uniformização, TEU - Turma Estadual de Uniformização, CJF - Conselho da Justiça Federal, CSJT - Conselho Superior da Justiça do Trabalho.';
+
+ALTER TABLE inovacnj.grau_jurisdicao OWNER to inovacnj;
 
 -- MOVIMENTOCNJ
 CREATE TABLE inovacnj.movimentocnj 
