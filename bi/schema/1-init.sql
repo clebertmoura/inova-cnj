@@ -93,15 +93,27 @@ ALTER TABLE inovacnj.processo OWNER to inovacnj;
 CREATE TABLE inovacnj.tribunal
 (   cod character varying(5)  NOT NULL,
     descricao character varying(100) NOT NULL,
-    sigla character varying(5) ,
-    tipo character varying(20) ,
-    porte character varying(10) ,
-    latitude real,
-    longitude real,
-    coduf numeric,
-    uf character varying(2),
+    sigla character varying(5)  NOT NULL ,
+    tipo character varying(20)  NOT NULL,
+    porte character varying(10) NOT NULL,
+    latitude real ,
+    longitude real ,
+    coduf numeric NOT NULL,
+    uf character varying(2) NOT NULL,
+    tipotribunal_oj character varying(10) NOT NULL,
     CONSTRAINT pk_tribunal PRIMARY KEY (cod)
 );	
+
+COMMENT ON COLUMN inovacnj.tribunal.cod IS 'Chave primária da tabela.';
+COMMENT ON COLUMN inovacnj.tribunal.descricao IS 'Nome do tribunal.';
+COMMENT ON COLUMN inovacnj.tribunal.sigla IS 'Sigla do tribunal. Valores: TJAC, TRF1, TST, STJ, etc.';
+COMMENT ON COLUMN inovacnj.tribunal.tipo IS 'Tipo da Justiça. Valores: Estadual, Eleitoral, Federal, Militar, Superior, Trabalho.';
+COMMENT ON COLUMN inovacnj.tribunal.porte IS 'Classificação do porte do tribunal, conforme classificação do CNJ, disponível no relatório do Justiça em Números 2020, a partir da página 42. Valores: Pequeno, Médio, Grande.';
+COMMENT ON COLUMN inovacnj.tribunal.latitude  IS 'Latitude de um determinado ponto da UF em que se encontra o tribunal.';
+COMMENT ON COLUMN inovacnj.tribunal.longitude IS 'Longitude de um determinado ponto da UF em que se encontra o tribunal.';
+COMMENT ON COLUMN inovacnj.tribunal.coduf IS 'Código da UF conforme codificação adotada pelo IBGE, disponível em www.ibge.gov.br/explica/codigos-dos-municipios.php.';
+COMMENT ON COLUMN inovacnj.tribunal.uf IS 'Sigla do estado da federação brasileira. Valores: AL, BA, SP , DF, AC, etc.';
+COMMENT ON COLUMN inovacnj.tribunal.tipotribunal_oj IS 'Sigla do tribunal, campo TIP_ORGAO, definido no csv mpm_serventias.';
 
 ALTER TABLE inovacnj.tribunal OWNER to inovacnj;
 
