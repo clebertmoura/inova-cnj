@@ -159,12 +159,12 @@
                       <label class="label">Tipo de Justiça:</label>
                       <nb-select
                         (selectedChange)="carregarTribunalProcess($event)"
-                        [(selected)]="tiposJusticaProcess"
+                        [(selected)]="tipoJusticaProcess"
                         class="position-select"
                         fullWidth
                       >
-                        <nb-option *ngFor="let tipoJustica of tiposJustica" [value]="tipoJustica">{{
-                          tipoJustica.descricao
+                        <nb-option *ngFor="let tipoJusticaProcess of tiposJusticaProcess" [value]="tipoJusticaProcess">{{
+                          tipoJusticaProcess.descricao
                         }}</nb-option>
                       </nb-select>
                     </div>
@@ -180,8 +180,8 @@
                         class="position-select"
                         fullWidth
                       >
-                      <nb-option *ngFor="let tribunal of tribunais" [value]="tribunal">{{
-                        tribunal.descricao
+                      <nb-option *ngFor="let tribunalProcess of tribunaisProcess" [value]="tribunalProcess">{{
+                        tribunalProcess.descricao
                       }}</nb-option>
                       </nb-select>
                     </div>
@@ -196,8 +196,8 @@
                         class="position-select"
                         fullWidth
                       >
-                      <nb-option *ngFor="let orgaoJulgador of orgaosJulgadoresProcess" [value]="orgaoJulgador">{{
-                        orgaoJulgador.descricao
+                      <nb-option *ngFor="let orgaoJulgadorProcess of orgaosJulgadoresProcess" [value]="orgaoJulgadorProcess">{{
+                        orgaoJulgadorProcess.descricao
                       }}</nb-option>
                       </nb-select>
                     </div>
@@ -212,8 +212,8 @@
                         class="position-select"
                         fullWidth
                       >
-                        <nb-option *ngFor="let natureza of naturezas" [value]="natureza">{{
-                          natureza.descricao
+                        <nb-option *ngFor="let naturezaProcess of naturezasProcess" [value]="naturezaProcess">{{
+                          naturezaProcess.descricao
                         }}</nb-option>
                       </nb-select>
                     </div>
@@ -228,8 +228,8 @@
                         class="position-select"
                         fullWidth
                       >
-                        <nb-option *ngFor="let classe of classes" [value]="classe">{{
-                          classe.descricao
+                        <nb-option *ngFor="let classeProcess of classesProcess" [value]="classeProcess">{{
+                          classeProcess.descricao
                         }}</nb-option>
                       </nb-select>
                     </div>
@@ -474,14 +474,6 @@
                 <div class="row">
                   <div class="col">
                     <div class="form-group">
-                      <label for="inputFase" class="label">Fase</label>
-                      <input type="text" nbInput fullWidth id="inputFase" [(ngModel)]="nomeFase">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
                       <label for="inputDescricao" class="label">Descrição</label>
                       <input type="text" nbInput fullWidth id="inputDescricao" [(ngModel)]="descricaoFase">
                     </div>
@@ -490,16 +482,49 @@
                 <div class="row">
                   <div class="col">
                     <div class="form-group">
-                      <label class="label">Natureza:</label>
+                      <label class="label">Tipo de Justiça:</label>
                       <nb-select
-                        [(selected)]="naturezaFase"
+                        (selectedChange)="carregarTribunalConfig($event)"
+                        [(selected)]="tipoJusticaConfig"
                         class="position-select"
                         fullWidth
                       >
-                        <nb-option *ngFor="let natureza of naturezas" [value]="natureza">{{
-                          natureza.descricao
+                        <nb-option *ngFor="let tipoJusticaConfig of tiposJusticaConfig" [value]="tipoJusticaConfig">{{
+                          tipoJusticaConfig.descricao
                         }}</nb-option>
                       </nb-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="label">Tribunal:</label>
+                      <nb-select
+                        [(selected)]="tribunalConfig"
+                        class="position-select"
+                        fullWidth
+                      >
+                      <nb-option *ngFor="let tribunalConfig of tribunaisConfig" [value]="tribunalConfig">{{
+                        tribunalConfig.descricao
+                      }}</nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <mat-form-field class="example-full-width">
+                        <mat-label>Movimentos</mat-label>
+                        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption 
+                          [displayWith]="displayFn" (optionSelected)='onOptionSelected($event)'>
+                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{option.codigo}} - {{option.descricao}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>  
                     </div>
                   </div>
                 </div>
@@ -522,8 +547,8 @@
                   <nb-card-body>
                     <div class="col-md-12 col-sm-12">
                       <div class="form-group">
-                        <mat-selection-list #movimento>
-                          <mat-list-option *ngFor="let movimento of movimentos">
+                        <mat-selection-list [(ngModel)]="selectedOptions" #movimentoListOption>
+                          <mat-list-option *ngFor="let movimento of movimentos" [value]="movimento">
                             {{movimento.codigo}} - {{movimento.descricao}}
                           </mat-list-option>
                         </mat-selection-list>
@@ -539,7 +564,7 @@
                 <div class="row">
                   <div class="col">
                     <div class="form-group">
-                      <ng2-smart-table fullWidth [settings]="configTabelaFase" [source]="dadosTabelaFase" (deleteConfirm)="onDeleteConfirm($event)">
+                      <ng2-smart-table [settings]="configTabelaFase" [source]="dadosTabelaFase" (deleteConfirm)="onDeleteConfirm($event)">
                       </ng2-smart-table>  
                     </div>
                   </div>

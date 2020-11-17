@@ -1,17 +1,13 @@
-import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
-import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbThemeService, NbCalendarRange, NbDateService, NbDialogService, NbToastrService } from '@nebular/theme';
-import { SmartTableData } from 'app/@core/data/smart-table';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NbThemeService, NbCalendarRange, NbDateService, NbDialogService, NbToastrService } from '@nebular/theme';
 import { InovacnjService } from 'app/@core/services/inovacnj.service';
 import { TipoJustica } from 'app/models/tipo-justica';
 import { Tribunal } from 'app/models/tribunal';
 import { LocalDataSource } from 'ng2-smart-table';
-import { takeWhile, delay } from 'rxjs/operators';
-import { SolarData } from '../../@core/data/solar';
 import { Natureza } from 'app/models/natureza';
 import { Classe } from '../../models/classe';
 import { arrayToTree } from 'performant-array-to-tree';
 import { FiltroPm } from 'app/models/filtro-pm';
-import { ProcessoPredict } from 'app/models/processo-predict';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 import { Movimento } from 'app/models/movimento';
@@ -20,12 +16,15 @@ import { AssuntoRanking } from '../../models/assunto-ranking';
 
 import * as svgPanZoom from 'svg-pan-zoom';
 
-import { TemplateRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { timer } from 'rxjs';
 import { MatSliderChange } from '@angular/material/slider';
 import { MetricaPm } from '../../models/filtro-pm';
 import { Fase } from 'app/models/fase';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/internal/Observable';
+import { debounceTime, map, startWith } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 declare var jQuery: any;
 
@@ -42,7 +41,7 @@ interface CardSettings {
 })
 
 export class DashboardComponent implements OnDestroy, OnInit {
-
+  
   tiposJustica: TipoJustica[] = [];
   tipoJustica: TipoJustica;
   tribunais: Tribunal[] = [];
@@ -121,10 +120,19 @@ export class DashboardComponent implements OnDestroy, OnInit {
   };
 
   // aba configuracao
-  idFase: number;
-  nomeFase: string;
+  tiposJusticaConfig: TipoJustica[] = [];
+  tipoJusticaConfig: TipoJustica;
+  tribunaisConfig: Tribunal[] = [];
+  tribunalConfig: Tribunal;
+  codFase: number;
   descricaoFase: string;
+  codTribunalFase: string;
+  selectedOptions: Movimento[] = [];
 
+  myControl = new FormControl();
+  options: Movimento[] = [];
+  filteredOptions: Observable<Movimento[]>;
+  
   // config tabela fase
   dadosTabelaFase : LocalDataSource = new LocalDataSource();
   configTabelaFase = {
@@ -141,18 +149,24 @@ export class DashboardComponent implements OnDestroy, OnInit {
       codigo: {
         title: 'Código',
         type: 'number',
-        filter: false
-      },
-      nome: {
-        title: 'Fase',
-        type: 'string',
-        filter: false
+        filter: false,
       },
       descricao: {
         title: 'Descrição',
         type: 'string',
-        filter: false
+        filter: false,
       },
+      cod_tribunal: {
+        title: 'Tribunal',
+        type: 'string',
+        filter: false,
+      },
+      movimentosListaString: {
+        title: 'Movimentos',
+        type: 'html',
+        filter: false,
+        width: '800px'
+      }
     },
   };
     
@@ -189,10 +203,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.inovacnjService.consultarTipoJustica().subscribe(data => {
       this.tiposJustica = data;
       this.tiposJusticaProcess = data;
+      this.tiposJusticaConfig = data;
     });
     this.inovacnjService.consultarTribunal(this.tipoJustica).subscribe(data => {
       this.tribunais = data;
       this.tribunaisProcess = data;
+      this.tribunaisConfig = data;
     });
     this.inovacnjService.consultarNatureza().subscribe(data => { 
       this.naturezas = data;
@@ -205,18 +221,17 @@ export class DashboardComponent implements OnDestroy, OnInit {
       console.log(arvoreClasses);
     });
     this.inovacnjService.consultarMovimento().subscribe(data => { 
-      this.movimentos = data;
+      this.options= data;
     });
     this.inovacnjService.consultarOrgaoJulgador(this.tribunal).subscribe(data => { 
       this.orgaosJulgadores = data;
       this.orgaosJulgadoresProcess = data;
     });
-    this.carregarAssuntosRanking();
+    //this.carregarAssuntosRanking();
     this.inovacnjService.consultarFases().subscribe(data => { 
       this.dadosTabelaFase.load(data);  
     });
-    
-
+        
     jQuery(document).ready(function() {
       var words = [
         {text: "Lorem", weight: 13},
@@ -234,6 +249,24 @@ export class DashboardComponent implements OnDestroy, OnInit {
       // });
     });
 
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        //debounceTime(200),
+        map(value => typeof value === 'string' ? value : value.descricao),
+        map(descricao => descricao ? this._filter(descricao) : this.options.slice())
+      );
+
+  }
+
+  displayFn(mov: Movimento): string {
+    return mov && mov.descricao ? mov.descricao : '';
+  }
+
+  private _filter(descricao: string): Movimento[] {
+    const filterValue = descricao.toLowerCase();
+
+    return this.options.filter(option => option.descricao.toLowerCase().indexOf(filterValue) === 0);
   }
 
   limparModeloProcesso() {
@@ -436,6 +469,14 @@ export class DashboardComponent implements OnDestroy, OnInit {
     });
   }
 
+  //aba config
+  carregarTribunalConfig(tipoJustica) {
+    this.inovacnjService.consultarTribunal(tipoJustica).subscribe(data => {
+      this.tribunaisConfig = data;
+      this.tribunalConfig = null;
+    });
+  }
+
   pesquisarAnalitcs() {
     this.setDashboardUrl();
   }
@@ -443,12 +484,18 @@ export class DashboardComponent implements OnDestroy, OnInit {
   onSaveConfirm(event): void {
     if (window.confirm('Deseja salvar?')) {
       let novaFase = new Fase();
-      novaFase.nome = this.nomeFase;
+      novaFase.cod_tribunal = this.tribunalConfig.codigo;
       novaFase.descricao = this.descricaoFase;
+      novaFase.movimentos = this.selectedOptions;
+      
       
       this.inovacnjService.salvarFase(novaFase).subscribe(data => {
-        this.nomeFase = "";
+        this.tipoJusticaConfig = null;
+        this.tribunalConfig = null;
+        this.codTribunalFase = "";
         this.descricaoFase = "";
+        this.selectedOptions = [];
+        this.movimentos = [];
 
         this.inovacnjService.consultarFases().subscribe(data => { 
           this.dadosTabelaFase.load(data);  
@@ -470,6 +517,15 @@ export class DashboardComponent implements OnDestroy, OnInit {
     } else {
       event.confirm.reject();
     }
+  }
+
+  onOptionSelected(event: MatAutocompleteSelectedEvent): void {
+    let val = event.option.value
+    let index = this.movimentos.indexOf(val);
+    if(index < 0) {
+      this.movimentos.push(event.option.value);  
+    }    
+    
   }
     
 }

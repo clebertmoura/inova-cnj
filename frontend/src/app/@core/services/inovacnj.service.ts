@@ -103,11 +103,13 @@ export class InovacnjService {
     public consultarMovimento(): Observable<Movimento[]> {
         return this.http.get<any[]>(this.url + '/v1/movimento')
         .pipe(
-            map((response : any[][]) => {
+            map((response : any) => {
+                console.log(response);
                 return Movimento.toArray(response);
             }),
             catchError(() => of(null))
         );
+
     }
 
     /**
@@ -163,7 +165,7 @@ export class InovacnjService {
     }
 
     public salvarFase(fase: Fase): Observable<Fase> {
-        return this.http.post<Fase>(this.urlFase, JSON.stringify(fase), this.httpOptions)
+        return this.http.post<Fase>(this.url + "/v1/fase", JSON.stringify(fase), this.httpOptions)
         .pipe(
             //retry(2),
             map((response : any) => {
@@ -174,7 +176,7 @@ export class InovacnjService {
     }
     
     public atualizarFase(fase: Fase): Observable<Fase> {
-        return this.http.put<Fase>(this.urlFase + '/' + fase.codigo, JSON.stringify(fase), this.httpOptions)
+        return this.http.put<Fase>(this.url + "/v1/fase" + '/' + fase.codigo, JSON.stringify(fase), this.httpOptions)
         .pipe(
             //retry(1),
             map((response : any) => {
@@ -185,7 +187,7 @@ export class InovacnjService {
     }
   
     public deletarFase(fase: Fase) {
-        return this.http.delete<Fase>(this.urlFase + '/' + fase.codigo, this.httpOptions)
+        return this.http.delete<Fase>(this.url + "/v1/fase" + '/' + fase.codigo, this.httpOptions)
         .pipe(
             retry(1),
             catchError(this.handleError)
@@ -193,21 +195,20 @@ export class InovacnjService {
     }
 
     public consultarFase(codigo): Observable<Fase> {
-        return this.http.get<any[]>(this.urlFase + '/' + codigo)
+        return this.http.get<any[]>(this.url + "/v1/fase" + '/' + codigo)
         .pipe(
             map((response : any) => {
-                    return Fase.fromJson(response);
+                return Fase.fromJson(response);
             }),
             catchError(() => of(null))
         );
     }
 
     public consultarFases(): Observable<Fase[]> {
-        return this.http.get<any[]>(this.urlFase)
+        return this.http.get<any[]>(this.url + "/v1/fase")
         .pipe(
             map((response : any) => {
-                console.log(response);
-                    return Fase.toArray(response);
+                return Fase.toArray(response);
             }),
             catchError(() => of(null))
         );

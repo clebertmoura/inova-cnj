@@ -13,7 +13,8 @@ import {
   NbStepperModule,
   NbInputModule,
   NbCheckboxModule,
-  NbDatepickerModule, NbCalendarRangeModule
+  NbDatepickerModule, 
+  NbCalendarRangeModule,
 } from '@nebular/theme';
 
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -35,7 +36,7 @@ import { SolarComponent } from './solar/solar.component';
 import { PlayerComponent } from './rooms/player/player.component';
 import { TrafficComponent } from './traffic/traffic.component';
 import { TrafficChartComponent } from './traffic/traffic-chart.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsRoutingModule } from '../forms/forms-routing.module';
@@ -43,14 +44,14 @@ import { FiltroComponent } from './filtro/filtro.component';
 import { MatListModule } from '@angular/material/list';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   imports: [
-    FormsModule,
-    ThemeModule,
     NbCardModule,
     NbUserModule,
-    NbButtonModule,
     NbTabsetModule,
     NbActionsModule,
     NbRadioModule,
@@ -70,9 +71,13 @@ import { MatRadioModule } from '@angular/material/radio';
     NbDatepickerModule,
     FormsRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     MatListModule,
     MatSliderModule,
-    MatRadioModule
+    MatRadioModule,
+    MatAutocompleteModule, 
+    MatFormFieldModule,
+    MatInputModule,
   ],
   declarations: [
     DashboardComponent,
