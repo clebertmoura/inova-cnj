@@ -64,7 +64,8 @@ services:
     image: inova-cnj-frontend   
     env_file: .env/dev.env
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
     restart: always
     networks:
       - inova-cnj-network
