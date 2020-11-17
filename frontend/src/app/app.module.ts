@@ -25,6 +25,10 @@ import ptBr from '@angular/common/locales/pt';
 registerLocaleData(ptBr)
 import { MatListModule } from '@angular/material/list';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,6 +50,11 @@ import { InlineSVGModule } from 'ng-inline-svg';
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     MatListModule,
+    MatAutocompleteModule, 
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule 
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt' }],
   bootstrap: [AppComponent],
