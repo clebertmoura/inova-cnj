@@ -67,3 +67,4 @@ Werkzeug==1.0.1
 pm4py==2.0.1.2
 WTForms==2.3.3
 zipp==3.4.0
+svgutils==0.3.1

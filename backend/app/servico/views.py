@@ -9,6 +9,8 @@ import pandas.io.sql as sqlio
 
 import psycopg2
 
+import tempfile
+
 import pm4py
 from pm4py.objects.log.util import dataframe_utils
 from pm4py.objects.conversion.log import converter as log_converter
@@ -21,6 +23,8 @@ from pm4py.algo.filtering.log.variants import variants_filter
 from . import servico
 from .. import db
 from ..models import Fase, Movimento
+
+from ..proccessmining.geradorpm import *
 
 import os 
 
@@ -210,9 +214,8 @@ def api_lista_natureza():
     conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
     cur = conn.cursor()
     
-    qry = "SELECT distinct natureza as codnatureza, natureza as descricao "
-    qry+= "FROM inovacnj.movimentocnj "
-    qry+= "WHERE natureza IS NOT NULL "
+    qry = "SELECT * FROM inovacnj.natureza "
+    qry+= "ORDER BY descricao "
     
     cur.execute(qry)
     lista = cur.fetchall()
@@ -227,7 +230,7 @@ def api_lista_classe():
     
     qry = "SELECT cod, descricao, sigla, codpai "
     qry+= "FROM inovacnj.classe "
-    qry+= "WHERE (1=1)"
+    qry+= "ORDER BY cod "
     
     cur.execute(qry)
     lista = cur.fetchall()
@@ -281,6 +284,7 @@ def api_lista_assuntos_ranking():
 
 @servico.route('/api/v1/gerar-modelo-pm')
 def api_gerar_modelo_pm():
+    ramojustica = request.args.get('ramojustica')
     codtribunal = request.args.get('codtribunal')
     grau = request.args.get('grau')
     codorgaoj = request.args.get('codorgaoj')
@@ -292,75 +296,24 @@ def api_gerar_modelo_pm():
     metrica = request.args.get('metrica')
     formato = request.args.get('formato')
     
-    
+    if ramojustica is None:
+        abort(400, description="ramojustica nao informado")
     if codtribunal is None:
         abort(400, description="codtribunal nao informado")
     if natureza is None:
         abort(400, description="natureza nao informado")
     
-    gviz = gerar_modelo_pm_from_params(codtribunal, grau, codorgaoj, natureza, codclasse, \
-               dtinicio, dtfim, sensibilidade, tipometrica=metrica, imageformat=formato)
+    gviz = gerar_view_dfg_model_from_params(ramojustica, codtribunal, grau, codorgaoj, natureza, codclasse, \
+               dtinicio, dtfim, sensibility=sensibilidade, metric_type=metrica, image_format=formato)
     if gviz != None:
-        #dfg_visualization.view(gviz)
-        path = "./output/modelo_pm_" + get_random_string(8) + "." + str(formato).lower()
+        file_remover = FileRemover()
+        tempdir = tempfile.mkdtemp()
+        path = tempdir + "/model_mp." + str(formato).lower()
         dfg_visualization.save(gviz, path)
-        return send_file(path, as_attachment=False)
+        resp = send_file(path, as_attachment=False)
+        file_remover.cleanup_once_done(resp, path)
+        return resp
     else:
         print("sem dados")
         abort(404, description="Nao encontrado")
     
-
-def gerar_modelo_pm_from_params(codtribunal, grau, codorgaoj, natureza, codclasse, dtinicio, dtfim, sensibilidade, tipometrica = 'FREQUENCY', imageformat = 'png'):
-    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    
-    qry = "SELECT npu, fase || ' : ' || descmovimento as atividade, mov_dtmov "
-    qry+= "FROM inovacnj.fat_movimentos_te "
-    qry+= "WHERE (1=1) "
-    if codtribunal != None :
-        qry+= "AND codtribunal = '" + codtribunal + "' "
-    if codorgaoj != None :
-        qry+= "AND oj_cod = '" + codorgaoj + "' "
-    if grau != None :
-        qry+= "AND grau = '" + grau + "' "
-    if natureza != None :
-        qry+= "AND natureza = '" + natureza + "' "
-    if codclasse != None :
-        qry+= "AND codclasse = " + str(codclasse) + " "
-        
-    if dtinicio != None and dtfim != None:
-        qry+= "AND mov_dtmov BETWEEN to_timestamp('" + dtinicio + "', 'yyyy-MM-dd') AND to_timestamp('" + dtfim + "', 'yyyy-MM-dd') "
-        
-    qry+= "ORDER BY mov_dtmov ASC "
-    
-    df_logeventos_pd = sqlio.read_sql_query(qry, conn)
-      
-    #df_logeventos_pd.to_csv('./output/log_eventos_2.csv', mode='a', header=True, sep = ";", index=False, chunksize=1000)
-    
-    gviz = None
-    
-    if df_logeventos_pd.size > 0 :
-    
-        dataframe = pm4py.format_dataframe(df_logeventos_pd, case_id='npu', activity_key='atividade', timestamp_key='mov_dtmov')
-        eventLog = pm4py.convert_to_event_log(dataframe)
-        if sensibilidade != None :
-            eventLog = variants_filter.filter_log_variants_percentage(eventLog, percentage=float(sensibilidade) / 100)
-
-        #Create graph from log
-        dfg = dfg_discovery.apply(eventLog)
-        
-        if tipometrica == 'PERFORMANCE' :
-            parameters = {dfg_visualization.Variants.PERFORMANCE.value.Parameters.FORMAT: imageformat}
-            # Visualise
-            gviz = dfg_visualization.apply(dfg, log=eventLog, variant=dfg_visualization.Variants.PERFORMANCE, parameters=parameters)
-        else :
-            parameters = {dfg_visualization.Variants.FREQUENCY.value.Parameters.FORMAT: imageformat}
-            # Visualise
-            gviz = dfg_visualization.apply(dfg, log=eventLog, variant=dfg_visualization.Variants.FREQUENCY, parameters=parameters)
-    
-    return gviz
-
-def get_random_string(length):
-    # Random string with the combination of lower and upper case
-    letters = string.ascii_letters
-    result_str = ''.join(random.choice(letters) for i in range(length))
-    return result_str

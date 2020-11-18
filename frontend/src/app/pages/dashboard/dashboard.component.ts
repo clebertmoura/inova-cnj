@@ -305,7 +305,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     console.log('adicionarModeloPm');
     if (this.tribunalProcess != null) {
       if (this.naturezaProcess != null) {
-        const filtro = new FiltroPm(this.tribunalProcess, this.orgaoJulgadorProcess, 
+        const filtro = new FiltroPm(this.tipoJusticaProcess, this.tribunalProcess, this.orgaoJulgadorProcess, 
           this.naturezaProcess, this.classeProcess);
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {
           this.filtrosPm.push(filtro);
@@ -317,9 +317,17 @@ export class DashboardComponent implements OnDestroy, OnInit {
           });
         }, error => {
           console.error(error);
-          this.toastrService.warning('Não existem dados para geração do modelo.', `Sem dados!`);
+          if (error.status == 400) {
+            this.toastrService.warning('Por favor, selecione os filtros para geração do modelo.', `Selecione os filtros!`);
+          } else if (error.status == 404) {
+            this.toastrService.warning('Não existem dados para geração do modelo.', `Sem dados!`);
+          } else {
+            this.toastrService.danger('Ocorreu um erro inesperado ao consultar dados.', `Erro inesperado!`); 
+          }
         });
       }
+    } else {
+      this.toastrService.warning('Por favor, selecione os filtros para geração do modelo.', `Selecione os filtros!`);
     }
   }
 

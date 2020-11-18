@@ -65,6 +65,7 @@ __MACOSX
 work/base/justica_estadual
 work/output/*.csv
 work/output/*.png
+work/output/*.svg
 work/.ipynb_checkpoints
 neo4j/data/*
 neo4j/logs/*
