@@ -7,7 +7,6 @@ Projeto elaborado para Hackathon Inova CNJ, desafio 01.
 [Apresentação] (https://youtu.be/6_Z2lrO363k)
 
 ## Equipe
-
 - Cleber Tavares de Moura <cleber.moura@tjpe.jus.br>
 - Fabio Cruz Tavares <fabio.cruz.tavares@tjpe.jus.br>
 - Hadautho Roberto Barros Da Silva <hadautho.barros@tjpe.jus.br>
