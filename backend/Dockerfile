@@ -8,6 +8,10 @@ FROM python:3.9.0-buster
 #     HTTPS_PROXY=http://192.168.251.227:8080 \
 #     NO_PROXY=localhost
 
+RUN apt-get update && \
+    apt-get -y install graphviz && \
+    apt-get clean
+
 COPY . /app
 WORKDIR /app
 

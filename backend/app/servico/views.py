@@ -9,6 +9,8 @@ import pandas.io.sql as sqlio
 
 import psycopg2
 
+import tempfile
+
 import pm4py
 from pm4py.objects.log.util import dataframe_utils
 from pm4py.objects.conversion.log import converter as log_converter
@@ -305,7 +307,8 @@ def api_gerar_modelo_pm():
                dtinicio, dtfim, sensibility=sensibilidade, metric_type=metrica, image_format=formato)
     if gviz != None:
         file_remover = FileRemover()
-        path = "./output/modelo_pm_" + get_random_string(8) + "." + str(formato).lower()
+        tempdir = tempfile.mkdtemp()
+        path = tempdir + "/model_mp." + str(formato).lower()
         dfg_visualization.save(gviz, path)
         resp = send_file(path, as_attachment=False)
         file_remover.cleanup_once_done(resp, path)
