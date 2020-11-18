@@ -55,7 +55,7 @@ services:
     image: inova-cnj-backend
     env_file: .env/dev.env
     ports:
-      - "5020:5000"
+      - "8080:8080"
     restart: always
     networks:
       - inova-cnj-network
