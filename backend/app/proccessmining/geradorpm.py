@@ -9,6 +9,10 @@ import pandas.io.sql as sqlio
 import random
 import string
 
+import shutil
+import tempfile
+import weakref
+
 import pm4py
 from pm4py.objects.log.util import dataframe_utils
 from pm4py.objects.conversion.log import converter as log_converter
@@ -136,6 +140,19 @@ class ModeloEstatisticas:
         self.caso_dur_media = caso_dur_media
         self.taxa_chegada_casos = taxa_chegada_casos
         self.taxa_dispersao_casos = taxa_dispersao_casos
+
+class FileRemover(object):
+    def __init__(self):
+        self.weak_references = dict()  # weak_ref -> filepath to remove
+
+    def cleanup_once_done(self, response, filepath):
+        wr = weakref.ref(response, self._do_cleanup)
+        self.weak_references[wr] = filepath
+
+    def _do_cleanup(self, wr):
+        filepath = self.weak_references[wr]
+        print('Deleting %s' % filepath)
+        shutil.rmtree(filepath, ignore_errors=True)
 
 # Gera as estatisticas do modelo
 def gerar_estatisticas_model_from_log_eventos(eventLog):
