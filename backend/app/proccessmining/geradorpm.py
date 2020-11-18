@@ -69,7 +69,7 @@ def gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, natureza, codc
     if grau != None :
         qry+= "AND fat.grau = '" + grau + "' "
     if natureza != None :
-        qry+= "AND nat.descricao = '" + natureza + "' "
+        qry+= "AND nat.cod = " + natureza + " "
     if codclasse != None :
         qry+= "AND fat.codclasse = " + str(codclasse) + " "
         
