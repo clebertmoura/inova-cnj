@@ -302,7 +302,7 @@ def api_gerar_modelo_pm():
         abort(400, description="natureza nao informado")
     
     gviz = gerar_view_dfg_model_from_params(ramojustica, codtribunal, grau, codorgaoj, natureza, codclasse, \
-               dtinicio, dtfim, sensibilidade, tipometrica=metrica, imageformat=formato)
+               dtinicio, dtfim, sensibility=sensibilidade, metric_type=metrica, image_format=formato)
     if gviz != None:
         file_remover = FileRemover()
         path = "./output/modelo_pm_" + get_random_string(8) + "." + str(formato).lower()

@@ -46,7 +46,7 @@ services:
     image: inova-cnj-iaserver
     env_file: .env/dev.env
     ports:
-      - "5010:5000"
+      - "5000:5000"
     restart: always
     networks:
       - inova-cnj-network
