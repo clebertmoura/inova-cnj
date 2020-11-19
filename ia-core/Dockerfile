@@ -13,6 +13,10 @@ COPY /config/* /home/$NB_USER/.jupyter/
 
 USER root
 
+# RUN mkdir /home/$NB_USER/.ipython/profile_default/startup/ -p
+# COPY /startup/* /home/$NB_USER/.ipython/profile_default/startup/
+# RUN fix-permissions /home/$NB_USER/.ipython
+
 RUN apt-get update && \
     apt-get -y install graphviz && \
     apt-get clean
