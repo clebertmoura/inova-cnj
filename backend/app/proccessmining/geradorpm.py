@@ -13,6 +13,8 @@ import shutil
 import tempfile
 import weakref
 
+import timer3
+
 import pm4py
 from pm4py.objects.log.util import dataframe_utils
 from pm4py.objects.conversion.log import converter as log_converter
@@ -33,60 +35,87 @@ db_pass = os.getenv('POSTGRES_PASSWORD')
 # Mapa chave=valor - ramo de justica/sufixo_tabela_fato
 ramos_justica = {'Eleitoral': 'jele', 'Estadual': 'jest', 'Federal': 'jfed', 'Militar': 'jmil', 'Trabalho': 'jtra'}
 
-# gera um log de eventos de acordo com os parametros informados.
-def gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, natureza, codclasse, dtinicio, dtfim, 
-                      sensibility = '60'):
-    
-    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    
-    tabela_fato = "inovacnj.fat_movimento_" + ramos_justica.get(ramo_justica, 'default')
-    
-    qry = "SELECT "
-    qry+= "  fat.npu as npu, "
-    qry+= "  CASE "
-    qry+= "  WHEN f.descricao IS NULL THEN fat.mov_cod ||  ' - ' || mov.descricao "
-    qry+= "  ELSE f.descricao || ': ' || fat.mov_cod ||  ' - ' || mov.descricao "
-    qry+= "  END AS atividade, "
-    qry+= "  fat.mov_dtmov as mov_dtmov "
-    qry+= "FROM " + tabela_fato + " fat "
-    qry+= "INNER JOIN inovacnj.movimentocnj mov ON mov.cod = fat.mov_cod "
-    qry+= "INNER JOIN inovacnj.natureza_classe nc ON nc.cod_classe = fat.codclasse "
-    qry+= "INNER JOIN inovacnj.natureza nat ON nat.cod = nc.cod_natureza "
-    qry+= "LEFT JOIN inovacnj.fase_movimento fm ON fm.cod_movimento = fat.mov_cod "
-    qry+= "LEFT JOIN inovacnj.fase f ON f.cod = fm.cod_fase "
-    qry+= "WHERE (1=1) "
-    
-    if codtribunal != None :
-        qry+= "AND fat.codtribunal = '" + codtribunal + "' "
-    if codorgaoj != None :
-        qry+= "AND fat.oj_cod = '" + codorgaoj + "' "
-    if grau != None :
-        qry+= "AND fat.grau = '" + grau + "' "
-    if natureza != None :
-        qry+= "AND nat.cod = " + natureza + " "
-    if codclasse != None :
-        qry+= "AND fat.codclasse = " + str(codclasse) + " "
-        
-    if dtinicio != None and dtfim != None:
-        qry+= "AND fat.mov_dtmov BETWEEN to_timestamp('" + dtinicio + "', 'yyyy-MM-dd') AND to_timestamp('" + dtfim + "', 'yyyy-MM-dd') "
-        
-    qry+= "ORDER BY fat.npu, fat.mov_dtmov ASC "
-    
-    df_logeventos_pd = pd.read_sql_query(qry, conn)
-      
-    event_log = None
-    
-    if df_logeventos_pd.empty == False :
-        df_event_log = pm4py.format_dataframe(df_logeventos_pd, case_id='npu', activity_key='atividade', timestamp_key='mov_dtmov')
-        event_log = pm4py.convert_to_event_log(df_event_log)
-        if sensibility != None :
-            event_log = pm4py.filter_variants_percentage(event_log, percentage=float(sensibility) / 100)
+# Cache para logs de evento
+eventLogCache = {}
 
-    return event_log
+# Remove um log de eventos da cache pela chave
+def clear_eventlog_cache(cacheKey):
+    eventLog = eventLogCache.get(cacheKey)
+
+    if eventLog is not None :
+        eventLogCache[cacheKey] = None
+
+# gera um log de eventos de acordo com os parametros informados.
+def gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, 
+                      baixado = None, sensibility = '60'):
+    
+    eventLog = None
+
+    cacheKey = "{0}-{1}-{2}-{3}-{4}-{5}-{6}-{7}-{8}".format(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado)
+    
+    cachedEventLog = eventLogCache.get(cacheKey)
+    if cachedEventLog is not None :
+        eventLog = cachedEventLog
+
+    else :
+        conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+        
+        sufixo_ramo = ramos_justica.get(ramo_justica, 'default')
+        
+        tabela_fato = "inovacnj.fat_movimento_" + sufixo_ramo
+        
+        qry = "SELECT "
+        qry+= "  fat.npu as npu, "
+        qry+= "  CASE "
+        qry+= "  WHEN f.descricao IS NULL THEN fat.mov_cod ||  ' - ' || mov.descricao "
+        qry+= "  ELSE f.descricao || ': ' || fat.mov_cod ||  ' - ' || mov.descricao "
+        qry+= "  END AS atividade, "
+        qry+= "  fat.mov_dtmov as mov_dtmov "
+        qry+= "FROM " + tabela_fato + " fat "
+        qry+= "INNER JOIN inovacnj.acervo_processo_" + sufixo_ramo + " ap ON ap.npu = fat.npu "
+        qry+= "INNER JOIN inovacnj.movimentocnj mov ON mov.cod = fat.mov_cod "
+        qry+= "INNER JOIN inovacnj.natureza_classe nc ON nc.cod_classe = fat.codclasse "
+        qry+= "INNER JOIN inovacnj.natureza nat ON nat.cod = nc.cod_natureza "
+        qry+= "LEFT JOIN inovacnj.fase_movimento fm ON fm.cod_movimento = fat.mov_cod "
+        qry+= "LEFT JOIN inovacnj.fase f ON f.cod = fm.cod_fase "
+        qry+= "WHERE (1=1) "
+        
+        if baixado is not None :
+            qry+= "AND ap.baixado = '" + baixado + "' "
+        if codtribunal is not None :
+            qry+= "AND fat.codtribunal = '" + codtribunal + "' "
+        if codorgaoj is not None :
+            qry+= "AND fat.oj_cod = '" + codorgaoj + "' "
+        if grau is not None :
+            qry+= "AND fat.grau = '" + grau + "' "
+        if codnatureza is not None :
+            qry+= "AND nat.cod = " + str(codnatureza) + " "
+        if codclasse is not None :
+            qry+= "AND fat.codclasse = " + str(codclasse) + " "
+            
+        if dtinicio is not None and dtfim is not None:
+            qry+= "AND fat.mov_dtmov BETWEEN to_timestamp('" + dtinicio + "', 'yyyy-MM-dd') AND to_timestamp('" + dtfim + "', 'yyyy-MM-dd') "
+            
+        qry+= "ORDER BY fat.npu, fat.mov_dtmov ASC "
+        
+        df_logeventos_pd = pd.read_sql_query(qry, conn)
+        
+        if df_logeventos_pd.empty == False :
+            df_event_log = pm4py.format_dataframe(df_logeventos_pd, case_id='npu', activity_key='atividade', timestamp_key='mov_dtmov')
+            eventLog = pm4py.convert_to_event_log(df_event_log)
+
+            eventLogCache[cacheKey] = eventLog
+            timer3.apply_after(1000 * 60 * 10, clear_eventlog_cache, args=([cacheKey]), priority=0)
+
+    if eventLog is not None :
+        if sensibility is not None :
+            eventLog = pm4py.filter_variants_percentage(eventLog, percentage=float(sensibility) / 100)
+
+    return eventLog
 
 # Gera o DFG Model a partir do log de eventos
 def gerar_dfg_model_from_log_eventos(eventLog):
-    if eventLog != None :
+    if eventLog is not None :
         #Create dfg model from log
         return dfg_discovery.apply(eventLog)
     else :
@@ -110,12 +139,12 @@ def gerar_view_dfg_model(eventLog, dfg, metric_type = 'FREQUENCY', image_format 
     return gviz
 
 # Gera a visualização do modelo com base nos parametros
-def gerar_view_dfg_model_from_params(ramo_justica, codtribunal, grau, codorgaoj, natureza, codclasse, dtinicio, dtfim, \
-        sensibility = '60', metric_type = 'FREQUENCY', image_format = 'png'):
+def gerar_view_dfg_model_from_params(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, 
+                                     dtinicio, dtfim, baixado = None, sensibility = '60', metric_type = 'FREQUENCY', image_format = 'png'):
     
     gviz = None
     
-    eventLog = gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, natureza, codclasse, dtinicio, dtfim, sensibility)
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
     
     if eventLog is not None :
         dfg = gerar_dfg_model_from_log_eventos(eventLog)
@@ -175,3 +204,16 @@ def gerar_estatisticas_model_from_log_eventos(eventLog):
     
     return ModeloEstatisticas(qtde_casos=len(all_case_durations), caso_dur_min=min_case_duration, caso_dur_max=max_case_duration, \
         caso_dur_media=median_case_duration, taxa_chegada_casos=case_arrival_ratio, taxa_dispersao_casos=case_dispersion_ratio)
+
+# Gera as estatisticas do modelo com base nos parametros
+def gerar_estatistica_model_from_params(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, 
+                                     dtinicio, dtfim, baixado = None, sensibility = '60'):
+    
+    est_model = None
+    
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
+    
+    if eventLog is not None :
+        est_model = gerar_estatisticas_model_from_log_eventos(eventLog)
+    
+    return est_model

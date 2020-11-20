@@ -10,6 +10,7 @@ import pandas.io.sql as sqlio
 import psycopg2
 
 import tempfile
+import jsonpickle
 
 import pm4py
 from pm4py.objects.log.util import dataframe_utils
@@ -402,6 +403,34 @@ def api_gerar_modelo_pm():
         resp = send_file(path, as_attachment=False)
         file_remover.cleanup_once_done(resp, path)
         return resp
+    else:
+        print("sem dados")
+        abort(404, description="Nao encontrado")
+
+
+@servico.route('/api/v1/gerar-estatisticas-modelo-pm')
+def api_gerar_estatisticas_modelo_pm():
+    ramojustica = request.args.get('ramojustica')
+    codtribunal = request.args.get('codtribunal')
+    grau = request.args.get('grau')
+    codorgaoj = request.args.get('codorgaoj')
+    natureza = request.args.get('natureza')
+    codclasse = request.args.get('codclasse')
+    dtinicio = request.args.get('dtinicio')
+    dtfim = request.args.get('dtfim')
+    sensibilidade = request.args.get('sensibilidade')
+    
+    if ramojustica is None:
+        abort(400, description="ramojustica nao informado")
+    if codtribunal is None:
+        abort(400, description="codtribunal nao informado")
+    if natureza is None:
+        abort(400, description="natureza nao informado")
+    
+    estat = gerar_estatistica_model_from_params(ramojustica, codtribunal, grau, codorgaoj, natureza, codclasse, \
+               dtinicio, dtfim, sensibility=sensibilidade)
+    if estat is not None:
+        return jsonpickle.encode(estat)
     else:
         print("sem dados")
         abort(404, description="Nao encontrado")
