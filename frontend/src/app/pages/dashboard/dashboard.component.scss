@@ -33,6 +33,10 @@ div.modelosvg svg {
   width: 100% !important;
 }
 
+nb-card.size-large {
+  height: 50rem;
+}
+
 :host /deep/ ng2-st-tbody-edit-delete {
   display: flex !important;
   height: 0 !important;

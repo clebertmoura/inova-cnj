@@ -28,17 +28,11 @@ from ..proccessmining.geradorpm import *
 
 import os 
 
-#db_host = os.getenv('POSTGRES_HOST')
-#db_port = os.getenv('POSTGRES_PORT')
-#db_name = os.getenv('POSTGRES_DB')
-#db_user = os.getenv('POSTGRES_USER')
-#db_pass = os.getenv('POSTGRES_PASSWORD')
-
-db_host = "161.97.71.108"
-db_port = "15432"
-db_name = "dbinovacnj"
-db_user = "inovacnj"
-db_pass = "inovacnj@pwd2020"
+db_host = os.getenv('POSTGRES_HOST')
+db_port = os.getenv('POSTGRES_PORT')
+db_name = os.getenv('POSTGRES_DB')
+db_user = os.getenv('POSTGRES_USER')
+db_pass = os.getenv('POSTGRES_PASSWORD')
 
 @servico.route('/')
 def home():
@@ -249,17 +243,17 @@ def get_orgaosJulgadores():
     codtribunal = request.args.get('codtribunal')
     conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
     cur = conn.cursor()
-    
-    qry = "SELECT DISTINCT oj_cod, oj_instancia, oj_descricao, codtribunal "
-    qry+= "FROM inovacnj.fat_movimentos_te "
+
+    qry = "SELECT cod, tipo_oj, descricao, codtribunal "
+    qry+= "FROM inovacnj.orgao_julgador "
     qry+= "WHERE (1=1) "
+    
     if codtribunal != None :
         qry+= "AND codtribunal = '" + codtribunal + "' "
-    qry+= "ORDER BY codtribunal, oj_descricao "
-    
+    qry+= "ORDER BY ordem NULLS LAST "
+
     cur.execute(qry)
     lista = cur.fetchall()
-    print("get_orgaosJulgadores")
     return jsonify(lista)
     
     #orgaos = OrgaoJulgador.query.order_by(OrgaoJulgador.cod).all()
