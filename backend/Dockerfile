@@ -17,6 +17,6 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5000
+EXPOSE 5000 8080
 
 CMD [ "python3.9", "-u", "./run.py" ]

@@ -1,92 +1,92 @@
-cod;nome;sigla;tipo;porte;latitude;longitude;coduf;uf;tipotribunal_oj
-TJAC;Tribunal de Justiça do Acre;TJAC;Estadual;Pequeno;-8.77;-70.55;12;AC;TRIBE
-TJAL;Tribunal de Justiça de Alagoas;TJAL;Estadual;Pequeno;-9.62;-36.82;27;AL;TRIBE
-TJAP;Tribunal de Justiça do Amapá;TJAP;Estadual;Pequeno;1.41;-51.77;16;AP;TRIBE
-TJAM;Tribunal de Justiça do Amazonas;TJAM;Estadual;Pequeno;-3.47;-65.1;13;AM;TRIBE
-TJBA;Tribunal de Justiça da Bahia;TJBA;Estadual;Médio;-13.29;-41.71;29;BA;TRIBE
-TJCE;Tribunal de Justiça do Ceará;TJCE;Estadual;Médio;-5.2;-39.53;23;CE;TRIBE
-TJDFT;Tribunal de Justiça do Distrito Federal e dos Territórios;TJDFT;Estadual;Médio;-15.83;-47.86;53;DF;TRIBE
-TJES;Tribunal de Justiça do Espírito Santo;TJES;Estadual;Médio;-19.19;-40.34;32;ES;TRIBE
-TJGO;Tribunal de Justiça de Goiás;TJGO;Estadual;Médio;-15.98;-49.86;52;GO;TRIBE
-TJMA;Tribunal de Justiça do Maranhão;TJMA;Estadual;Médio;-5.42;-45.44;21;MA;TRIBE
-TJMT;Tribunal de Justiça do Mato Grosso;TJMT;Estadual;Médio;-12.64;-55.42;51;MT;TRIBE
-TJMS;Tribunal de Justiça do Mato Grosso do Sul;TJMS;Estadual;Pequeno;-20.51;-54.54;50;MS;TRIBE
-TJMG;Tribunal de Justiça de Minas Gerais;TJMG;Estadual;Grande;-18.1;-44.38;31;MG;TRIBE
-TJPA;Tribunal de Justiça do Pará;TJPA;Estadual;Médio;-3.79;-52.48;15;PA;TRIBE
-TJPB;Tribunal de Justiça da Paraíba;TJPB;Estadual;Pequeno;-7.28;-36.72;25;PB;TRIBE
-TJPR;Tribunal de Justiça do Paraná;TJPR;Estadual;Grande;-24.89;-51.55;41;PR;TRIBE
-TJPE;Tribunal de Justiça de Pernambuco;TJPE;Estadual;Médio;-8.38;-37.86;26;PE;TRIBE
-TJPI;Tribunal de Justiça do Piauí;TJPI;Estadual;Pequeno;-6.6;-42.28;22;PI;TRIBE
-TJRJ;Tribunal de Justiça do Rio de Janeiro;TJRJ;Estadual;Grande;-22.25;-42.66;33;RJ;TRIBE
-TJRN;Tribunal de Justiça do Rio Grande do Norte;TJRN;Estadual;Pequeno;-5.81;-36.59;24;RN;TRIBE
-TJRS;Tribunal de Justiça do Rio Grande do Sul;TJRS;Estadual;Grande;-30.17;-53.5;43;RS;TRIBE
-TJRO;Tribunal de Justiça de Rondônia;TJRO;Estadual;Pequeno;-10.83;-63.34;11;RO;TRIBE
-TJRR;Tribunal de Justiça de Roraima;TJRR;Estadual;Pequeno;1.99;-61.33;14;RR;TRIBE
-TJSC;Tribunal de Justiça de Santa Catarina;TJSC;Estadual;Médio;-27.45;-50.95;42;SC;TRIBE
-TJSP;Tribunal de Justiça de São Paulo;TJSP;Estadual;Grande;-22.19;-48.79;35;SP;TRIBE
-TJSE;Tribunal de Justiça de Sergipe;TJSE;Estadual;Pequeno;-10.57;-37.45;28;SE;TRIBE
-TJTO;Tribunal de Justiça de Tocantins;TJTO;Estadual;Pequeno;-9.46;-48.26;17;TO;TRIBE
-TRT1;Tribunal Regional do Trabalho da 1ª Região;TRT1;Trabalho;Grande;-22.25;-42.66;33;RJ;TRIBT
-TRT2;Tribunal Regional do Trabalho da 2ª Região;TRT2;Trabalho;Grande;-22.19;-48.79;35;SP;TRIBT
-TRT3;Tribunal Regional do Trabalho da 3ª Região;TRT3;Trabalho;Grande;-18.1;-44.38;31;MG;TRIBT
-TRT4;Tribunal Regional do Trabalho da 4ª Região;TRT4;Trabalho;Grande;-30.17;-53.5;43;RS;TRIBT
-TRT5;Tribunal Regional do Trabalho da 5ª Região;TRT5;Trabalho;Médio;-13.29;-41.71;29;BA;TRIBT
-TRT6;Tribunal Regional do Trabalho da 6ª Região;TRT6;Trabalho;Médio;-8.38;-37.86;26;PE;TRIBT
-TRT7;Tribunal Regional do Trabalho da 7ª Região;TRT7;Trabalho;Médio;-5.2;-39.53;23;CE;TRIBT
-TRT8;Tribunal Regional do Trabalho da 8ª Região;TRT8;Trabalho;Médio;-3.79;-52.48;15;PA;TRIBT
-TRT9;Tribunal Regional do Trabalho da 9ª Região;TRT9;Trabalho;Médio;-24.89;-51.55;41;PR;TRIBT
-TRT10;Tribunal Regional do Trabalho da 10ª Região;TRT10;Trabalho;Médio;-15.83;-47.86;53;DF;TRIBT
-TRT11;Tribunal Regional do Trabalho da 11ª Região;TRT11;Trabalho;Pequeno;-3.47;-65.1;13;AM;TRIBT
-TRT12;Tribunal Regional do Trabalho da 12ª Região;TRT12;Trabalho;Médio;-27.45;-50.95;42;SC;TRIBT
-TRT13;Tribunal Regional do Trabalho da 13ª Região;TRT13;Trabalho;Pequeno;-7.28;-36.72;25;PB;TRIBT
-TRT14;Tribunal Regional do Trabalho da 14ª Região;TRT14;Trabalho;Pequeno;-10.83;-63.34;11;RO;TRIBT
-TRT15;Tribunal Regional do Trabalho da 15ª Região;TRT15;Trabalho;Grande;-22.90;-47.06;35;SP;TRIBT
-TRT16;Tribunal Regional do Trabalho da 16ª Região;TRT16;Trabalho;Pequeno;-5.42;-45.44;21;MA;TRIBT
-TRT17;Tribunal Regional do Trabalho da 17ª Região;TRT17;Trabalho;Pequeno;-19.19;-40.34;32;ES;TRIBT
-TRT18;Tribunal Regional do Trabalho da 18ª Região;TRT18;Trabalho;Médio;-15.98;-49.86;52;GO;TRIBT
-TRT19;Tribunal Regional do Trabalho da 19ª Região;TRT19;Trabalho;Pequeno;-9.62;-36.82;27;AL;TRIBT
-TRT20;Tribunal Regional do Trabalho da 20ª Região;TRT20;Trabalho;Pequeno;-10.57;-37.45;28;SE;TRIBT
-TRT21;Tribunal Regional do Trabalho da 21ª Região;TRT21;Trabalho;Pequeno;-5.81;-36.59;24;RN;TRIBT
-TRT22;Tribunal Regional do Trabalho da 22ª Região;TRT22;Trabalho;Pequeno;-6.6;-42.28;22;PI;TRIBT
-TRT23;Tribunal Regional do Trabalho da 23ª Região;TRT23;Trabalho;Pequeno;-12.64;-55.42;51;MT;TRIBT
-TRT24;Tribunal Regional do Trabalho da 24ª Região;TRT24;Trabalho;Pequeno;-20.51;-54.54;50;MS;TRIBT
-TRE-AC;Tribunal Regional Eleitoral do Acre;TRE-AC;Eleitoral;Pequeno;-8.77;-70.55;12;AC;TRIBL
-TRE-AL;Tribunal Regional Eleitoral de Alagoas;TRE-AL;Eleitoral;Pequeno;-9.62;-36.82;27;AL;TRIBL
-TRE-AP;Tribunal Regional Eleitoral do Amapá;TRE-AP;Eleitoral;Pequeno;1.41;-51.77;16;AP;TRIBL
-TRE-AM;Tribunal Regional Eleitoral do Amazonas;TRE-AM;Eleitoral;Médio;-3.47;-65.1;13;AM;TRIBL
-TRE-BA;Tribunal Regional Eleitoral da Bahia;TRE-BA;Eleitoral;Médio;-13.29;-41.71;29;BA;TRIBL
-TRE-CE;Tribunal Regional Eleitoral do Ceará;TRE-CE;Eleitoral;Médio;-5.2;-39.53;23;CE;TRIBL
-TRE-DF;Tribunal Regional Eleitoral do Distrito Federal;TRE-DF;Eleitoral;Pequeno;-15.83;-47.86;53;DF;TRIBL
-TRE-ES;Tribunal Regional Eleitoral do Espírito Santo;TRE-ES;Eleitoral;Pequeno;-19.19;-40.34;32;ES;TRIBL
-TRE-GO;Tribunal Regional Eleitoral de Goiás;TRE-GO;Eleitoral;Médio;-15.98;-49.86;52;GO;TRIBL
-TRE-MA;Tribunal Regional Eleitoral do Maranhão;TRE-MA;Eleitoral;Médio;-5.42;-45.44;21;MA;TRIBL
-TRE-MT;Tribunal Regional Eleitoral do Mato Grosso;TRE-MT;Eleitoral;Pequeno;-12.64;-55.42;51;MT;TRIBL
-TRE-MS;Tribunal Regional Eleitoral do Mato Grosso do Sul;TRE-MS;Eleitoral;Pequeno;-20.51;-54.54;50;MS;TRIBL
-TRE-MG;Tribunal Regional Eleitoral de Minas Gerais;TRE-MG;Eleitoral;Grande;-18.1;-44.38;31;MG;TRIBL
-TRE-PA;Tribunal Regional Eleitoral do Pará;TRE-PA;Eleitoral;Médio;-3.79;-52.48;15;PA;TRIBL
-TRE-PB;Tribunal Regional Eleitoral da Paraíba;TRE-PB;Eleitoral;Médio;-7.28;-36.72;25;PB;TRIBL
-TRE-PR;Tribunal Regional Eleitoral do Paraná;TRE-PR;Eleitoral;Grande;-24.89;-51.55;41;PR;TRIBL
-TRE-PE;Tribunal Regional Eleitoral de Pernambuco;TRE-PE;Eleitoral;Médio;-8.38;-37.86;26;PE;TRIBL
-TRE-PI;Tribunal Regional Eleitoral do Piauí;TRE-PI;Eleitoral;Médio;-6.6;-42.28;22;PI;TRIBL
-TRE-RJ;Tribunal Regional Eleitoral do Rio de Janeiro;TRE-RJ;Eleitoral;Grande;-22.25;-42.66;33;RJ;TRIBL
-TRE-RN;Tribunal Regional Eleitoral do Rio Grande do Norte;TRE-RN;Eleitoral;Médio;-5.81;-36.59;24;RN;TRIBL
-TRE-RS;Tribunal Regional Eleitoral do Rio Grande do Sul;TRE-RS;Eleitoral;Grande;-30.17;-53.5;43;RS;TRIBL
-TRE-RR;Tribunal Regional Eleitoral de Roraima;TRE-RR;Eleitoral;Pequeno;1.99;-61.33;14;RR;TRIBL
-TRE-SC;Tribunal Regional Eleitoral de Santa Catarina;TRE-SC;Eleitoral;Médio;-27.45;-50.95;42;SC;TRIBL
-TRE-SP;Tribunal Regional Eleitoral de São Paulo;TRE-SP;Eleitoral;Grande;-22.19;-48.79;35;SP;TRIBL
-TRE-SE;Tribunal Regional Eleitoral de Sergipe;TRE-SE;Eleitoral;Pequeno;-10.57;-37.45;28;SE;TRIBL
-TRE-TO;Tribunal Regional Eleitoral de Tocantins;TRE-TO;Eleitoral;Pequeno;-9.46;-48.26;17;TO;TRIBL
-TRE-RO;Tribunal Regional Eleitoral de Rondônia;TRE-RO;Eleitoral;Pequeno;-10.83;-63.34;11;RO;TRIBL
-TJMMG;Tribunal de Justiça Militar de Minas Gerais;TJMMG;Militar;ND;-18.1;-44.38;31;MG;TRIBM
-TJMRS;Tribunal de Justiça Militar do Rio Grande do Sul;TJMRS;Militar;ND;-30.17;-53.5;43;RS;TRIBM
-TJMSP;Tribunal de Justiça Militar de São Paulo;TJMSP;Militar;ND;-22.19;-48.79;35;SP;TRIBM
-TRF1;Tribunal Regional Federal da 1ª Região;TRF1;Federal;ND;-15.83;-47.86;53;DF;TRIBF
-TRF2;Tribunal Regional Federal da 2ª Região;TRF2;Federal;ND;-22.25;-42.66;33;RJ;TRIBF
-TRF3;Tribunal Regional Federal da 3ª Região;TRF3;Federal;ND;-22.19;-48.79;35;SP;TRIBF
-TRF4;Tribunal Regional Federal da 4ª Região;TRF4;Federal;ND;-30.17;-53.5;43;RS;TRIBF
-TRF5;Tribunal Regional Federal da 5ª Região;TRF5;Federal;ND;-8.38;-37.86;26;PE;TRIBF
-STJ;Superior Tribunal de Justiça;STJ;Superior;ND;-15.83;-47.86;53;DF;TRIBS
-STM;Superior Tribunal Militar;STM;Superior;ND;-15.83;-47.86;53;DF;TRIBS
-TST;Tribunal Superior do Trabalho;TST;Superior;ND;-15.83;-47.86;53;DF;TRIBS
-STF;Supremo Tribunal Federal;STF;Superior;ND;-15.83;-47.86;53;DF;TRIBS
-TSE;Tribunal Superior Eleitoral;TSE;Superior;ND;-15.83;-47.86;53;DF;TRIBS
+"cod","descricao","sigla","tipo","porte","latitude","longitude","coduf","uf","tipotribunal_oj"
+"STF","Supremo Tribunal Federal","STF","Superior","ND",-15.83,-47.86,53,"DF","TRIBS"
+"STJ","Superior Tribunal de Justiça","STJ","Superior","ND",-15.83,-47.86,53,"DF","TRIBS"
+"STM","Superior Tribunal Militar","STM","Superior","ND",-15.83,-47.86,53,"DF","TRIBS"
+"TJAC","Tribunal de Justiça do Acre","TJAC","Estadual","Pequeno",-8.77,-70.55,12,"AC","TRIBE"
+"TJAL","Tribunal de Justiça de Alagoas","TJAL","Estadual","Pequeno",-9.62,-36.82,27,"AL","TRIBE"
+"TJAM","Tribunal de Justiça do Amazonas","TJAM","Estadual","Pequeno",-3.47,-65.1,13,"AM","TRIBE"
+"TJAP","Tribunal de Justiça do Amapá","TJAP","Estadual","Pequeno",1.41,-51.77,16,"AP","TRIBE"
+"TJBA","Tribunal de Justiça da Bahia","TJBA","Estadual","Médio",-13.29,-41.71,29,"BA","TRIBE"
+"TJCE","Tribunal de Justiça do Ceará","TJCE","Estadual","Médio",-5.2,-39.53,23,"CE","TRIBE"
+"TJDFT","Tribunal de Justiça do Distrito Federal e dos Territórios","TJDFT","Estadual","Médio",-15.83,-47.86,53,"DF","TRIBE"
+"TJES","Tribunal de Justiça do Espírito Santo","TJES","Estadual","Médio",-19.19,-40.34,32,"ES","TRIBE"
+"TJGO","Tribunal de Justiça de Goiás","TJGO","Estadual","Médio",-15.98,-49.86,52,"GO","TRIBE"
+"TJMA","Tribunal de Justiça do Maranhão","TJMA","Estadual","Médio",-5.42,-45.44,21,"MA","TRIBE"
+"TJMG","Tribunal de Justiça de Minas Gerais","TJMG","Estadual","Grande",-18.1,-44.38,31,"MG","TRIBE"
+"TJMMG","Tribunal de Justiça Militar de Minas Gerais","TJMMG","Militar","ND",-18.1,-44.38,31,"MG","TRIBM"
+"TJMRS","Tribunal de Justiça Militar do Rio Grande do Sul","TJMRS","Militar","ND",-30.17,-53.5,43,"RS","TRIBM"
+"TJMS","Tribunal de Justiça do Mato Grosso do Sul","TJMS","Estadual","Pequeno",-20.51,-54.54,50,"MS","TRIBE"
+"TJMSP","Tribunal de Justiça Militar de São Paulo","TJMSP","Militar","ND",-22.19,-48.79,35,"SP","TRIBM"
+"TJMT","Tribunal de Justiça do Mato Grosso","TJMT","Estadual","Médio",-12.64,-55.42,51,"MT","TRIBE"
+"TJPA","Tribunal de Justiça do Pará","TJPA","Estadual","Médio",-3.79,-52.48,15,"PA","TRIBE"
+"TJPB","Tribunal de Justiça da Paraíba","TJPB","Estadual","Pequeno",-7.28,-36.72,25,"PB","TRIBE"
+"TJPE","Tribunal de Justiça de Pernambuco","TJPE","Estadual","Médio",-8.38,-37.86,26,"PE","TRIBE"
+"TJPI","Tribunal de Justiça do Piauí","TJPI","Estadual","Pequeno",-6.6,-42.28,22,"PI","TRIBE"
+"TJPR","Tribunal de Justiça do Paraná","TJPR","Estadual","Grande",-24.89,-51.55,41,"PR","TRIBE"
+"TJRJ","Tribunal de Justiça do Rio de Janeiro","TJRJ","Estadual","Grande",-22.25,-42.66,33,"RJ","TRIBE"
+"TJRN","Tribunal de Justiça do Rio Grande do Norte","TJRN","Estadual","Pequeno",-5.81,-36.59,24,"RN","TRIBE"
+"TJRO","Tribunal de Justiça de Rondônia","TJRO","Estadual","Pequeno",-10.83,-63.34,11,"RO","TRIBE"
+"TJRR","Tribunal de Justiça de Roraima","TJRR","Estadual","Pequeno",1.99,-61.33,14,"RR","TRIBE"
+"TJRS","Tribunal de Justiça do Rio Grande do Sul","TJRS","Estadual","Grande",-30.17,-53.5,43,"RS","TRIBE"
+"TJSC","Tribunal de Justiça de Santa Catarina","TJSC","Estadual","Médio",-27.45,-50.95,42,"SC","TRIBE"
+"TJSE","Tribunal de Justiça de Sergipe","TJSE","Estadual","Pequeno",-10.57,-37.45,28,"SE","TRIBE"
+"TJSP","Tribunal de Justiça de São Paulo","TJSP","Estadual","Grande",-22.19,-48.79,35,"SP","TRIBE"
+"TJTO","Tribunal de Justiça de Tocantins","TJTO","Estadual","Pequeno",-9.46,-48.26,17,"TO","TRIBE"
+"TRE-AC","Tribunal Regional Eleitoral do Acre","TRE-AC","Eleitoral","Pequeno",-8.77,-70.55,12,"AC","TRIBL"
+"TRE-AL","Tribunal Regional Eleitoral de Alagoas","TRE-AL","Eleitoral","Pequeno",-9.62,-36.82,27,"AL","TRIBL"
+"TRE-AM","Tribunal Regional Eleitoral do Amazonas","TRE-AM","Eleitoral","Médio",-3.47,-65.1,13,"AM","TRIBL"
+"TRE-AP","Tribunal Regional Eleitoral do Amapá","TRE-AP","Eleitoral","Pequeno",1.41,-51.77,16,"AP","TRIBL"
+"TRE-BA","Tribunal Regional Eleitoral da Bahia","TRE-BA","Eleitoral","Médio",-13.29,-41.71,29,"BA","TRIBL"
+"TRE-CE","Tribunal Regional Eleitoral do Ceará","TRE-CE","Eleitoral","Médio",-5.2,-39.53,23,"CE","TRIBL"
+"TRE-DF","Tribunal Regional Eleitoral do Distrito Federal","TRE-DF","Eleitoral","Pequeno",-15.83,-47.86,53,"DF","TRIBL"
+"TRE-ES","Tribunal Regional Eleitoral do Espírito Santo","TRE-ES","Eleitoral","Pequeno",-19.19,-40.34,32,"ES","TRIBL"
+"TRE-GO","Tribunal Regional Eleitoral de Goiás","TRE-GO","Eleitoral","Médio",-15.98,-49.86,52,"GO","TRIBL"
+"TRE-MA","Tribunal Regional Eleitoral do Maranhão","TRE-MA","Eleitoral","Médio",-5.42,-45.44,21,"MA","TRIBL"
+"TRE-MG","Tribunal Regional Eleitoral de Minas Gerais","TRE-MG","Eleitoral","Grande",-18.1,-44.38,31,"MG","TRIBL"
+"TRE-MS","Tribunal Regional Eleitoral do Mato Grosso do Sul","TRE-MS","Eleitoral","Pequeno",-20.51,-54.54,50,"MS","TRIBL"
+"TRE-MT","Tribunal Regional Eleitoral do Mato Grosso","TRE-MT","Eleitoral","Pequeno",-12.64,-55.42,51,"MT","TRIBL"
+"TRE-PA","Tribunal Regional Eleitoral do Pará","TRE-PA","Eleitoral","Médio",-3.79,-52.48,15,"PA","TRIBL"
+"TRE-PB","Tribunal Regional Eleitoral da Paraíba","TRE-PB","Eleitoral","Médio",-7.28,-36.72,25,"PB","TRIBL"
+"TRE-PE","Tribunal Regional Eleitoral de Pernambuco","TRE-PE","Eleitoral","Médio",-8.38,-37.86,26,"PE","TRIBL"
+"TRE-PI","Tribunal Regional Eleitoral do Piauí","TRE-PI","Eleitoral","Médio",-6.6,-42.28,22,"PI","TRIBL"
+"TRE-PR","Tribunal Regional Eleitoral do Paraná","TRE-PR","Eleitoral","Grande",-24.89,-51.55,41,"PR","TRIBL"
+"TRE-RJ","Tribunal Regional Eleitoral do Rio de Janeiro","TRE-RJ","Eleitoral","Grande",-22.25,-42.66,33,"RJ","TRIBL"
+"TRE-RN","Tribunal Regional Eleitoral do Rio Grande do Norte","TRE-RN","Eleitoral","Médio",-5.81,-36.59,24,"RN","TRIBL"
+"TRE-RO","Tribunal Regional Eleitoral de Rondônia","TRE-RO","Eleitoral","Pequeno",-10.83,-63.34,11,"RO","TRIBL"
+"TRE-RR","Tribunal Regional Eleitoral de Roraima","TRE-RR","Eleitoral","Pequeno",1.99,-61.33,14,"RR","TRIBL"
+"TRE-RS","Tribunal Regional Eleitoral do Rio Grande do Sul","TRE-RS","Eleitoral","Grande",-30.17,-53.5,43,"RS","TRIBL"
+"TRE-SC","Tribunal Regional Eleitoral de Santa Catarina","TRE-SC","Eleitoral","Médio",-27.45,-50.95,42,"SC","TRIBL"
+"TRE-SE","Tribunal Regional Eleitoral de Sergipe","TRE-SE","Eleitoral","Pequeno",-10.57,-37.45,28,"SE","TRIBL"
+"TRE-SP","Tribunal Regional Eleitoral de São Paulo","TRE-SP","Eleitoral","Grande",-22.19,-48.79,35,"SP","TRIBL"
+"TRE-TO","Tribunal Regional Eleitoral de Tocantins","TRE-TO","Eleitoral","Pequeno",-9.46,-48.26,17,"TO","TRIBL"
+"TRF1","Tribunal Regional Federal da 1ª Região","TRF1","Federal","ND",-15.83,-47.86,53,"DF","TRIBF"
+"TRF2","Tribunal Regional Federal da 2ª Região","TRF2","Federal","ND",-22.25,-42.66,33,"RJ","TRIBF"
+"TRF3","Tribunal Regional Federal da 3ª Região","TRF3","Federal","ND",-22.19,-48.79,35,"SP","TRIBF"
+"TRF4","Tribunal Regional Federal da 4ª Região","TRF4","Federal","ND",-30.17,-53.5,43,"RS","TRIBF"
+"TRF5","Tribunal Regional Federal da 5ª Região","TRF5","Federal","ND",-8.38,-37.86,26,"PE","TRIBF"
+"TRT1","Tribunal Regional do Trabalho da 1ª Região","TRT1","Trabalho","Grande",-22.25,-42.66,33,"RJ","TRIBT"
+"TRT10","Tribunal Regional do Trabalho da 10ª Região","TRT10","Trabalho","Médio",-15.83,-47.86,53,"DF","TRIBT"
+"TRT11","Tribunal Regional do Trabalho da 11ª Região","TRT11","Trabalho","Pequeno",-3.47,-65.1,13,"AM","TRIBT"
+"TRT12","Tribunal Regional do Trabalho da 12ª Região","TRT12","Trabalho","Médio",-27.45,-50.95,42,"SC","TRIBT"
+"TRT13","Tribunal Regional do Trabalho da 13ª Região","TRT13","Trabalho","Pequeno",-7.28,-36.72,25,"PB","TRIBT"
+"TRT14","Tribunal Regional do Trabalho da 14ª Região","TRT14","Trabalho","Pequeno",-10.83,-63.34,11,"RO","TRIBT"
+"TRT15","Tribunal Regional do Trabalho da 15ª Região","TRT15","Trabalho","Grande",-22.9,-47.06,35,"SP","TRIBT"
+"TRT16","Tribunal Regional do Trabalho da 16ª Região","TRT16","Trabalho","Pequeno",-5.42,-45.44,21,"MA","TRIBT"
+"TRT17","Tribunal Regional do Trabalho da 17ª Região","TRT17","Trabalho","Pequeno",-19.19,-40.34,32,"ES","TRIBT"
+"TRT18","Tribunal Regional do Trabalho da 18ª Região","TRT18","Trabalho","Médio",-15.98,-49.86,52,"GO","TRIBT"
+"TRT19","Tribunal Regional do Trabalho da 19ª Região","TRT19","Trabalho","Pequeno",-9.62,-36.82,27,"AL","TRIBT"
+"TRT2","Tribunal Regional do Trabalho da 2ª Região","TRT2","Trabalho","Grande",-22.19,-48.79,35,"SP","TRIBT"
+"TRT20","Tribunal Regional do Trabalho da 20ª Região","TRT20","Trabalho","Pequeno",-10.57,-37.45,28,"SE","TRIBT"
+"TRT21","Tribunal Regional do Trabalho da 21ª Região","TRT21","Trabalho","Pequeno",-5.81,-36.59,24,"RN","TRIBT"
+"TRT22","Tribunal Regional do Trabalho da 22ª Região","TRT22","Trabalho","Pequeno",-6.6,-42.28,22,"PI","TRIBT"
+"TRT23","Tribunal Regional do Trabalho da 23ª Região","TRT23","Trabalho","Pequeno",-12.64,-55.42,51,"MT","TRIBT"
+"TRT24","Tribunal Regional do Trabalho da 24ª Região","TRT24","Trabalho","Pequeno",-20.51,-54.54,50,"MS","TRIBT"
+"TRT3","Tribunal Regional do Trabalho da 3ª Região","TRT3","Trabalho","Grande",-18.1,-44.38,31,"MG","TRIBT"
+"TRT4","Tribunal Regional do Trabalho da 4ª Região","TRT4","Trabalho","Grande",-30.17,-53.5,43,"RS","TRIBT"
+"TRT5","Tribunal Regional do Trabalho da 5ª Região","TRT5","Trabalho","Médio",-13.29,-41.71,29,"BA","TRIBT"
+"TRT6","Tribunal Regional do Trabalho da 6ª Região","TRT6","Trabalho","Médio",-8.38,-37.86,26,"PE","TRIBT"
+"TRT7","Tribunal Regional do Trabalho da 7ª Região","TRT7","Trabalho","Médio",-5.2,-39.53,23,"CE","TRIBT"
+"TRT8","Tribunal Regional do Trabalho da 8ª Região","TRT8","Trabalho","Médio",-3.79,-52.48,15,"PA","TRIBT"
+"TRT9","Tribunal Regional do Trabalho da 9ª Região","TRT9","Trabalho","Médio",-24.89,-51.55,41,"PR","TRIBT"
+"TSE","Tribunal Superior Eleitoral","TSE","Superior","ND",-15.83,-47.86,53,"DF","TRIBS"
+"TST","Tribunal Superior do Trabalho","TST","Superior","ND",-15.83,-47.86,53,"DF","TRIBS"
