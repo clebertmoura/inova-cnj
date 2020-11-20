@@ -33,7 +33,8 @@ div.modelosvg svg {
   width: 100% !important;
 }
 
-:host /deep/ ng2-st-tbody-edit-delete {display: flex !important;
+:host /deep/ ng2-st-tbody-edit-delete {
+  display: flex !important;
   height: 0 !important;
 }
 
