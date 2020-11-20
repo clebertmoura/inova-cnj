@@ -8,39 +8,81 @@ GRANT ALL PRIVILEGES ON DATABASE dbmetabase TO metabase;
 CREATE SCHEMA inovacnj
     AUTHORIZATION inovacnj;
 
--- CLASSE    
+-- Table: inovacnj.CLASSE    
 CREATE TABLE inovacnj.classe
-(   cod numeric NOT NULL,
-    descricao character varying(200),
-    sigla character varying(20),
-    codpai numeric,
-    natureza character varying(10),
+(   cod integer NOT NULL,
+    descricao text ,
+    sigla text ,
+    codpai double precision,
     CONSTRAINT pk_classe PRIMARY KEY (cod)
 );
 
+COMMENT ON COLUMN inovacnj.classe.cod  IS 'Código identificador único da classe processual.';
+COMMENT ON COLUMN inovacnj.classe.descricao IS 'Descrição da classe processual.';
+COMMENT ON COLUMN inovacnj.classe.sigla IS 'Sigla da classe processual.';
+COMMENT ON COLUMN inovacnj.classe.codpai IS 'Código identificador da classe processual pai.';
 ALTER TABLE inovacnj.classe OWNER to inovacnj;
 
--- ASSUNTO
-CREATE TABLE inovacnj.assunto 
-(cod numeric NOT NULL,
- descricao character varying(400) NOT NULL,
- codpai numeric,
- CONSTRAINT pk_assunto PRIMARY KEY (cod)
-);
+-- Table: inovacnj.ASSUNTO
+CREATE TABLE inovacnj.assunto
+(   cod integer NOT NULL,
+    descricao text ,
+    codpai double precision,
+    CONSTRAINT pk_assunto PRIMARY KEY (cod)
+ );
 
+COMMENT ON COLUMN inovacnj.assunto.cod  IS 'Código identificador único assunto processual.';
+COMMENT ON COLUMN inovacnj.assunto.descricao  IS 'Descrição do assunto processual.';
+COMMENT ON COLUMN inovacnj.assunto.codpai  IS 'Código identificador da assunto processual pai.';
 ALTER TABLE inovacnj.assunto OWNER to inovacnj;
 
--- GRAU_JURISDICAO
-CREATE TABLE inovacnj.grau_jurisdicao
-(   cod character varying(5) NOT NULL,
-    descricao character varying(50)  NOT NULL,
-    CONSTRAINT pk_graujur PRIMARY KEY (cod) 
+-- Table: inovacnj.NATUREZA
+CREATE TABLE inovacnj.natureza
+(   cod integer NOT NULL,
+    descricao text,
+    CONSTRAINT pk_natureza PRIMARY KEY (cod)
 );
 
-COMMENT ON COLUMN inovacnj.grau_jurisdicao.cod IS 'Chave primária da tabela.';
-COMMENT ON COLUMN inovacnj.grau_jurisdicao.descricao IS 'Jurisdição do processo. Valores: SUP - Tribunal Superior, G2 - 2º Grau, TR - Turma Recursal, G1 - 1º grau, JE- Juizados Especiais, TRU - Turma Regional de Uniformização, TNU - Turma Nacional de Uniformização, TEU - Turma Estadual de Uniformização, CJF - Conselho da Justiça Federal, CSJT - Conselho Superior da Justiça do Trabalho.';
+COMMENT ON COLUMN inovacnj.natureza.cod IS 'Chave primária da tabela.';
+COMMENT ON COLUMN inovacnj.natureza.descricao IS 'Descrição da natureza. Valores: Cível, família, execução fiscal, eleitoral, etc.';
+ALTER TABLE inovacnj.natureza OWNER to inovacnj;
 
+-- Table: inovacnj.NATUREZA_CLASSE
+CREATE TABLE inovacnj.natureza_classe
+(   cod_classe integer NOT NULL,
+    cod_natureza integer NOT NULL,
+    CONSTRAINT pk_natureza_classe PRIMARY KEY (cod_classe, cod_natureza)
+);
+
+COMMENT ON COLUMN inovacnj.natureza_classe.cod_classe IS 'Chave primária e estrangeira para a tabela Classe.';
+COMMENT ON COLUMN inovacnj.natureza_classe.cod_natureza IS 'Chave primária e estrangeira para a tabela Natureza.';
+ALTER TABLE inovacnj.natureza_classe  OWNER to inovacnj;
+
+-- Table: inovacnj.GRAU_JURISDICAO
+CREATE TABLE inovacnj.grau_jurisdicao
+(   cod text  NOT NULL,
+    descricao text  NOT NULL,
+    tipo text NOT NULL,
+    CONSTRAINT pk_graujur PRIMARY KEY (cod, tipo)
+);
+
+COMMENT ON COLUMN inovacnj.grau_jurisdicao.cod  IS 'Chave primária da tabela.';
+COMMENT ON COLUMN inovacnj.grau_jurisdicao.descricao IS 'Jurisdição do processo. Valores: SUP - Tribunal Superior, G2 - 2º Grau, TR - Turma Recursal, G1 - 1º grau, JE- Juizados Especiais, TRU - Turma Regional de Uniformização, TNU - Turma Nacional de Uniformização, TEU - Turma Estadual de Uniformização, CJF - Conselho da Justiça Federal, CSJT - Conselho Superior da Justiça do Trabalho.';
+COMMENT ON COLUMN inovacnj.grau_jurisdicao.tipo IS 'Tipo da Justiça. Valores: Estadual, Federal, Militar, Eleitoral, Trabalho.';
 ALTER TABLE inovacnj.grau_jurisdicao OWNER to inovacnj;
+
+-- Table: inovacnj.fase
+CREATE TABLE inovacnj.fase
+(   cod integer NOT NULL,
+    descricao text ,
+    cod_tribunal text ,
+    CONSTRAINT pk_fase PRIMARY KEY (cod)
+);
+
+COMMENT ON COLUMN inovacnj.fase.cod IS 'Chave primária da tabela, controlada pela sequence SEQ_FASE, específica pra ela.';
+COMMENT ON COLUMN inovacnj.fase.descricao IS 'Descrição da fase.';
+COMMENT ON COLUMN inovacnj.fase.cod_tribunal IS 'Código do tribunal.';
+ALTER TABLE inovacnj.fase  OWNER to inovacnj;
 
 -- MOVIMENTOCNJ
 CREATE TABLE inovacnj.movimentocnj 
@@ -49,7 +91,7 @@ CREATE TABLE inovacnj.movimentocnj
     natureza character varying(100) NOT NULL,
     fase character varying(100),
     codpai numeric,
-	CONSTRAINT pk_movimentocnj PRIMARY KEY (cod)
+    CONSTRAINT pk_movimentocnj PRIMARY KEY (cod)
 );
 
 ALTER TABLE inovacnj.movimentocnj OWNER to inovacnj;
@@ -88,7 +130,7 @@ CREATE TABLE inovacnj.processo
 
 ALTER TABLE inovacnj.processo OWNER to inovacnj;
 
--- TRIBUNAL
+-- Table: inovacnj.TRIBUNAL
 CREATE TABLE inovacnj.tribunal
 (   cod character varying(5)  NOT NULL,
     descricao character varying(100) NOT NULL,
@@ -113,7 +155,6 @@ COMMENT ON COLUMN inovacnj.tribunal.longitude IS 'Longitude de um determinado po
 COMMENT ON COLUMN inovacnj.tribunal.coduf IS 'Código da UF conforme codificação adotada pelo IBGE, disponível em www.ibge.gov.br/explica/codigos-dos-municipios.php.';
 COMMENT ON COLUMN inovacnj.tribunal.uf IS 'Sigla do estado da federação brasileira. Valores: AL, BA, SP , DF, AC, etc.';
 COMMENT ON COLUMN inovacnj.tribunal.tipotribunal_oj IS 'Sigla do tribunal, campo TIP_ORGAO, definido no csv mpm_serventias.';
-
 ALTER TABLE inovacnj.tribunal OWNER to inovacnj;
 
 -- TEMPO
@@ -144,47 +185,13 @@ ALTER TABLE inovacnj.tempo OWNER to inovacnj;
 
 -- FATOS
 
-CREATE TABLE inovacnj.fat_movimentos_te
-(
-    codtribunal text ,
-    grau text ,
-    millisinsercao bigint,
-    codclasse bigint,
-    descclasse text ,
-    codlocalidade text ,
-    competencia text ,
-    dtajuizamento timestamp without time zone,
-    descsistema text,
-    nivelsigilo bigint,
-    npu text ,
-    oj_codibge bigint,
-    oj_cod text ,
-    oj_instancia text ,
-    oj_descricao text ,
-    tramitacao bigint,
-    tamanhoprocesso text ,
-    valorcausa text ,
-    ass_cod bigint,
-    descassunto text ,
-    ass_principal boolean,
-    ass_codlocal bigint,
-    ass_codpainacional bigint,
-    ass_desclocal text ,
-    mov_dtmov timestamp without time zone,
-    mov_codlocal bigint,
-    mov_codpainacional bigint,
-    mov_cod bigint,
-    descmovimento text ,
-    mov_nivelsigilo text ,
-    mov_oj_codibge bigint,
-    mov_oj_cod text ,
-    mov_oj_instancia text ,
-    mov_oj_descricao text ,
-    mov_tpdecisao text ,
-    mov_tprespmov text ,
-    natureza text ,
-    fase text );
-
-ALTER TABLE inovacnj.fat_movimentos_te
-    OWNER to inovacnj;
                                     
+-- SEQUENCE: inovacnj.seq_fase
+-- DROP SEQUENCE inovacnj.seq_fase;
+
+CREATE SEQUENCE inovacnj.seq_fase1
+    INCREMENT 1
+    START 5;
+
+ALTER SEQUENCE inovacnj.seq_fase
+    OWNER TO inovacnj;
