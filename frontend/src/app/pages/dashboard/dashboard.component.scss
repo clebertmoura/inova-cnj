@@ -32,3 +32,15 @@ div.modelosvg svg {
 .mat-slider-horizontal {
   width: 100% !important;
 }
+
+:host /deep/ ng2-st-tbody-edit-delete {display: flex !important;
+  height: 0 !important;
+}
+
+:host /deep/ ng2-st-tbody-custom a.ng2-smart-action.ng2-smart-action-custom-custom {
+  display: contents;
+  width: auto;
+  text-align: center;
+  vertical-align: middle;
+}
+

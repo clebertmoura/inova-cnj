@@ -22,21 +22,56 @@ from pm4py.algo.filtering.log.variants import variants_filter
 
 from . import servico
 from .. import db
-from ..models import Fase, Movimento
+from ..models import *
 
 from ..proccessmining.geradorpm import *
 
 import os 
 
-db_host = os.getenv('POSTGRES_HOST')
-db_port = os.getenv('POSTGRES_PORT')
-db_name = os.getenv('POSTGRES_DB')
-db_user = os.getenv('POSTGRES_USER')
-db_pass = os.getenv('POSTGRES_PASSWORD')
+#db_host = os.getenv('POSTGRES_HOST')
+#db_port = os.getenv('POSTGRES_PORT')
+#db_name = os.getenv('POSTGRES_DB')
+#db_user = os.getenv('POSTGRES_USER')
+#db_pass = os.getenv('POSTGRES_PASSWORD')
+
+db_host = "161.97.71.108"
+db_port = "15432"
+db_name = "dbinovacnj"
+db_user = "inovacnj"
+db_pass = "inovacnj@pwd2020"
 
 @servico.route('/')
 def home():
     return "Serviço Funcionando"
+
+def montarFaseJson(fase):
+    movs = []
+    for movimento in fase.movimentos:
+        movs.append(montarMovimentoJson(movimento))
+        
+    faseJson = {
+        'cod': fase.cod,
+        'descricao': fase.descricao,
+        'cod_tribunal': fase.cod_tribunal,
+        'tribunal': montarTribunalJson(fase.tribunal),
+        'movimentos': movs,
+    }
+    return faseJson
+
+def montarTribunalJson(tribunal):
+    tribunalJson = {
+        'cod' : tribunal.cod,
+        'descricao' : tribunal.descricao,
+        'sigla' : tribunal.sigla,
+        'tipo' : tribunal.tipo,
+        'porte' : tribunal.porte,
+        'latitude' : str(tribunal.latitude),
+        'longitude' : str(tribunal.longitude),
+        'coduf' : str(tribunal.coduf),
+        'uf' : tribunal.uf,
+        'tipotribunal_oj' : tribunal.tipotribunal_oj,
+    }
+    return tribunalJson
 
 def montarMovimentoJson(movimento):
     movimentoJson = {
@@ -53,18 +88,8 @@ def get_fases():
     fases = Fase.query.order_by(Fase.cod).all()
     res = []
     for fase in fases:
-        movs = []
-        for movimento in fase.movimentos:
-            movs.append(montarMovimentoJson(movimento))
-        
-        res.append({
-            'cod': fase.cod,
-            'descricao': fase.descricao,
-            'cod_tribunal': fase.cod_tribunal,
-            'movimentos': movs,
-        })
+        res.append(montarFaseJson(fase))
     return jsonify(res)
-
 
 @servico.route('/api/v1/fase/<int:cod>', methods=['GET'])
 def get_fase(cod):
@@ -72,18 +97,11 @@ def get_fase(cod):
     if not fase:
         abort(404)
     
-    movs = []
-    for movimento in fase.movimentos:
-        movs.append(montarMovimentoJson(movimento))
-        
-    res = {
-        'cod': fase.cod,
-        'descricao': fase.descricao,
-        'cod_tribunal': fase.cod_tribunal,
-        'movimentos': movs,
-    }
-    
-    return jsonify(res)
+    print(" ---------------- cod tribunal")
+    print(fase.cod_tribunal)
+    print(" ---------------- tribunal")
+    print(fase.tribunal)
+    return jsonify(montarFaseJson(fase))
 
 @servico.route('/api/v1/fase', methods=['POST'])
 def create_fase():
@@ -94,6 +112,12 @@ def create_fase():
                 descricao=request.json['descricao'], 
                 cod_tribunal=request.json['cod_tribunal'])
     
+    #tribunal = Tribunal.query.filter_by(cod=json['tribunal']['codigo'])
+    #if not tribunal:
+    #    abort(404)
+    #else
+    #    fase.tribunal = tribunal
+
     for json in request.json['movimentos']:
         mov = Movimento.query.filter_by(cod=json['codigo']).first()
         fase.movimentos.append(mov)
@@ -102,18 +126,7 @@ def create_fase():
     db.session.add(fase)
     db.session.commit()
 
-    movs = []
-    for movimento in fase.movimentos:
-        movs.append(montarMovimentoJson(movimento))
-    
-    res = {
-        'cod': fase.cod,
-        'descricao': fase.descricao,
-        'cod_tribunal': fase.cod_tribunal,
-        'movimentos': movs,
-    }
-
-    return jsonify(res), 201
+    return jsonify(montarFaseJson(fase)), 201
 
 @servico.route('/api/v1/fase/<int:cod>', methods=['PUT'])
 def update_fase(cod):
@@ -125,15 +138,21 @@ def update_fase(cod):
     fase.descricao=request.json['descricao']
     fase.cod_tribunal=request.json['cod_tribunal']
 
-    db.session.commit()
+    #tribunal = Tribunal.query.filter_by(cod=json['tribunal']['codigo'])
+    #if not tribunal:
+    #    abort(404)
+    #else
+    #    fase.tribunal = tribunal
 
-    res = {
-        'cod': fase.cod,
-        'descricao': fase.descricao,
-        'cod_tribunal': fase.cod_tribunal,
-    }
+    fase.movimentos = []
+    for json in request.json['movimentos']:
+        mov = Movimento.query.filter_by(cod=json['codigo']).first()
+        fase.movimentos.append(mov)
+        fase.movimentos.fase=fase.descricao
+
+    db.session.commit()
         
-    return jsonify(res), 201
+    return jsonify(montarFaseJson(fase)), 201
 
 @servico.route('/api/v1/fase/<int:cod>', methods=['DELETE'])
 def delete_fase(cod):
@@ -147,52 +166,86 @@ def delete_fase(cod):
 
 @servico.route('/api/v1/tipo-justica', methods=['GET'])
 def api_lista_tipojustica():
-    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    cur = conn.cursor()
-    
-    qry = "SELECT DISTINCT tipo as cod, tipo as descricao "
-    qry+= "FROM inovacnj.tribunal"
-    
-    cur.execute(qry)
-    lista = cur.fetchall()
+    tipos = Tribunal.query.with_entities(Tribunal.tipo).order_by(Tribunal.tipo).group_by(Tribunal.tipo)
+    res = []
+    for t in tipos:
+        res.append({
+            "cod" : t.tipo,
+            "descricao" : t.tipo
+        })
 
-    return jsonify(lista)
+    return jsonify(res)
+    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+    #cur = conn.cursor()
+    
+    #qry = "SELECT DISTINCT tipo as cod, tipo as descricao "
+    #qry+= "FROM inovacnj.tribunal"
+    
+    #cur.execute(qry)
+    #lista = cur.fetchall()
+
+    #return jsonify(lista)
 
 @servico.route('/api/v1/porte', methods=['GET'])
 def api_lista_porte():
-    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    cur = conn.cursor()
-    
-    qry = "SELECT DISTINCT porte as cod, porte as descricao "
-    qry+= "FROM inovacnj.tribunal"
-    
-    cur.execute(qry)
-    lista = cur.fetchall()
+    portes = Tribunal.query.with_entities(Tribunal.porte).order_by(Tribunal.porte).group_by(Tribunal.porte)
+    res = []
+    for p in portes:
+        res.append({
+            "cod" : p.porte,
+            "descricao" : p.porte
+        })
 
-    return jsonify(lista)
+    return jsonify(res)
+    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+    #cur = conn.cursor()
+    
+    #qry = "SELECT DISTINCT porte as cod, porte as descricao "
+    #qry+= "FROM inovacnj.tribunal"
+    
+    #cur.execute(qry)
+    #lista = cur.fetchall()
+
+    #return jsonify(lista)
 
 @servico.route('/api/v1/tribunal', methods=['GET'])
 def api_lista_tribunal():
     porte = request.args.get('porte')
     tipo = request.args.get('tipo')
-    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    cur = conn.cursor()
+    tribunais = None
+    if (porte != None and tipo != None):
+        tribunais = Tribunal.query.filter_by(and_(porte = porte, tipo = tipo)).order_by(Tribunal.cod).all()
+    elif porte != None :
+        tribunais = Tribunal.query.filter_by(porte = porte).order_by(Tribunal.cod).all()
+    elif tipo != None :
+        tribunais = Tribunal.query.filter_by(tipo = tipo).order_by(Tribunal.cod).all()
+    else:
+        tribunais = Tribunal.query.order_by(Tribunal.cod).all()
     
-    qry = "SELECT cod, descricao, sigla, tipo, porte "
-    qry+= "FROM inovacnj.tribunal "
-    qry+= "WHERE (1=1) "
-    if porte != None :
-        qry+= "AND porte = '" + porte + "' "
-    if tipo != None :
-        qry+= "AND tipo = '" + tipo + "' "
+    res = []
+    for tribunal in tribunais:
+        res.append(montarTribunalJson(tribunal))
+    return jsonify(res)
+    #porte = request.args.get('porte')
+    #tipo = request.args.get('tipo')
+    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+    #cur = conn.cursor()
     
-    cur.execute(qry)
-    lista = cur.fetchall()
+    #qry = "SELECT cod, descricao, sigla, tipo, porte "
+    #qry+= "FROM inovacnj.tribunal "
+    #qry+= "WHERE (1=1) "
+    #if porte != None :
+    #    qry+= "AND porte = '" + porte + "' "
+    #if tipo != None :
+    #    qry+= "AND tipo = '" + tipo + "' "
+    
+    #cur.execute(qry)
+    #lista = cur.fetchall()
 
-    return jsonify(lista)
+    #return jsonify(lista)
 
 @servico.route('/api/v1/orgao-julgador', methods=['GET'])
-def api_lista_orgao_julgador():
+def get_orgaosJulgadores():
     codtribunal = request.args.get('codtribunal')
     conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
     cur = conn.cursor()
@@ -206,8 +259,50 @@ def api_lista_orgao_julgador():
     
     cur.execute(qry)
     lista = cur.fetchall()
-
+    print("get_orgaosJulgadores")
     return jsonify(lista)
+    
+    #orgaos = OrgaoJulgador.query.order_by(OrgaoJulgador.cod).all()
+    #res = []
+    #for orgao in orgaos:
+    #    res.append({
+    #        'cod': orgao.cod,
+    #        'descricao': orgao.descricao,
+    #        'codpai': orgao.codpai,
+    #        'sigla_tipoj': orgao.sigla_tipoj,
+    #        'tipo_oj': orgao.tipo_oj,
+    #        'cidade': orgao.cidade,
+    #        'uf': orgao.uf,
+    #        'codibge': orgao.codibge,
+    #        'esfera': orgao.esfera,
+    #        'latitude': orgao.latitude,
+    #        'longitude': orgao.longitude,
+    #    })
+    #    print("get_orgaosJulgadores")
+    #return jsonify(res)
+
+@servico.route('/api/v1/orgao-julgador/<string:cod>', methods=['GET'])
+def get_orgaoJulgador(cod):
+    orgao = OrgaoJulgador.query.filter_by(cod=cod).first()
+    if not orgao:
+        abort(404)
+        
+    res = {
+        'cod': orgao.cod,
+        'descricao': orgao.descricao,
+        'codpai': orgao.codpai,
+        'sigla_tipoj': orgao.sigla_tipoj,
+        'tipo_oj': orgao.tipo_oj,
+        'cidade': orgao.cidade,
+        'uf': orgao.uf,
+        'codibge': orgao.codibge,
+        'esfera': orgao.esfera,
+        'latitude': orgao.latitude,
+        'longitude': orgao.longitude,
+    }
+    
+    print("get_orgaoJulgador")
+    return jsonify(res)
 
 @servico.route('/api/v1/natureza', methods=['GET'])
 def api_lista_natureza():

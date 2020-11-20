@@ -52,7 +52,7 @@ export class InovacnjService {
         console.log(this.url + '/v1/tipo-justica');
         return this.http.get<any[]>(this.url + '/v1/tipo-justica')
         .pipe(
-            map((response : any[][]) => {
+            map((response : any) => {
                 return TipoJustica.toArray(response);
             }),
             catchError(() => of(null))
@@ -65,7 +65,7 @@ export class InovacnjService {
     public consultarTribunal(tipoJustica?: TipoJustica): Observable<Tribunal[]> {
         return this.http.get<any[]>(this.url + '/v1/tribunal' + (tipoJustica != null ? `?tipo=${tipoJustica.codigo}` : ''))
         .pipe(
-            map((response : any[][]) => {
+            map((response : any) => {
                 return Tribunal.toArray(response);
             }),
             catchError(() => of(null))
@@ -167,7 +167,7 @@ export class InovacnjService {
     public salvarFase(fase: Fase): Observable<Fase> {
         return this.http.post<Fase>(this.url + "/v1/fase", JSON.stringify(fase), this.httpOptions)
         .pipe(
-            //retry(2),
+            retry(2),
             map((response : any) => {
                 return Fase.fromJson(response);
             }),
@@ -178,7 +178,7 @@ export class InovacnjService {
     public atualizarFase(fase: Fase): Observable<Fase> {
         return this.http.put<Fase>(this.url + "/v1/fase" + '/' + fase.codigo, JSON.stringify(fase), this.httpOptions)
         .pipe(
-            //retry(1),
+            retry(1),
             map((response : any) => {
                 return Fase.fromJson(response);
             }),

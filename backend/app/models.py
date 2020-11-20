@@ -35,7 +35,8 @@ class Fase(db.Model):
 
     cod = db.Column(db.Integer, primary_key=True)
     descricao = db.Column(db.String(200))
-    cod_tribunal = db.Column(db.String(200))
+    cod_tribunal = db.Column(db.String(200), db.ForeignKey('tribunal.cod'))
+    tribunal = db.relationship('Tribunal', backref=db.backref('tribunal', lazy='dynamic'))
     movimentos = db.relationship('Movimento', secondary='fase_movimento',
         backref=db.backref('faseMovimentos', lazy='dynamic'))
     
@@ -83,8 +84,32 @@ class Tribunal(db.Model):
     sigla = db.Column(db.String(200))
     tipo = db.Column(db.String(200))
     porte = db.Column(db.String(200))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+    coduf = db.Column(db.Integer)
+    uf = db.Column(db.String(200))
+    tipotribunal_oj = db.Column(db.String(200))
     
     
     def __repr__(self):
         return '<Tribunal: {}>'.format(self.descricao)
+
+class OrgaoJulgador(db.Model):
+    __tablename__ = 'orgao_julgador'
+
+    cod = db.Column(db.String(200), primary_key=True)
+    descricao = db.Column(db.String(200))
+    codpai = db.Column(db.Float)
+    sigla_tipoj = db.Column(db.String(200))
+    tipo_oj = db.Column(db.String(200))
+    cidade = db.Column(db.String(200))
+    uf = db.Column(db.String(200))
+    codibge = db.Column(db.Float)
+    esfera = db.Column(db.String(200))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+    
+    
+    def __repr__(self):
+        return '<OrgaoJulgador: {}>'.format(self.descricao)
     

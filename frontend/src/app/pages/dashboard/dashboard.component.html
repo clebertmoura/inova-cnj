@@ -1,9 +1,12 @@
 <nb-card>
   <nb-card-body>
-    <nb-tabset>
-      <nb-tab tabTitle="Visão Geral">
+    <nb-tabset (changeTab)="carregarAba($event)">
+      <nb-tab tabTitle="Visão Geral" >
 
-        <nb-card>
+        <nb-card [nbSpinner]="loadingVisaoGeral"
+        nbSpinnerStatus="warning"
+        nbSpinnerSize="giant"
+        nbSpinnerMessage="">
           <nb-card-body>
             <div class="row">
               <div class="col-md-4 col-sm-12">
@@ -92,7 +95,7 @@
                     <div class="row">
                       <div class="col-sm-12">
                         <div class="form-group">
-                          <button nbButton (click)="pesquisarAnalitcs()">Pesquisar</button>
+                          <button nbButton status="info" (click)="pesquisarAnalitcs()">Pesquisar</button>
                         </div>
                       </div>
                     </div>
@@ -149,7 +152,10 @@
 
       <nb-tab tabTitle="Fluxo">
 
-        <nb-card>
+        <nb-card [nbSpinner]="loadingProcess"
+          nbSpinnerStatus="warning"
+          nbSpinnerSize="giant"
+          nbSpinnerMessage="">
           <nb-card-body>
             <div class="row">
               <div class="col-md-4 col-sm-12">
@@ -236,13 +242,13 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-6 col-sm-12 col-lg-6">
+                  <div class="col">
                     <div class="row">
-                      <div class="col-md-6 col-sm-12">
-                        <button nbButton (click)="adicionarModeloPm()">Adicionar</button>
+                      <div class="col">
+                        <button nbButton status="info" (click)="adicionarModeloPm()">Adicionar</button>
                       </div>
-                      <div class="col-md-6 col-sm-12">
-                        <button nbButton (click)="limparModeloProcesso()">Limpar</button>
+                      <div class="col">
+                        <button nbButton status="info" (click)="limparModeloProcesso()">Limpar</button>
                       </div>
                     </div>
                   </div>
@@ -340,7 +346,10 @@
 
       <nb-tab tabTitle="Previsões">
         
-        <nb-card>
+        <nb-card [nbSpinner]="loadingPredict"
+        nbSpinnerStatus="warning"
+        nbSpinnerSize="giant"
+        nbSpinnerMessage="">
           <nb-card-body >
             <div class="row">
               <div class="col-md-3 col-sm-12">
@@ -355,7 +364,7 @@
     
               <div class="col-md-3 col-sm-12">
                 <div class="form-group">
-                  <button nbButton (click)="pesquisarNpu(npu.value)">Pesquisar</button>
+                  <button nbButton status="info" (click)="pesquisarNpu(npu.value)">Pesquisar</button>
                 </div>
               </div>
             </div>
@@ -466,7 +475,10 @@
 
       <nb-tab tabTitle="Configurações">
 
-        <nb-card>
+        <nb-card [nbSpinner]="loadingConfig"
+          nbSpinnerStatus="warning"
+          nbSpinnerSize="giant"
+          nbSpinnerMessage="">
           <nb-card-header>Cadastrar Fase</nb-card-header>
           <nb-card-body>
             <div class="row">
@@ -475,7 +487,7 @@
                   <div class="col">
                     <div class="form-group">
                       <label for="inputDescricao" class="label">Descrição</label>
-                      <input type="text" nbInput fullWidth id="inputDescricao" [(ngModel)]="descricaoFase">
+                      <input #fase type="text" nbInput fullWidth id="inputDescricao" [(ngModel)]="descricaoFase">  
                     </div>
                   </div>
                 </div>
@@ -492,7 +504,7 @@
                         <nb-option *ngFor="let tipoJusticaConfig of tiposJusticaConfig" [value]="tipoJusticaConfig">{{
                           tipoJusticaConfig.descricao
                         }}</nb-option>
-                      </nb-select>
+                      </nb-select> 
                     </div>
                   </div>
                 </div>
@@ -508,23 +520,7 @@
                       <nb-option *ngFor="let tribunalConfig of tribunaisConfig" [value]="tribunalConfig">{{
                         tribunalConfig.descricao
                       }}</nb-option>
-                      </nb-select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <mat-form-field class="example-full-width">
-                        <mat-label>Movimentos</mat-label>
-                        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption 
-                          [displayWith]="displayFn" (optionSelected)='onOptionSelected($event)'>
-                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                            {{option.codigo}} - {{option.descricao}}
-                          </mat-option>
-                        </mat-autocomplete>
-                      </mat-form-field>  
+                      </nb-select>  
                     </div>
                   </div>
                 </div>
@@ -533,7 +529,7 @@
                     <div class="row">
                       <div class="col-sm-12">
                         <div class="form-group">
-                          <button nbButton (click)="onSaveConfirm($event)">Salvar</button>
+                          <button nbButton status="info" (click)="onSaveConfirm($event)">Salvar</button>
                         </div>
                       </div>
                     </div>
@@ -541,30 +537,65 @@
                 </div>
               </div>
     
-              <div class="col">
-                <label class="label">Movimentos</label>
-                <nb-card class="list-card" size="small">
-                  <nb-card-body>
-                    <div class="col-md-12 col-sm-12">
-                      <div class="form-group">
-                        <mat-selection-list [(ngModel)]="selectedOptions" #movimentoListOption>
-                          <mat-list-option *ngFor="let movimento of movimentos" [value]="movimento">
-                            {{movimento.codigo}} - {{movimento.descricao}}
-                          </mat-list-option>
-                        </mat-selection-list>
-                      </div>
-                    </div>
-                  </nb-card-body>
-                </nb-card>
+              <!-- calendario data inicial -->
+              <div class="col-md-9 col-sm-12">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <mat-form-field style="width:90% !important">
+                        <mat-label>Selecione o Movimento</mat-label>
+                        <input type="text" matInput [formControl]="myControl" [(value)]="pesquisaAutoComplete" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption panelWidth="auto"
+                          [displayWith]="displayFn" (optionSelected)='onOptionSelected($event)'>
+                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{option.codigo}} - {{option.descricao}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>  
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="label">Lista de Movimentos</label>
+                      <nb-card class="list-card" size="small">
+                        <nb-card-body>
+                          <div class="col-md-12 col-sm-12">
+                            <div class="form-group">
+                              <mat-action-list>
+                                <mat-list-item *ngFor="let movimento of movimentos" [value]="movimento">
+                                  <mat-icon mat-list-icon>
+                                  <i class="nb-trash" (click)="onRemoverMovimentoLista($event, movimento)"></i>
+                                  </mat-icon>
+                                  <div mat-line>{{movimento.codigo}} - {{movimento.descricao}}</div>
+                                  <div mat-line>código completo: {{movimento.codigoCompleto}}</div>
+                                </mat-list-item>
+                              </mat-action-list>
+                            </div>
+                          </div>
+                        </nb-card-body>
+                      </nb-card>
+                    </div>  
+                  </div>
+                </div>
               </div>
-            </div>
-
+            </div>       
+          </nb-card-body>
+        </nb-card>
+        
+        <nb-card [nbSpinner]="loadingConfig"
+          nbSpinnerStatus="warning"
+          nbSpinnerSize="giant"
+          nbSpinnerMessage="">
+          <nb-card-body>
             <div class="row">
               <div class="col-md-12 col-sm-12">
                 <div class="row">
                   <div class="col">
                     <div class="form-group">
-                      <ng2-smart-table [settings]="configTabelaFase" [source]="dadosTabelaFase" (deleteConfirm)="onDeleteConfirm($event)">
+                      <label class="label">Lista de Fases</label>
+                      <ng2-smart-table [settings]="configTabelaFase" [source]="dadosTabelaFase" (custom)="onClickTable($event)" (deleteConfirm)="onDeleteConfirm($event)">
                       </ng2-smart-table>  
                     </div>
                   </div>

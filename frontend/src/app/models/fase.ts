@@ -1,11 +1,13 @@
 import { NAMED_ENTITIES } from '@angular/compiler';
 import { Movimento } from './movimento';
+import { Tribunal } from './tribunal';
 
 export class Fase {
     // Raw attributes
     codigo: number = null;
     descricao: string = null;
     cod_tribunal: string = null;
+    tribunal: Tribunal = null;
     movimentos: Movimento[] = [];
     movimentosListaString: string = null;
     
@@ -16,7 +18,8 @@ export class Fase {
             entity.codigo = json.cod;
             entity.descricao = json.descricao;
             entity.cod_tribunal = json.cod_tribunal;
-            entity.movimentos = json.movimentos;
+            entity.tribunal = Tribunal.fromJson(json.tribunal);
+            entity.movimentos = Movimento.toArray(json.movimentos);
             entity.movimentosListaString = this.movimentosToString(json.movimentos);
         }
         return entity;
