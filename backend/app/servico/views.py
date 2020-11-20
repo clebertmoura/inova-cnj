@@ -244,7 +244,7 @@ def get_orgaosJulgadores():
     conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
     cur = conn.cursor()
 
-    qry = "SELECT cod, descricao, tipo_oj, codtribunal "
+    qry = "SELECT cod, tipo_oj, descricao, codtribunal "
     qry+= "FROM inovacnj.orgao_julgador "
     qry+= "WHERE (1=1) "
     

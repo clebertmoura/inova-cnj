@@ -1,7 +1,7 @@
 export class OrgaoJulgador {
     // Raw attributes
     codigo: number = null;
-    instancia: string = null;
+    tipo: string = null;
     descricao: string = null;
     codigoTribunal: string = null;
     
@@ -10,7 +10,7 @@ export class OrgaoJulgador {
         if (json) {
             entity = new OrgaoJulgador();
             entity.codigo = json[0];
-            entity.instancia = json[1];
+            entity.tipo = json[1];
             entity.descricao = json[2];
             entity.codigoTribunal = json[3];
         }
