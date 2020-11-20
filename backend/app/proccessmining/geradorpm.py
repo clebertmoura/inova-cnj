@@ -33,12 +33,6 @@ db_pass = os.getenv('POSTGRES_PASSWORD')
 # Mapa chave=valor - ramo de justica/sufixo_tabela_fato
 ramos_justica = {'Eleitoral': 'jele', 'Estadual': 'jest', 'Federal': 'jfed', 'Militar': 'jmil', 'Trabalho': 'jtra'}
 
-def get_random_string(length):
-    # Random string with the combination of lower and upper case
-    letters = string.ascii_letters
-    result_str = ''.join(random.choice(letters) for i in range(length))
-    return result_str
-
 # gera um log de eventos de acordo com os parametros informados.
 def gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, natureza, codclasse, dtinicio, dtfim, 
                       sensibility = '60'):
