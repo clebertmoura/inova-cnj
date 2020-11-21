@@ -71,7 +71,7 @@ COMMENT ON COLUMN inovacnj.grau_jurisdicao.descricao IS 'Jurisdição do process
 COMMENT ON COLUMN inovacnj.grau_jurisdicao.tipo IS 'Tipo da Justiça. Valores: Estadual, Federal, Militar, Eleitoral, Trabalho.';
 ALTER TABLE inovacnj.grau_jurisdicao OWNER to inovacnj;
 
--- Table: inovacnj.fase
+-- Table: inovacnj.FASE
 CREATE TABLE inovacnj.fase
 (   cod integer NOT NULL,
     descricao text ,
@@ -84,17 +84,22 @@ COMMENT ON COLUMN inovacnj.fase.descricao IS 'Descrição da fase.';
 COMMENT ON COLUMN inovacnj.fase.cod_tribunal IS 'Código do tribunal.';
 ALTER TABLE inovacnj.fase  OWNER to inovacnj;
 
--- MOVIMENTOCNJ
-CREATE TABLE inovacnj.movimentocnj 
-(   cod numeric NOT NULL,
-    descricao character varying(400) NOT NULL,
-    natureza character varying(100) NOT NULL,
-    fase character varying(100),
-    codpai numeric,
+-- Table: inovacnj.MOVIMENTOCNJ
+
+CREATE TABLE inovacnj.movimentocnj
+(
+    cod integer NOT NULL,
+    descricao text COLLATE pg_catalog."default",
+    natureza text COLLATE pg_catalog."default",
+    fase text COLLATE pg_catalog."default",
+    codpai double precision,
     CONSTRAINT pk_movimentocnj PRIMARY KEY (cod)
 );
 
-ALTER TABLE inovacnj.movimentocnj OWNER to inovacnj;
+COMMENT ON COLUMN inovacnj.movimentocnj.cod  IS 'Código identificador único da movimentação processual.';
+COMMENT ON COLUMN inovacnj.movimentocnj.descricao IS 'Descrição da Movimentação Processual.';
+COMMENT ON COLUMN inovacnj.movimentocnj.codpai IS 'Código identificador da Movimentação Processual pai.';
+ALTER TABLE inovacnj.movimentocnj  OWNER to inovacnj;
 
 -- ORGAO_JULGADOR
 CREATE TABLE inovacnj.orgao_julgador
@@ -184,12 +189,44 @@ CONSTRAINT pk_tempo PRIMARY KEY(data)
 ALTER TABLE inovacnj.tempo OWNER to inovacnj;
 
 -- FATOS
+-- Table: inovacnj.fat_movimento_jele
+CREATE TABLE inovacnj.fat_movimento_jele
+(   codtribunal text ,
+    grau text ,
+    millisinsercao bigint,
+    codclasse bigint,
+    descclasse text ,
+    codlocalidade text ,
+    competencia text NOT NULL,
+    dtajuizamento timestamp without time zone,
+    descsistema text ,
+    nivelsigilo bigint,
+    npu text ,
+    valorcausa text ,
+    tramitacao bigint,
+    tamanhoprocesso text,
+    oj_codibge bigint,
+    oj_cod text ,
+    oj_instancia text ,
+    oj_descricao text ,
+    mov_dtmov timestamp without time zone,
+    mov_cod bigint,
+    descmovimento text ,
+    mov_codlocal bigint,
+    mov_codpainacional bigint,
+    mov_nivelsigilo text ,
+    mov_oj_codibge bigint,
+    mov_oj_cod text ,
+    mov_oj_instancia text ,
+    mov_oj_descricao text ,
+    mov_tpdecisao text NOT NULL,
+    mov_tprespmov text NOT NULL
+);
 
+ALTER TABLE inovacnj.fat_movimento_jele OWNER to inovacnj;
                                     
 -- SEQUENCE: inovacnj.seq_fase
--- DROP SEQUENCE inovacnj.seq_fase;
-
-CREATE SEQUENCE inovacnj.seq_fase1
+CREATE SEQUENCE inovacnj.seq_fase
     INCREMENT 1
     START 5;
 
