@@ -92,19 +92,12 @@ def get_fase(cod):
     if not fase:
         abort(404)
     
-    print(" ---------------- cod tribunal")
-    print(fase.cod_tribunal)
-    print(" ---------------- tribunal")
-    print(fase.tribunal)
     return jsonify(montarFaseJson(fase))
 
 @servico.route('/api/v1/fase', methods=['POST'])
 def create_fase():
     #apagar quando criar a sequence
-    total = Fase.query.count()
-    
-    fase = Fase(cod=total+1,
-                descricao=request.json['descricao'], 
+    fase = Fase(descricao=request.json['descricao'], 
                 cod_tribunal=request.json['cod_tribunal'])
     
     #tribunal = Tribunal.query.filter_by(cod=json['tribunal']['codigo'])
@@ -276,56 +269,56 @@ def get_orgaosJulgadores():
     #    print("get_orgaosJulgadores")
     #return jsonify(res)
 
-@servico.route('/api/v1/orgao-julgador/<string:cod>', methods=['GET'])
-def get_orgaoJulgador(cod):
-    orgao = OrgaoJulgador.query.filter_by(cod=cod).first()
-    if not orgao:
-        abort(404)
-        
-    res = {
-        'cod': orgao.cod,
-        'descricao': orgao.descricao,
-        'codpai': orgao.codpai,
-        'sigla_tipoj': orgao.sigla_tipoj,
-        'tipo_oj': orgao.tipo_oj,
-        'cidade': orgao.cidade,
-        'uf': orgao.uf,
-        'codibge': orgao.codibge,
-        'esfera': orgao.esfera,
-        'latitude': orgao.latitude,
-        'longitude': orgao.longitude,
-    }
-    
-    print("get_orgaoJulgador")
-    return jsonify(res)
-
 @servico.route('/api/v1/natureza', methods=['GET'])
 def api_lista_natureza():
-    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    cur = conn.cursor()
+    naturezas = Natureza.query.order_by(Natureza.cod).all()
+    res = []
+    for nat in naturezas:
+        res.append({
+            'cod' : nat.cod,
+            'descricao' : nat.descricao,
+        })
+    return jsonify(res)
+    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+    #cur = conn.cursor()
     
-    qry = "SELECT * FROM inovacnj.natureza "
-    qry+= "ORDER BY descricao "
+    #qry = "SELECT * FROM inovacnj.natureza "
+    #qry+= "ORDER BY descricao "
     
-    cur.execute(qry)
-    lista = cur.fetchall()
+    #cur.execute(qry)
+    #lista = cur.fetchall()
 
-    return jsonify(lista)
+    #return jsonify(lista)
 
 @servico.route('/api/v1/classe', methods=['GET'])
 def api_lista_classe():
     natureza = request.args.get('natureza')
-    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    cur = conn.cursor()
+    classes = None
+    if natureza != None :
+        classes = Classe.query.filter(Classe.naturezaClasses.any(cod=natureza)).order_by(Classe.cod).all()
+    else:
+        classes = Classe.query.order_by(Classe.cod).all()
+    res = []
+    for classe in classes:
+        res.append({
+            'cod' : classe.cod,
+            'descricao' : classe.descricao,
+            'sigla' : classe.sigla,
+            'codpai' : str(classe.codpai),
+        })
+    return jsonify(res)
+    #natureza = request.args.get('natureza')
+    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+    #cur = conn.cursor()
     
-    qry = "SELECT cod, descricao, sigla, codpai "
-    qry+= "FROM inovacnj.classe "
-    qry+= "ORDER BY cod "
+    #qry = "SELECT cod, descricao, sigla, codpai "
+    #qry+= "FROM inovacnj.classe "
+    #qry+= "ORDER BY cod "
     
-    cur.execute(qry)
-    lista = cur.fetchall()
+    #cur.execute(qry)
+    #lista = cur.fetchall()
 
-    return jsonify(lista)
+    #return jsonify(lista)
 
 @servico.route('/api/v1/movimento', methods=['GET'])
 def api_lista_movimento():

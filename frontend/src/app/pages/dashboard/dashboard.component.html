@@ -14,7 +14,7 @@
                   <div class="col">
                     <div class="form-group">
                       <label class="label">Tipo de Justiça:</label>
-                      <nb-select (selectedChange)="carregarTribunal($event)"
+                      <nb-select (selectedChange)="onSelectTribunal($event)"
                         [(selected)]="tipoJustica"
                         class="position-select"
                         fullWidth
@@ -34,6 +34,7 @@
                         [(selected)]="tribunal"
                         class="position-select"
                         fullWidth
+                        [disabled]="disabledTribunal"
                       >
                       <nb-option *ngFor="let tribunal of tribunais" [value]="tribunal">{{
                         tribunal.descricao
@@ -46,15 +47,36 @@
                   <div class="col">
                     <div class="form-group">
                       <label class="label">Orgão Julgador:</label>
+                      <!--
                       <nb-select
                         [(selected)]="orgaoJulgador"
                         class="position-select"
                         fullWidth
+                        [disabled]="disabledOrgaoJulgador"
                       >
                       <nb-option *ngFor="let orgaoJulgador of orgaosJulgadores" [value]="orgaoJulgador">{{
                         orgaoJulgador.descricao
                       }}</nb-option>
                       </nb-select>
+                      -->
+
+                      <input
+                      [formControl]="orgaoFormControl"
+                      nbInput
+                      fullWidth
+                      type="text"
+                      [nbAutocomplete]="auto"
+                       />
+
+                    <nb-autocomplete #auto [activeFirst]="true" [handleDisplayFn]="displayOrgaoJulgador">
+
+                      <nb-option-group *ngFor="let tipoOrgao of filteredTiposOrgao$ | async; trackBy: trackByFnOrgao"  [title]="tipoOrgao.tipo" >
+                        <nb-option *ngFor="let orgao of tipoOrgao.orgaos" [value]="orgao">
+                          {{ orgao.descricao }}
+                        </nb-option>
+                      </nb-option-group>
+
+                    </nb-autocomplete>
                     </div>
                   </div>
                 </div>
@@ -62,10 +84,11 @@
                   <div class="col">
                     <div class="form-group">
                       <label class="label">Natureza:</label>
-                      <nb-select
+                      <nb-select (selectedChange)="carregarClasse($event)"
                         [(selected)]="natureza"
                         class="position-select"
                         fullWidth
+                        [disabled]="disabledNatureza"
                       >
                         <nb-option *ngFor="let natureza of naturezas" [value]="natureza">{{
                           natureza.descricao
@@ -82,6 +105,7 @@
                         [(selected)]="classe"
                         class="position-select"
                         fullWidth
+                        [disabled]="disabledClasse"
                       >
                         <nb-option *ngFor="let classe of classes" [value]="classe">{{
                           classe.descricao
@@ -164,7 +188,7 @@
                     <div class="form-group">
                       <label class="label">Tipo de Justiça:</label>
                       <nb-select
-                        (selectedChange)="carregarTribunalProcess($event)"
+                        (selectedChange)="onSelectTribunalProcess($event)"
                         [(selected)]="tipoJusticaProcess"
                         class="position-select"
                         fullWidth
@@ -185,6 +209,7 @@
                         [(selected)]="tribunalProcess"
                         class="position-select"
                         fullWidth
+                        [disabled]="disabledTribunalProcess"
                       >
                       <nb-option *ngFor="let tribunalProcess of tribunaisProcess" [value]="tribunalProcess">{{
                         tribunalProcess.descricao
@@ -197,15 +222,35 @@
                   <div class="col">
                     <div class="form-group">
                       <label class="label">Orgão Julgador:</label>
+                      <!--
                       <nb-select
                         [(selected)]="orgaoJulgadorProcess"
                         class="position-select"
                         fullWidth
+                        [disabled]="disabledOrgaoJulgadorProcess"
                       >
                       <nb-option *ngFor="let orgaoJulgadorProcess of orgaosJulgadoresProcess" [value]="orgaoJulgadorProcess">{{
                         orgaoJulgadorProcess.descricao
                       }}</nb-option>
                       </nb-select>
+                      -->
+                      <input
+                      [formControl]="orgaoProcessFormControl"
+                      nbInput
+                      fullWidth
+                      type="text"
+                      [nbAutocomplete]="autoProcess"
+                      />
+
+                    <nb-autocomplete #autoProcess [activeFirst]="true" [handleDisplayFn]="displayOrgaoJulgadorProcess">
+
+                      <nb-option-group *ngFor="let tipoOrgao of filteredTiposOrgaoProcess$ | async; trackBy: trackByFnOrgaoProcess"  [title]="tipoOrgao.tipo" >
+                        <nb-option *ngFor="let orgao of tipoOrgao.orgaos" [value]="orgao">
+                          {{ orgao.descricao }}
+                        </nb-option>
+                      </nb-option-group>
+
+                    </nb-autocomplete>
                     </div>
                   </div>
                 </div>
@@ -214,9 +259,11 @@
                     <div class="form-group">
                       <label class="label">Natureza:</label>
                       <nb-select
+                        (selectedChange)="carregarClasseProcess($event)"
                         [(selected)]="naturezaProcess"
                         class="position-select"
                         fullWidth
+                        [disabled]="disabledNaturezaProcess"
                       >
                         <nb-option *ngFor="let naturezaProcess of naturezasProcess" [value]="naturezaProcess">{{
                           naturezaProcess.descricao
@@ -233,6 +280,7 @@
                         [(selected)]="classeProcess"
                         class="position-select"
                         fullWidth
+                        [disabled]="disabledClasseProcess"
                       >
                         <nb-option *ngFor="let classeProcess of classesProcess" [value]="classeProcess">{{
                           classeProcess.descricao
@@ -516,6 +564,7 @@
                         [(selected)]="tribunalConfig"
                         class="position-select"
                         fullWidth
+                        [disabled]="disabledTribunalConfig"
                       >
                       <nb-option *ngFor="let tribunalConfig of tribunaisConfig" [value]="tribunalConfig">{{
                         tribunalConfig.descricao
@@ -544,8 +593,8 @@
                     <div class="form-group">
                       <mat-form-field style="width:90% !important">
                         <mat-label>Selecione o Movimento</mat-label>
-                        <input type="text" matInput [formControl]="myControl" [(value)]="pesquisaAutoComplete" [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption panelWidth="auto"
+                        <input type="text" matInput [formControl]="myControl" [(value)]="pesquisaAutoComplete" [matAutocomplete]="autoMovimento">
+                        <mat-autocomplete #autoMovimento="matAutocomplete" autoActiveFirstOption panelWidth="auto"
                           [displayWith]="displayFn" (optionSelected)='onOptionSelected($event)'>
                           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                             {{option.codigo}} - {{option.descricao}}

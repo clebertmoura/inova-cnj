@@ -18,10 +18,8 @@ import { Fase } from 'app/models/fase';
 })
 export class InovacnjService {
 
-    //private url = 'https://cors-anywhere.herokuapp.com/http://161.97.71.108:8181/api';
     private url = '/api';
-    private urlFase = '/service/fases';
-
+    
     constructor(protected http: HttpClient) {
     }
 
@@ -34,6 +32,7 @@ export class InovacnjService {
         const link  = '/service/processos/';
         return this.http.get<any[]>(link + npu)
         .pipe(
+            retry(1),
             map((response : any) => {
                 if (response.mensagem === "OK") {
                     return ProcessoPredict.fromJson(response);
@@ -52,6 +51,7 @@ export class InovacnjService {
         console.log(this.url + '/v1/tipo-justica');
         return this.http.get<any[]>(this.url + '/v1/tipo-justica')
         .pipe(
+            retry(1),
             map((response : any) => {
                 return TipoJustica.toArray(response);
             }),
@@ -65,6 +65,7 @@ export class InovacnjService {
     public consultarTribunal(tipoJustica?: TipoJustica): Observable<Tribunal[]> {
         return this.http.get<any[]>(this.url + '/v1/tribunal' + (tipoJustica != null ? `?tipo=${tipoJustica.codigo}` : ''))
         .pipe(
+            retry(1),
             map((response : any) => {
                 return Tribunal.toArray(response);
             }),
@@ -78,7 +79,8 @@ export class InovacnjService {
     public consultarNatureza(): Observable<Natureza[]> {
         return this.http.get<any[]>(this.url + '/v1/natureza')
         .pipe(
-            map((response : any[][]) => {
+            retry(1),
+            map((response : any) => {
                 return Natureza.toArray(response);
             }),
             catchError(() => of(null))
@@ -88,10 +90,11 @@ export class InovacnjService {
     /**
      * Retorna uma coleção de Classe
      */
-    public consultarClasse(): Observable<Classe[]> {
-        return this.http.get<any[]>(this.url + '/v1/classe')
+    public consultarClasse(natureza?: Natureza): Observable<Classe[]> {
+        return this.http.get<any[]>(this.url + '/v1/classe'  + (natureza != null ? `?natureza=${natureza.codigo}` : ''))
         .pipe(
-            map((response : any[][]) => {
+            retry(1),
+            map((response : any) => {
                 return Classe.toArray(response);
             }),
             catchError(() => of(null))
@@ -103,6 +106,7 @@ export class InovacnjService {
     public consultarMovimento(): Observable<Movimento[]> {
         return this.http.get<any[]>(this.url + '/v1/movimento')
         .pipe(
+            retry(1),
             map((response : any) => {
                 console.log(response);
                 return Movimento.toArray(response);
@@ -118,6 +122,7 @@ export class InovacnjService {
     public consultarOrgaoJulgador(tribunal?: Tribunal): Observable<OrgaoJulgador[]> {
         return this.http.get<any[]>(this.url + '/v1/orgao-julgador' + (tribunal != null ? `?codtribunal=${tribunal.codigo}` : ''))
         .pipe(
+            retry(1),
             map((response : any[][]) => {
                 return OrgaoJulgador.toArray(response);
             }),
@@ -197,6 +202,7 @@ export class InovacnjService {
     public consultarFase(codigo): Observable<Fase> {
         return this.http.get<any[]>(this.url + "/v1/fase" + '/' + codigo)
         .pipe(
+            retry(1),
             map((response : any) => {
                 return Fase.fromJson(response);
             }),
@@ -207,6 +213,7 @@ export class InovacnjService {
     public consultarFases(): Observable<Fase[]> {
         return this.http.get<any[]>(this.url + "/v1/fase")
         .pipe(
+            retry(1),
             map((response : any) => {
                 return Fase.toArray(response);
             }),

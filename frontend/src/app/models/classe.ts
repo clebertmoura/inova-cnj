@@ -6,19 +6,19 @@ export class Classe {
     codigoPai: string = null;
     filhos: Classe[] = [];
 
-    static fromJson(json: any[]): Classe {
+    static fromJson(json: any): Classe {
         let entity: Classe = null;
         if (json) {
             entity = new Classe();
-            entity.codigo = json[0];
-            entity.descricao = json[1];
-            entity.sigla = json[2];
-            entity.codigoPai = json[3];
+            entity.codigo = json.cod;
+            entity.descricao = json.descricao;
+            entity.sigla = json.sigla;
+            entity.codigoPai = json.codpai;
         }
         return entity;
     }
 
-    static toArray(jsonArray: any[][]): Classe[] {
+    static toArray(jsonArray: any[]): Classe[] {
         let entities: Classe[] = [];
         if (jsonArray != null && jsonArray.length > 0) {
             jsonArray.forEach(item => {

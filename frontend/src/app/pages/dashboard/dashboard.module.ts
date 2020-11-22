@@ -16,6 +16,7 @@ import {
   NbDatepickerModule, 
   NbCalendarRangeModule,
   NbSpinnerModule,
+  NbAutocompleteModule,
 } from '@nebular/theme';
 
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -80,6 +81,7 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     NbSpinnerModule,
+    NbAutocompleteModule,
   ],
   declarations: [
     DashboardComponent,

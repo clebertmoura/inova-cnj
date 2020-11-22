@@ -12,17 +12,6 @@ class Assunto(db.Model):
     def __repr__(self):
         return '<Assunto: {}>'.format(self.descricao)
 
-class Classe(db.Model):
-    __tablename__ = 'classe'
-
-    cod = db.Column(db.Integer, primary_key=True)
-    descricao = db.Column(db.String(200))
-    sigla = db.Column(db.String(200))
-    codpai = db.Column(db.Float)
-    
-    def __repr__(self):
-        return '<Classe: {}>'.format(self.descricao)
-
 class AssociacaoFaseMovimento(db.Model):
     __tablename__ = 'fase_movimento'
 
@@ -33,7 +22,7 @@ class AssociacaoFaseMovimento(db.Model):
 class Fase(db.Model):
     __tablename__ = 'fase'
 
-    cod = db.Column(db.Integer, primary_key=True)
+    cod = db.Column(db.Integer, db.Sequence('seq_fase'), primary_key=True)
     descricao = db.Column(db.String(200))
     cod_tribunal = db.Column(db.String(200), db.ForeignKey('tribunal.cod'))
     tribunal = db.relationship('Tribunal', backref=db.backref('tribunal', lazy='dynamic'))
@@ -56,25 +45,33 @@ class Movimento(db.Model):
     def __repr__(self):
         return '<Movimento: {}>'.format(self.descricao)
 
+class AssociacaoNaturezaClasse(db.Model):
+    __tablename__ = 'natureza_classe'
+
+    cod_natureza = db.Column(db.Integer, db.ForeignKey('natureza.cod'), primary_key=True)
+    cod_classe = db.Column(db.Integer, db.ForeignKey('classe.cod'), primary_key=True)
+
 class Natureza(db.Model):
     __tablename__ = 'natureza'
 
     cod = db.Column(db.Integer, primary_key=True)
     descricao = db.Column(db.String(200))
-    cod_tribunal = db.Column(db.String(200))
+    classes = db.relationship('Classe', secondary='natureza_classe',
+        backref=db.backref('naturezaClasses', lazy='dynamic'))
     
     def __repr__(self):
         return '<Natureza: {}>'.format(self.descricao)
 
-class NaturezaClasse(db.Model):
-    __tablename__ = 'natureza_classe'
+class Classe(db.Model):
+    __tablename__ = 'classe'
 
-    cod_classe = db.Column(db.Integer, primary_key=True)
-    cod_natureza = db.Column(db.Integer, primary_key=True)
-    natureza = db.Column(db.String(200))
+    cod = db.Column(db.Integer, primary_key=True)
+    descricao = db.Column(db.String(200))
+    sigla = db.Column(db.String(200))
+    codpai = db.Column(db.Float)
     
     def __repr__(self):
-        return '<NaturezaClasse: {}>'.format(self.natureza)
+        return '<Classe: {}>'.format(self.descricao)
 
 class Tribunal(db.Model):
     __tablename__ = 'tribunal'
@@ -89,8 +86,7 @@ class Tribunal(db.Model):
     coduf = db.Column(db.Integer)
     uf = db.Column(db.String(200))
     tipotribunal_oj = db.Column(db.String(200))
-    
-    
+     
     def __repr__(self):
         return '<Tribunal: {}>'.format(self.descricao)
 
@@ -108,7 +104,6 @@ class OrgaoJulgador(db.Model):
     esfera = db.Column(db.String(200))
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
-    
     
     def __repr__(self):
         return '<OrgaoJulgador: {}>'.format(self.descricao)

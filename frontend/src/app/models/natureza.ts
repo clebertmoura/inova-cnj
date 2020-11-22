@@ -3,17 +3,17 @@ export class Natureza {
     codigo: string = null;
     descricao: string = null;
 
-    static fromJson(json: any[]): Natureza {
+    static fromJson(json: any): Natureza {
         let entity: Natureza = null;
         if (json) {
             entity = new Natureza();
-            entity.codigo = json[0];
-            entity.descricao = json[1];
+            entity.codigo = json.cod;
+            entity.descricao = json.descricao;
         }
         return entity;
     }
 
-    static toArray(jsonArray: any[][]): Natureza[] {
+    static toArray(jsonArray: any[]): Natureza[] {
         let entities: Natureza[] = [];
         if (jsonArray != null && jsonArray.length > 0) {
             jsonArray.forEach(item => {
