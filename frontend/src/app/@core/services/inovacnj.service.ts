@@ -166,6 +166,20 @@ export class InovacnjService {
         return urlPm;
     }
 
+    private converterTempo(segundos: number): string {
+        let data = new Date( 0, 0, 0, 0, 0, segundos);
+        if (segundos < 60) {
+            return segundos + " segundos";
+        } else if (segundos < 3600) {
+            return (segundos/60).toFixed(2) + " minutos";
+        } else if (segundos < 86400) {
+            return (segundos/3600).toFixed(2) + " horas";
+        } else {
+            return (segundos/86400).toFixed(0) + " dias";
+        }
+        return "erro na conversao do tempo";
+    }
+
     public consultarEstatisticaModeloPm(filtro: FiltroPm): Observable<any[]> {
         return this.http.get<any[]>(filtro.urlEstatistica)
         .pipe(
@@ -178,23 +192,23 @@ export class InovacnjService {
                     },
                     {
                         'campo' : 'Duração do processo mais rápido',
-                        'valor' : response.caso_dur_min,
+                        'valor' : this.converterTempo(response.caso_dur_min),
                     },
                     {
                         'campo' : 'Duração do processo mais demorado',
-                        'valor' : response.caso_dur_max,
+                        'valor' : this.converterTempo(response.caso_dur_max),
                     },
                     {
                         'campo' : 'Duração média de um processo',
-                        'valor' : response.caso_dur_media,
+                        'valor' : this.converterTempo(response.caso_dur_media),
                     },
                     {
                         'campo' : 'Intervalo média de chegada entre um processo e outro',
-                        'valor' : response.taxa_chegada_casos,
+                        'valor' : this.converterTempo(response.taxa_chegada_casos),
                     },
                     {
                         'campo' : 'Tempo médio de finalização entre processos',
-                        'valor' : response.taxa_dispersao_casos,
+                        'valor' : this.converterTempo(response.taxa_dispersao_casos),
                     },
                 ];
                 return entities;
