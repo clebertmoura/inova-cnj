@@ -160,6 +160,49 @@ export class InovacnjService {
         return urlPm;
     }
 
+    public getUrlEstatisticaModeloPm(filtro: FiltroPm): string {
+        const urlPm = FiltroPm.buildUrlEstatisticaModeloPm(filtro, this.url);
+        console.log(urlPm)
+        return urlPm;
+    }
+
+    public consultarEstatisticaModeloPm(filtro: FiltroPm): Observable<any[]> {
+        return this.http.get<any[]>(filtro.urlEstatistica)
+        .pipe(
+            retry(1),
+            map((response : any) => {
+                let entities = [
+                    {
+                        'campo' : 'Quantidade de processos no modelo',
+                        'valor' : response.qtde_casos,
+                    },
+                    {
+                        'campo' : 'Duração do processo mais rápido',
+                        'valor' : response.caso_dur_min,
+                    },
+                    {
+                        'campo' : 'Duração do processo mais demorado',
+                        'valor' : response.caso_dur_max,
+                    },
+                    {
+                        'campo' : 'Duração média de um processo',
+                        'valor' : response.caso_dur_media,
+                    },
+                    {
+                        'campo' : 'Intervalo média de chegada entre um processo e outro',
+                        'valor' : response.taxa_chegada_casos,
+                    },
+                    {
+                        'campo' : 'Tempo médio de finalização entre processos',
+                        'valor' : response.taxa_dispersao_casos,
+                    },
+                ];
+                return entities;
+            }),
+            catchError(() => of(null))
+        );
+    }
+
     // sample method from angular doc
     protected handleError(httpError: HttpErrorResponse) {
         console.error('Ocorreu erro na requisição:', httpError);

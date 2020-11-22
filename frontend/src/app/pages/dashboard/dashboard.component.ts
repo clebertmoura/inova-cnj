@@ -128,6 +128,30 @@ export class DashboardComponent implements OnDestroy, OnInit {
     MetricaPm.Frequency, MetricaPm.Performance
   ];
   filtrosPm: FiltroPm[] = [];
+  // config tabela Estatistica
+  configTabelaEstatistica = {
+    actions: {
+      add: false,
+      edit: false,
+      delete: false
+    },
+    hideHeader: true,
+    hideSubHeader: true,
+    noDataMessage: "Dados não carregados",
+    columns: {
+      campo: {
+        title: 'Campo',
+        type: 'string',
+        filter: false
+      },
+      valor: {
+        title: 'Valor',
+        type: 'string',
+        filter: false
+      },
+    },
+  };
+
 
   assuntosRanking: AssuntoRanking[] = [];
 
@@ -144,6 +168,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       edit: false,
       delete: false
     },
+    noDataMessage: "Dados não carregados",
     columns: {
       nome: {
         title: 'Nome',
@@ -372,6 +397,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {
           this.filtrosPm.push(filtro);
           var idx = this.filtrosPm.indexOf(filtro);
+          this.inovacnjService.consultarEstatisticaModeloPm(filtro).subscribe(data => { 
+            filtro.dadosTabelaEstatistica.load(data);
+            this.initFiltroModeloSvg(filtro, idx);
+          });
           timer(100).subscribe(val => {
             this.initFiltroModeloSvg(filtro, idx);
             filtro.svgObject.resize();
@@ -410,24 +439,32 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   onChangeSensibilidade(event: MatSliderChange, filtro: FiltroPm, idx: number) {
     console.log('onChangeSensibilidade', event);
+    this.loadingProcess = true;
     filtro.updateUrl();
     this.downloadModeloPmSvgContent(filtro).subscribe(val => {
       filtro.svgObject = null;
+      this.inovacnjService.consultarEstatisticaModeloPm(filtro).subscribe(data => { 
+        filtro.dadosTabelaEstatistica.load(data);
+        this.initFiltroModeloSvg(filtro, idx);
+      });
       this.initFiltroModeloSvg(filtro, idx);
       timer(50).subscribe(val2 => {
         filtro.svgObject.reset();
+        this.loadingProcess = false;
       });
     });
   }
 
   onChangeMetrica(event: MatSliderChange, filtro: FiltroPm, idx: number) {
     console.log('onChangeMetrica', event);
+    this.loadingProcess = true;
     filtro.updateUrl();
     this.downloadModeloPmSvgContent(filtro).subscribe(val => {
       filtro.svgObject = null;
       this.initFiltroModeloSvg(filtro, idx);
       timer(50).subscribe(val2 => {
         filtro.svgObject.reset();
+        this.loadingProcess = false;
       });
     });
   }
@@ -452,6 +489,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
       var svgElement = jQuery(`#divModeloPm_${idx} svg`)[0];
       svgElement.setAttribute('width', '100%');
       svgElement.setAttribute('height', '100%');
+    
+      var smartTableElement = jQuery(`#smartTableModeloPm_${idx}`)[0];
+      smartTableElement.setAttribute('source', filtro.dadosTabelaEstatistica);
+      
       filtro.svgObject = svgPanZoom(svgElement, {
         zoomEnabled: true,
         controlIconsEnabled: true,
@@ -459,6 +500,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
         center: true,
       });
     }
+
   }
 
   /**

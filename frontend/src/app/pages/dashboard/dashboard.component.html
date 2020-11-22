@@ -311,83 +311,137 @@
         <div class="row">
           <div *ngFor="let filtro of filtrosPm; let idx = index"
             [class]="filtro.maximized ? 'col-md-12 col-sm-12' : 'col-md-6 col-sm-12'">
-            <nb-card [size]="filtro.maximized ? 'large' : 'medium'">
-              <nb-card-header>
-                <div class="row">
-                  <div class="col-10 d-flex justify-content-start">
-                    <nb-actions size="small" fullWidth>
-                      <nb-action *ngIf="filtro.tribunal != null">
-                        <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                        <span>{{filtro.tribunal.codigo}}</span>
-                      </nb-action>
-                      <nb-action *ngIf="filtro.natureza != null">
-                        <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                        <span>{{filtro.natureza.descricao}}</span>
-                      </nb-action>
-                      <nb-action *ngIf="filtro.classe != null">
-                        <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
-                        <span>{{filtro.classe.descricao}}</span>
-                      </nb-action>
-                    </nb-actions>
-                  </div>
-                  <div class="col-2 d-flex justify-content-end">
-                    <nb-actions size="small" fullWidth>
-                      <nb-action>
-                        <nb-icon class="action-icon" icon="maximize" 
-                          [icon]="filtro.maximized ? 'minimize' : 'maximize'"
-                          (click)="maximizarModeloPm(filtro, idx)"></nb-icon>
-                      </nb-action>
-                      <nb-action>
-                        <nb-icon class="action-icon" icon="close-circle-outline" (click)="removerModeloPm(filtro)"></nb-icon>
-                      </nb-action>
-                    </nb-actions>
-                  </div>
-                </div>
-              </nb-card-header>
-              <nb-card-body class="expandHeight">
-                <div class="row expandHeight">
-                  <div class="col d-flex justify-content-center modelosvg"
-                    *ngIf="filtro.svgContent != null" 
-                    [innerHTML]="filtro.svgContent" id="divModeloPm_{{idx}}">
-                  </div>
-                </div>
-              </nb-card-body>
-              <nb-card-footer>
-                <div class="row">
-                  <div class="col-md-6 col-sm-12 align-self-center">
+            <nb-flip-card>
+              <nb-card-front>
+                <nb-card accent="info" [size]="filtro.maximized ? 'large' : 'medium'">
+                  <nb-card-header>
                     <div class="row">
-                      <div class="col-12">
-                        Sensibilidade do modelo
+                      <div class="col-10 d-flex justify-content-start">
+                        <nb-actions size="small" fullWidth>
+                          <nb-action *ngIf="filtro.tribunal != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.tribunal.codigo}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.natureza != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.natureza.descricao}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.classe != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.classe.descricao}}</span>
+                          </nb-action>
+                        </nb-actions>
+                      </div>
+                      <div class="col-2 d-flex justify-content-end">
+                        <nb-actions size="small" fullWidth>
+                          <nb-action>
+                            <nb-icon class="action-icon" icon="maximize" 
+                              [icon]="filtro.maximized ? 'minimize' : 'maximize'"
+                              (click)="maximizarModeloPm(filtro, idx)"></nb-icon>
+                          </nb-action>
+                          <nb-action>
+                            <nb-icon class="action-icon" icon="close-circle-outline" (click)="removerModeloPm(filtro)"></nb-icon>
+                          </nb-action>
+                        </nb-actions>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-12">
-                        <mat-slider thumbLabel horizontal color="primary"
-                        (change)="onChangeSensibilidade($event, filtro, idx)"
-                        min="0" max="100" step="10" [(value)]="filtro.sensibilidade"></mat-slider>
+                  </nb-card-header>
+                  <nb-card-body class="expandHeight">
+                    <div class="row expandHeight">
+                      <div class="col d-flex justify-content-center modelosvg"
+                        *ngIf="filtro.svgContent != null" 
+                        [innerHTML]="filtro.svgContent" id="divModeloPm_{{idx}}">
                       </div>
                     </div>
-                  </div>
-                  <div class="col-md-6 col-sm-12">
+                  </nb-card-body>
+                  <nb-card-footer>
                     <div class="row">
-                      <div class="col-12" style="padding-bottom: 0.75em;">
-                        Métrica
+                      <div class="col-md-6 col-sm-12 align-self-center">
+                        <div class="row">
+                          <div class="col-12">
+                            Sensibilidade do modelo
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <mat-slider thumbLabel horizontal color="primary"
+                            (change)="onChangeSensibilidade($event, filtro, idx)"
+                            min="0" max="100" step="10" [(value)]="filtro.sensibilidade"></mat-slider>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-sm-12">
+                        <div class="row">
+                          <div class="col-12" style="padding-bottom: 0.75em;">
+                            Métrica
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <mat-radio-group aria-label="Selecione a metrica" [(ngModel)]="filtro.metrica"
+                              color="primary"
+                              (change)="onChangeMetrica($event, filtro, idx)">
+                              <mat-radio-button *ngFor="let item of metricasPm" color="primary"
+                                [value]="item">{{item == 'FREQUENCY' ? 'Frequência ' : 'Performance '}} <span>&nbsp;</span></mat-radio-button>
+                            </mat-radio-group>
+                          </div>
+                        </div>
                       </div>
                     </div>
+                  </nb-card-footer>
+                </nb-card>
+              </nb-card-front>
+              <nb-card-back>
+                <nb-card accent="danger" [size]="filtro.maximized ? 'large' : 'medium'">
+                  <nb-card-header>
                     <div class="row">
-                      <div class="col-12">
-                        <mat-radio-group aria-label="Selecione a metrica" [(ngModel)]="filtro.metrica"
-                          color="primary"
-                          (change)="onChangeMetrica($event, filtro, idx)">
-                          <mat-radio-button *ngFor="let item of metricasPm" color="primary"
-                            [value]="item">{{item == 'FREQUENCY' ? 'Frequência ' : 'Performance '}} <span>&nbsp;</span></mat-radio-button>
-                        </mat-radio-group>
+                      <div class="col-10 d-flex justify-content-start">
+                        <nb-actions size="small" fullWidth>
+                          <nb-action *ngIf="filtro.tribunal != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.tribunal.codigo}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.natureza != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.natureza.descricao}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.classe != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.classe.descricao}}</span>
+                          </nb-action>
+                        </nb-actions>
+                      </div>
+                      <div class="col-2 d-flex justify-content-end">
+                        <nb-actions size="small" fullWidth>
+                          <nb-action>
+                            <nb-icon class="action-icon" icon="maximize" 
+                              [icon]="filtro.maximized ? 'minimize' : 'maximize'"
+                              (click)="maximizarModeloPm(filtro, idx)"></nb-icon>
+                          </nb-action>
+                          <nb-action>
+                            <nb-icon class="action-icon" icon="close-circle-outline" (click)="removerModeloPm(filtro)"></nb-icon>
+                          </nb-action>
+                        </nb-actions>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </nb-card-footer>
-            </nb-card>
+                  </nb-card-header>
+                  <nb-card-body>
+                    <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <ng2-smart-table id="smartTableModeloPm_{{idx}}" [settings]="configTabelaEstatistica" [source]="filtro.dadosTabelaEstatistica">
+                              </ng2-smart-table>  
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </nb-card-body>
+                </nb-card>  
+              </nb-card-back>
+            </nb-flip-card>
           </div>
         </div>
       </nb-tab>

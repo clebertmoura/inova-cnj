@@ -3,6 +3,7 @@ import { Natureza } from './natureza';
 import { Tribunal } from './tribunal';
 import { OrgaoJulgador } from './orgao-julgador';
 import { TipoJustica } from './tipo-justica';
+import { LocalDataSource } from 'ng2-smart-table';
 
 export enum MetricaPm {
     Frequency = "FREQUENCY",
@@ -17,12 +18,14 @@ export enum ImageFormatPm {
 export class FiltroPm {
 
     public url: string = '';
+    public urlEstatistica: string = '';
     public loaded: boolean = false;
     public maximized: boolean = false;
     public metrica: MetricaPm = MetricaPm.Frequency;
     public formato: ImageFormatPm = ImageFormatPm.SVG;
     public svgContent: any;
     public svgObject: any;
+    public dadosTabelaEstatistica : LocalDataSource = new LocalDataSource();
 
     constructor(
         public tipoJustica: TipoJustica, 
@@ -34,6 +37,7 @@ export class FiltroPm {
 
     updateUrl() {
         this.url = FiltroPm.buildUrlModeloPm(this);
+        this.urlEstatistica = FiltroPm.buildUrlEstatisticaModeloPm(this);
     }
 
     /**
@@ -42,6 +46,13 @@ export class FiltroPm {
     public static buildUrlModeloPm(filtro: FiltroPm, prefixApi: string = '/api'): string {
         const urlPm = prefixApi + 
             `/v1/gerar-modelo-pm?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}${filtro.metrica != null ? '&metrica=' + filtro.metrica : MetricaPm.Frequency}${filtro.metrica != null ? '&formato=' + filtro.formato : ImageFormatPm.SVG}`;
+        console.log(urlPm)
+        return urlPm;
+    }
+
+    public static buildUrlEstatisticaModeloPm(filtro: FiltroPm, prefixApi: string = '/api'): string {
+        const urlPm = prefixApi + 
+            `/v1/gerar-estatisticas-modelo-pm?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}`;
         console.log(urlPm)
         return urlPm;
     }
