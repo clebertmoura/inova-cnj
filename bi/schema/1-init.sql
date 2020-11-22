@@ -101,7 +101,7 @@ COMMENT ON COLUMN inovacnj.movimentocnj.descricao IS 'Descrição da Movimentaç
 COMMENT ON COLUMN inovacnj.movimentocnj.codpai IS 'Código identificador da Movimentação Processual pai.';
 ALTER TABLE inovacnj.movimentocnj  OWNER to inovacnj;
 
--- ORGAO_JULGADOR
+-- Table: inovacnj.ORGAO_JULGADOR
 CREATE TABLE inovacnj.orgao_julgador
 (
 	cod numeric NOT NULL,
@@ -118,22 +118,33 @@ CREATE TABLE inovacnj.orgao_julgador
 
 ALTER TABLE inovacnj.orgao_julgador OWNER to inovacnj;
     
--- PROCESSO
-CREATE TABLE inovacnj.processo
+-- Table: inovacnj.PROCESSO_ASSUNTO
+CREATE TABLE inovacnj.processo_assunto
 (
-	npu character varying(20),
-	dtajuizamento timestamp,
-	codtribunal character varying(10) , 
-	codoj character varying(4),
-	grau character varying (4),
-	codassunto numeric,
-	assunto_principal boolean,
-	codclasse numeric, 
-	tramitacao character varying(1),  --dadosBasicos.procEl: Tramitação - 1: Sistema Eletrônico - 2: Sistema Físico;
-	CONSTRAINT pk_processo PRIMARY KEY (npu)
+    codtribunal text ,
+    npu text ,
+    dtajuizamento timestamp without time zone,
+    codclasse bigint,
+    descclasse text ,
+    codassunto bigint NOT NULL,
+    descassunto text,
+    assunto_principal boolean,
+    codassunto_local bigint NOT NULL,
+    descassunto_local ,
+    codassunto_pai bigint NOT NULL
 );
 
-ALTER TABLE inovacnj.processo OWNER to inovacnj;
+ALTER TABLE inovacnj.processo_assunto OWNER to inovacnj;
+
+CREATE INDEX ix_prc_ass_codass
+    ON inovacnj.processo_assunto USING btree
+    (codassunto ASC NULLS LAST)
+    TABLESPACE pg_default;
+    
+CREATE INDEX ix_prc_ass_codtrib
+    ON inovacnj.processo_assunto USING btree
+    (codtribunal ASC NULLS LAST)
+    TABLESPACE pg_default;    
 
 -- Table: inovacnj.TRIBUNAL
 CREATE TABLE inovacnj.tribunal
@@ -224,6 +235,11 @@ CREATE TABLE inovacnj.fat_movimento_jele
 );
 
 ALTER TABLE inovacnj.fat_movimento_jele OWNER to inovacnj;
+
+CREATE INDEX ix_fatjele_npu
+    ON inovacnj.fat_movimento_jele USING btree
+    (npu ASC NULLS LAST, mov_dtmov ASC NULLS LAST, mov_cod ASC NULLS LAST)
+    TABLESPACE pg_default;
                                     
 -- SEQUENCE: inovacnj.seq_fase
 CREATE SEQUENCE inovacnj.seq_fase
