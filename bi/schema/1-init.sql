@@ -199,6 +199,20 @@ CONSTRAINT pk_tempo PRIMARY KEY(data)
 
 ALTER TABLE inovacnj.tempo OWNER to inovacnj;
 
+-- Table: inovacnj.PIB_MUNICIPIO
+CREATE TABLE inovacnj.pib_municipio
+(   codmunicipio numeric NOT NULL,
+    porte character varying(20) ,
+    pib numeric,
+    pib_percapita numeric,
+    pop_estimada numeric,
+    reg_metropolitana character varying(1)  NOT NULL,
+    desc_pibpercapita character varying(50) ,
+    CONSTRAINT pk_pib_municipio PRIMARY KEY (codmunicipio)
+);
+
+ALTER TABLE inovacnj.pib_municipio  OWNER to inovacnj;
+
 -- FATOS
 -- Table: inovacnj.fat_movimento_jele
 CREATE TABLE inovacnj.fat_movimento_jele
