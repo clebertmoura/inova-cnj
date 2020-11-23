@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbThemeService, NbCalendarRange, NbDateService, NbDialogService, NbToastrService } from '@nebular/theme';
+import { NbThemeService, NbCalendarRange, NbDateService, NbDialogService, NbToastrService, NbFlipCardComponent } from '@nebular/theme';
 import { InovacnjService } from 'app/@core/services/inovacnj.service';
 import { TipoJustica } from 'app/models/tipo-justica';
 import { Tribunal } from 'app/models/tribunal';
@@ -27,6 +27,7 @@ import { debounceTime, map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
+import { TipoOrgao } from 'app/models/tipo-orgaoJulgador';
 
 declare var jQuery: any;
 
@@ -34,37 +35,6 @@ interface CardSettings {
   title: string;
   iconClass: string;
   type: string;
-}
-
-export class TipoOrgao {
-  tipo: string;
-  orgaos: OrgaoJulgador[];
-
-  static criarTipoOrgao(data: OrgaoJulgador[]):TipoOrgao[] {
-    let tipos: string[] = [];
-      let tiposOrgao: TipoOrgao[] = [];
-      let indice = -1
-      if (data != null && data.length > 0) {
-        data.forEach(element => {
-          if (tipos != null && tipos.length > 0) {
-            indice = tipos.indexOf(element.tipo);
-          } 
-          if(indice > -1) {
-            //existe
-            tiposOrgao[indice].orgaos.push(element)
-          } else {
-            //novo
-            let t: TipoOrgao = new TipoOrgao();
-            t.tipo = element.tipo;
-            t.orgaos = [];
-            t.orgaos.push(element);
-            tiposOrgao.push(t);
-            tipos.push(element.tipo);
-          }
-        });
-      }
-      return tiposOrgao;
-  }
 }
 
 @Component({
@@ -137,7 +107,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     },
     hideHeader: true,
     hideSubHeader: true,
-    noDataMessage: "Dados não carregados",
+    noDataMessage: "Carregando Dados",
     columns: {
       campo: {
         title: 'Campo',
@@ -168,7 +138,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       edit: false,
       delete: false
     },
-    noDataMessage: "Dados não carregados",
+    noDataMessage: "Carregando Dados",
     columns: {
       nome: {
         title: 'Nome',
@@ -217,7 +187,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   configTabelaFase = {
     rowClassFunction: (row) => { return 'ng2-custom-actions-inline' },
     hideSubHeader: true,
-    noDataMessage: "Dados não carregados",
+    noDataMessage: "Carregando Dados",
     actions: {
       custom: [
         {
@@ -372,6 +342,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
     });
   }
 
+  toggleCard(event: any, $cardComponent: NbFlipCardComponent) {
+    $cardComponent.toggle();
+  }
+
   tagClicked(tag) {
 		console.log(tag);
 	}
@@ -387,11 +361,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   adicionarModeloPm(): void {
     this.loadingProcess = true;
-    this.orgaoJulgadorProcess = this.orgaoProcessFormControl.value;
-
     console.log('adicionarModeloPm');
     if (this.tribunalProcess != null) {
       if (this.naturezaProcess != null) {
+        this.orgaoJulgadorProcess = this.orgaoProcessFormControl.value;
         const filtro = new FiltroPm(this.tipoJusticaProcess, this.tribunalProcess, this.orgaoJulgadorProcess, 
           this.naturezaProcess, this.classeProcess);
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {
@@ -418,6 +391,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
           }
           this.loadingProcess = false;
         });
+      } else {
+        this.loadingProcess = false;
+        this.toastrService.warning('Por favor, selecione uma natureza para geração do modelo.', `Selecione os filtros!`);
       }
     } else {
       this.loadingProcess = false;
@@ -562,7 +538,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.carregarNatureza(event);
     this.orgaoJulgador = null;
     this.orgaoFormControl.reset;
-    this.tiposOrgao = [];
+    //this.tiposOrgao = [];
     this.classe = null;
     this.disabledOrgaoJulgador = true;
     this.disabledClasse = true;
