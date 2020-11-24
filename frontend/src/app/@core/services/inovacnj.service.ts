@@ -131,9 +131,9 @@ export class InovacnjService {
         );
     }
 
-    public consultarAtuacaoOrgaoJulgador(tribunal?: Tribunal): Observable<AtuacaoOrgaoJulgador[]> {
-        return this.http.get<any[]>(this.url + '/v1/atuacao-orgaojulgador' 
-                                            + (tribunal != null ? `?ramojustica=${tribunal.tipo}` : '')
+    public consultarAtuacaoOrgaoJulgador(tipoJustica?: TipoJustica, tribunal?: Tribunal): Observable<AtuacaoOrgaoJulgador[]> {
+        return this.http.get<any[]>(this.url + '/v1/atuacao-orgaojulgador?' 
+                                            + (tipoJustica != null ? `&ramojustica=${tipoJustica.codigo}` : '')
                                             + (tribunal != null ? `&codtribunal=${tribunal.codigo}` : ''))
         .pipe(
             retry(1),
