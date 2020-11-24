@@ -96,16 +96,9 @@ def get_fase(cod):
 
 @servico.route('/api/v1/fase', methods=['POST'])
 def create_fase():
-    #apagar quando criar a sequence
     fase = Fase(descricao=request.json['descricao'], 
                 cod_tribunal=request.json['cod_tribunal'])
     
-    #tribunal = Tribunal.query.filter_by(cod=json['tribunal']['codigo'])
-    #if not tribunal:
-    #    abort(404)
-    #else
-    #    fase.tribunal = tribunal
-
     for json in request.json['movimentos']:
         mov = Movimento.query.filter_by(cod=json['codigo']).first()
         fase.movimentos.append(mov)
@@ -118,19 +111,12 @@ def create_fase():
 
 @servico.route('/api/v1/fase/<int:cod>', methods=['PUT'])
 def update_fase(cod):
-    #ipdb.set_trace()
     fase = Fase.query.filter_by(cod=cod).first()
     if not fase:
         abort(404)
 
     fase.descricao=request.json['descricao']
     fase.cod_tribunal=request.json['cod_tribunal']
-
-    #tribunal = Tribunal.query.filter_by(cod=json['tribunal']['codigo'])
-    #if not tribunal:
-    #    abort(404)
-    #else
-    #    fase.tribunal = tribunal
 
     fase.movimentos = []
     for json in request.json['movimentos']:
@@ -163,17 +149,7 @@ def api_lista_tipojustica():
         })
 
     return jsonify(res)
-    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    #cur = conn.cursor()
     
-    #qry = "SELECT DISTINCT tipo as cod, tipo as descricao "
-    #qry+= "FROM inovacnj.tribunal"
-    
-    #cur.execute(qry)
-    #lista = cur.fetchall()
-
-    #return jsonify(lista)
-
 @servico.route('/api/v1/porte', methods=['GET'])
 def api_lista_porte():
     portes = Tribunal.query.with_entities(Tribunal.porte).order_by(Tribunal.porte).group_by(Tribunal.porte)
@@ -185,17 +161,7 @@ def api_lista_porte():
         })
 
     return jsonify(res)
-    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    #cur = conn.cursor()
     
-    #qry = "SELECT DISTINCT porte as cod, porte as descricao "
-    #qry+= "FROM inovacnj.tribunal"
-    
-    #cur.execute(qry)
-    #lista = cur.fetchall()
-
-    #return jsonify(lista)
-
 @servico.route('/api/v1/tribunal', methods=['GET'])
 def api_lista_tribunal():
     porte = request.args.get('porte')
@@ -233,25 +199,6 @@ def get_orgaosJulgadores():
     lista = cur.fetchall()
     return jsonify(lista)
     
-    #orgaos = OrgaoJulgador.query.order_by(OrgaoJulgador.cod).all()
-    #res = []
-    #for orgao in orgaos:
-    #    res.append({
-    #        'cod': orgao.cod,
-    #        'descricao': orgao.descricao,
-    #        'codpai': orgao.codpai,
-    #        'sigla_tipoj': orgao.sigla_tipoj,
-    #        'tipo_oj': orgao.tipo_oj,
-    #        'cidade': orgao.cidade,
-    #        'uf': orgao.uf,
-    #        'codibge': orgao.codibge,
-    #        'esfera': orgao.esfera,
-    #        'latitude': orgao.latitude,
-    #        'longitude': orgao.longitude,
-    #    })
-    #    print("get_orgaosJulgadores")
-    #return jsonify(res)
-
 @servico.route('/api/v1/atuacao-orgaojulgador', methods=['GET'])
 def get_atuacaoOrgaosJulgador():
     ramojustica = request.args.get('ramojustica')
@@ -371,8 +318,6 @@ def api_gerar_modelo_pm():
         abort(400, description="ramojustica nao informado")
     if codtribunal is None:
         abort(400, description="codtribunal nao informado")
-    if natureza is None:
-        abort(400, description="natureza nao informado")
     
     gviz = gerar_view_dfg_model_from_params(ramojustica, codtribunal, atuacao, grau, codorgaoj, natureza, codclasse, \
                dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade, metric_type=metrica, image_format=formato)
@@ -407,8 +352,6 @@ def api_gerar_estatisticas_modelo_pm():
         abort(400, description="ramojustica nao informado")
     if codtribunal is None:
         abort(400, description="codtribunal nao informado")
-    if natureza is None:
-        abort(400, description="natureza nao informado")
     
     estat = gerar_estatistica_model_from_params(ramojustica, codtribunal, atuacao, grau, codorgaoj, natureza, codclasse, \
                dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade)

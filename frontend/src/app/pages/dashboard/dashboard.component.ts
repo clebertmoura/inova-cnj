@@ -47,14 +47,14 @@ interface CardSettings {
 export class DashboardComponent implements OnDestroy, OnInit {
   @ViewChild('fase') faseElement: ElementRef;
   
-  tiposOrgao: TipoOrgao[];
-  filteredTiposOrgao$: Observable<TipoOrgao[]>;
-  orgaoFormControl: FormControl;
-  valorInputOrgao: String = "";
+  //tiposOrgao: TipoOrgao[];
+  //filteredTiposOrgao$: Observable<TipoOrgao[]>;
+  //orgaoFormControl: FormControl;
+  //valorInputOrgao: String = "";
 
-  tiposOrgaoProcess: TipoOrgao[];
-  filteredTiposOrgaoProcess$: Observable<TipoOrgao[]>;
-  orgaoProcessFormControl: FormControl;
+  //tiposOrgaoProcess: TipoOrgao[];
+  //filteredTiposOrgaoProcess$: Observable<TipoOrgao[]>;
+  //orgaoProcessFormControl: FormControl;
 
   @ViewChild('visaoGeralFiltro') visaoGeralFiltro: FiltroComponent;
   @ViewChild('fluxoFiltro') fluxoFiltro: FiltroComponent;
@@ -96,8 +96,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
       },
     },
   };
-
-
   assuntosRanking: AssuntoRanking[] = [];
 
   // dados aba predict
@@ -267,7 +265,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   private _filter(descricao: string): Movimento[] {
     const filterValue = descricao.toLowerCase();
-
     return this.options.filter(option => option.descricao.toLowerCase().indexOf(filterValue) === 0);
   }
 
@@ -307,10 +304,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
     console.log('onAdicionarModeloProcesso', event);
     this.filtroProcess = event;
     if (this.filtroProcess.tribunal != null) {
-      if (this.filtroProcess.natureza != null) {
+      //if (this.filtroProcess.natureza != null) {
 
-        const filtro = new FiltroPm(this.filtroProcess.tipoJustica, this.filtroProcess.tribunal, 
-          this.filtroProcess.orgaoJulgador, this.filtroProcess.natureza, this.filtroProcess.classe, this.filtroProcess.baixado);
+        const filtro = new FiltroPm(this.filtroProcess.tipoJustica, this.filtroProcess.tribunal, this.filtroProcess.orgaoJulgador, 
+          this.filtroProcess.atuacaoOrgaoJulgador, this.filtroProcess.natureza, this.filtroProcess.classe, this.filtroProcess.baixado);
         
         this.fluxoFiltro.setLoading(true);
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {
@@ -337,9 +334,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
           }
           this.fluxoFiltro.setLoading(false);
         });
-      } else {
-        this.toastrService.warning('Por favor, selecione uma natureza para geração do modelo.', `Selecione os filtros!`);
-      }
+      //} else {
+      //  this.toastrService.warning('Por favor, selecione uma natureza para geração do modelo.', `Selecione os filtros!`);
+      //}
     } else {
       this.toastrService.warning('Por favor, selecione um tribunal para geração do modelo.', `Selecione os filtros!`);
     }
@@ -512,7 +509,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
       } else {
         this.tribunalConfig = null;
       }
-
       this.disabledTribunalConfig = false;
       this.loadingConfig = false;
     });
@@ -526,7 +522,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
         novaFase.cod_tribunal = this.tribunalConfig.codigo;
         novaFase.tribunal = this.tribunalConfig;
         novaFase.descricao = this.descricaoFase;
-        //novaFase.movimentos = this.selectedOptions;
         novaFase.movimentos = this.movimentos;
         
         //alterar
@@ -536,22 +531,18 @@ export class DashboardComponent implements OnDestroy, OnInit {
             this.dadosTabelaFase.remove(this.FaseSelecionada);
             this.dadosTabelaFase.add(data);
             this.dadosTabelaFase.refresh();
-            
             this.limparCamposFase();
             this.loadingConfig = false;
             this.toastrService.success('Fase Alterada com Sucesso!', `Sucesso!`); 
-            //event.confirm.resolve();
           });
         //salvar
         } else {
           this.inovacnjService.salvarFase(novaFase).subscribe(data => {
             this.dadosTabelaFase.add(data);
             this.dadosTabelaFase.refresh();
-            
             this.limparCamposFase();
             this.loadingConfig = false;
             this.toastrService.success('Fase Cadastrada com Sucesso!', `Sucesso!`);
-            //event.confirm.resolve();
           });
         }
       } else {
@@ -560,7 +551,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
       }
     } else {
       this.limparCamposFase();
-      //event.confirm.reject();
     }
   }
   
@@ -574,14 +564,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.movimentos = [];
     this.pesquisaAutoComplete = "";
     this.FaseSelecionada = null;
-    
   }
 
   //editar fase
   onEditConfirm(event): void {
     if (window.confirm('Deseja editar?')) {
       this.FaseSelecionada = event.data;
-
       this.codFase = event.data.codigo;
       this.descricaoFase = event.data.descricao;
       this.movimentos = event.data.movimentos;
@@ -590,14 +578,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
         this.tipoJusticaConfig = tip[0];
       }
       this.carregarTribunalConfig(this.tipoJusticaConfig, true, event.data.tribunal);
-      
       setTimeout(()=>{ // this will make the execution after the above boolean has changed
         this.faseElement.nativeElement.focus();
       },0);  
-      //event.confirm.resolve();
-    } else {
-      //event.confirm.reject();
-    }
+    } 
   }
 
   //excluir fase
@@ -607,11 +591,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
         this.dadosTabelaFase.remove(event.data);
         this.limparCamposFase();
         this.toastrService.success('Fase Removida com Sucesso!', `Sucesso!`);
-        //event.confirm.resolve();
       });
-    } else {
-      //event.confirm.reject();
-    }
+    } 
   }
 
   //evento click nos icones da tabela de fase
@@ -646,6 +627,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       event.confirm.reject();
     }
   }
+
   carregarAba(event) : void {
     this.loadingConfig = true;
     if (event.tabTitle === "Configurações") {

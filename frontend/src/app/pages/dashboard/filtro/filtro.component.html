@@ -79,6 +79,28 @@
           </div>
         </div>
       </div>
+      <div class="col-md-4 col-sm-12" *ngIf="showAtuacaoOrgaoJulgador">
+        <div class="row" >
+          <div class="col">
+            <div class="form-group">
+              <label class="label">Atuação Vara:</label>
+              <nb-select
+                (selectedChange)="onSelectAtuacaoOrgaoJulgador($event)"
+                [(selected)]="atuacaoOrgaoJulgador"
+                class="position-select"
+                fullWidth
+                [disabled]="tipoJustica == null"
+              >
+                <nb-option
+                  *ngFor="let atuacaoOrgaoJulgador of atuacoesOrgaoJulgador"
+                  [value]="atuacaoOrgaoJulgador"
+                  >{{ atuacaoOrgaoJulgador.descricao }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-md-4 col-sm-12" *ngIf="showNatureza">
         <div class="row" >
           <div class="col">
