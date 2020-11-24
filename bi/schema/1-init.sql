@@ -104,15 +104,20 @@ ALTER TABLE inovacnj.movimentocnj  OWNER to inovacnj;
 -- Table: inovacnj.ORGAO_JULGADOR
 CREATE TABLE inovacnj.orgao_julgador
 (
-	cod numeric NOT NULL,
-	descricao character varying(200) NOT NULL,
-	codpai numeric,
-	sigla_tipoj character varying(5) ,
-	tipo_oj character varying(100) ,
-	cidade character varying(100) ,
-	uf character varying(2) ,
-	codibge character varying(15),
-	esfera character varying(1) ,
+    cod integer,
+    descricao character varying(200) NOT NULL,
+    ordem integer,
+    codpai integer,
+    codtribunal character varying(10),
+    atuacao_vara character varying(30),
+    sigla_tipoj character varying(5),
+    tipo_oj character varying(100),
+    cidade character varying(100),
+    uf character varying(2),
+    codibge integer,
+    esfera character varying(1),
+    latitude real,
+    longitude real
 	CONSTRAINT pk_ojulg PRIMARY KEY (cod)
 );
 

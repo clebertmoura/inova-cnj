@@ -46,12 +46,12 @@ def clear_eventlog_cache(cacheKey):
         eventLogCache[cacheKey] = None
 
 # gera um log de eventos de acordo com os parametros informados.
-def gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, 
+def gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, 
                       baixado = None, sensibility = '60'):
     
     eventLog = None
 
-    cacheKey = "{0}-{1}-{2}-{3}-{4}-{5}-{6}-{7}-{8}".format(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado)
+    cacheKey = "{0}-{1}-{2}-{3}-{4}-{5}-{6}-{7}-{8}-{9}".format(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado)
     
     cachedEventLog = eventLogCache.get(cacheKey)
     if cachedEventLog is not None :
@@ -73,6 +73,7 @@ def gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, c
         qry+= "  fat.mov_dtmov as mov_dtmov "
         qry+= "FROM " + tabela_fato + " fat "
         qry+= "INNER JOIN inovacnj.acervo_processo_" + sufixo_ramo + " ap ON ap.npu = fat.npu "
+        qry+= "INNER JOIN inovacnj.orgao_julgador oj ON oj.cod = fat.oj_cod "
         qry+= "INNER JOIN inovacnj.movimentocnj mov ON mov.cod = fat.mov_cod "
         qry+= "INNER JOIN inovacnj.natureza_classe nc ON nc.cod_classe = fat.codclasse "
         qry+= "INNER JOIN inovacnj.natureza nat ON nat.cod = nc.cod_natureza "
@@ -84,6 +85,8 @@ def gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, c
             qry+= "AND ap.baixado = '" + baixado + "' "
         if codtribunal is not None :
             qry+= "AND fat.codtribunal = '" + codtribunal + "' "
+        if atuacao is not None :
+            qry+= "AND oj.atuacao_vara = '" + atuacao + "' "
         if codorgaoj is not None :
             qry+= "AND fat.oj_cod = '" + codorgaoj + "' "
         if grau is not None :
@@ -139,12 +142,12 @@ def gerar_view_dfg_model(eventLog, dfg, metric_type = 'FREQUENCY', image_format 
     return gviz
 
 # Gera a visualização do modelo com base nos parametros
-def gerar_view_dfg_model_from_params(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, 
+def gerar_view_dfg_model_from_params(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
                                      dtinicio, dtfim, baixado = None, sensibility = '60', metric_type = 'FREQUENCY', image_format = 'png'):
     
     gviz = None
     
-    eventLog = gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
     
     if eventLog is not None :
         dfg = gerar_dfg_model_from_log_eventos(eventLog)
@@ -206,12 +209,12 @@ def gerar_estatisticas_model_from_log_eventos(eventLog):
         caso_dur_media=median_case_duration, taxa_chegada_casos=case_arrival_ratio, taxa_dispersao_casos=case_dispersion_ratio)
 
 # Gera as estatisticas do modelo com base nos parametros
-def gerar_estatistica_model_from_params(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, 
+def gerar_estatistica_model_from_params(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
                                      dtinicio, dtfim, baixado = None, sensibility = '60'):
     
     est_model = None
     
-    eventLog = gerar_log_eventos(ramo_justica, codtribunal, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
     
     if eventLog is not None :
         est_model = gerar_estatisticas_model_from_log_eventos(eventLog)

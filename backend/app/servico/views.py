@@ -214,23 +214,6 @@ def api_lista_tribunal():
     for tribunal in tribunais:
         res.append(montarTribunalJson(tribunal))
     return jsonify(res)
-    #porte = request.args.get('porte')
-    #tipo = request.args.get('tipo')
-    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    #cur = conn.cursor()
-    
-    #qry = "SELECT cod, descricao, sigla, tipo, porte "
-    #qry+= "FROM inovacnj.tribunal "
-    #qry+= "WHERE (1=1) "
-    #if porte != None :
-    #    qry+= "AND porte = '" + porte + "' "
-    #if tipo != None :
-    #    qry+= "AND tipo = '" + tipo + "' "
-    
-    #cur.execute(qry)
-    #lista = cur.fetchall()
-
-    #return jsonify(lista)
 
 @servico.route('/api/v1/orgao-julgador', methods=['GET'])
 def get_orgaosJulgadores():
@@ -269,6 +252,31 @@ def get_orgaosJulgadores():
     #    print("get_orgaosJulgadores")
     #return jsonify(res)
 
+@servico.route('/api/v1/atuacao-orgaojulgador', methods=['GET'])
+def get_atuacaoOrgaosJulgador():
+    ramojustica = request.args.get('ramojustica')
+    codtribunal = request.args.get('codtribunal')
+    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+    cur = conn.cursor()
+
+    qry = "SELECT DISTINCT "
+    qry+= " atuacao_vara AS cod, "
+    qry+= " atuacao_vara AS descricao, "
+    qry+= " tr.tipo AS tipo "
+    qry+= "FROM inovacnj.orgao_julgador oj "
+    qry+= "INNER JOIN inovacnj.tribunal tr ON tr.cod = oj.codtribunal "
+    qry+= "WHERE atuacao_vara IS NOT NULL "
+    
+    if ramojustica != None :
+        qry+= "AND tr.tipo = '" + ramojustica + "' "
+    if codtribunal != None :
+        qry+= "AND codtribunal = '" + codtribunal + "' "
+    qry+= "ORDER BY atuacao_vara "
+
+    cur.execute(qry)
+    lista = cur.fetchall()
+    return jsonify(lista)
+
 @servico.route('/api/v1/natureza', methods=['GET'])
 def api_lista_natureza():
     naturezas = Natureza.query.order_by(Natureza.cod).all()
@@ -279,16 +287,6 @@ def api_lista_natureza():
             'descricao' : nat.descricao,
         })
     return jsonify(res)
-    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    #cur = conn.cursor()
-    
-    #qry = "SELECT * FROM inovacnj.natureza "
-    #qry+= "ORDER BY descricao "
-    
-    #cur.execute(qry)
-    #lista = cur.fetchall()
-
-    #return jsonify(lista)
 
 @servico.route('/api/v1/classe', methods=['GET'])
 def api_lista_classe():
@@ -307,18 +305,6 @@ def api_lista_classe():
             'codpai' : str(classe.codpai),
         })
     return jsonify(res)
-    #natureza = request.args.get('natureza')
-    #conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
-    #cur = conn.cursor()
-    
-    #qry = "SELECT cod, descricao, sigla, codpai "
-    #qry+= "FROM inovacnj.classe "
-    #qry+= "ORDER BY cod "
-    
-    #cur.execute(qry)
-    #lista = cur.fetchall()
-
-    #return jsonify(lista)
 
 @servico.route('/api/v1/movimento', methods=['GET'])
 def api_lista_movimento():
@@ -369,6 +355,7 @@ def api_lista_assuntos_ranking():
 def api_gerar_modelo_pm():
     ramojustica = request.args.get('ramojustica')
     codtribunal = request.args.get('codtribunal')
+    atuacao = request.args.get('atuacao')
     grau = request.args.get('grau')
     codorgaoj = request.args.get('codorgaoj')
     natureza = request.args.get('natureza')
@@ -387,7 +374,7 @@ def api_gerar_modelo_pm():
     if natureza is None:
         abort(400, description="natureza nao informado")
     
-    gviz = gerar_view_dfg_model_from_params(ramojustica, codtribunal, grau, codorgaoj, natureza, codclasse, \
+    gviz = gerar_view_dfg_model_from_params(ramojustica, codtribunal, atuacao, grau, codorgaoj, natureza, codclasse, \
                dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade, metric_type=metrica, image_format=formato)
     if gviz != None:
         file_remover = FileRemover()
@@ -406,6 +393,7 @@ def api_gerar_modelo_pm():
 def api_gerar_estatisticas_modelo_pm():
     ramojustica = request.args.get('ramojustica')
     codtribunal = request.args.get('codtribunal')
+    atuacao = request.args.get('atuacao')
     grau = request.args.get('grau')
     codorgaoj = request.args.get('codorgaoj')
     natureza = request.args.get('natureza')
@@ -422,7 +410,7 @@ def api_gerar_estatisticas_modelo_pm():
     if natureza is None:
         abort(400, description="natureza nao informado")
     
-    estat = gerar_estatistica_model_from_params(ramojustica, codtribunal, grau, codorgaoj, natureza, codclasse, \
+    estat = gerar_estatistica_model_from_params(ramojustica, codtribunal, atuacao, grau, codorgaoj, natureza, codclasse, \
                dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade)
     if estat is not None:
         return jsonpickle.encode(estat)
