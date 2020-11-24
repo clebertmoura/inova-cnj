@@ -1,0 +1,100 @@
+version: '3.3'
+
+services:
+
+  postgres:
+    image: postgis/postgis:10-3.0-alpine
+    env_file: .env/dev.env
+    ports:
+      - "15432:5432"
+    volumes:
+      - inova-cnj-postgres-data:/var/lib/postgresql/data
+      - ./bi/schema/1-init.sql:/docker-entrypoint-initdb.d/1-init.sql
+    restart: always
+    networks:
+      - inova-cnj-network
+      
+  pgadmin:
+    image: dpage/pgadmin4:2020-10-12-1
+    env_file: .env/dev.env
+    ports:
+      - "16543:80"
+    volumes:
+      - ./bi/pgadmin/servers.json:/pgadmin4/servers.json
+    restart: always
+    networks:
+      - inova-cnj-network
+    depends_on:
+      - postgres
+
+  ia-core:
+    image: inova-cnj-iacore   
+    env_file: .env/dev.env
+    ports:
+      - "8888:8888"
+      - "8181:8080"
+    volumes:
+      - ./work:/home/jovyan/work
+      - ./jdbc:/home/jovyan/jdbc
+    restart: always
+    networks:
+      - inova-cnj-network
+    depends_on:
+      - postgres
+
+  ia-server:
+    image: inova-cnj-iaserver
+    env_file: .env/dev.env
+    ports:
+      - "5000:5000"
+    restart: always
+    networks:
+      - inova-cnj-network
+
+  backend:
+    image: inova-cnj-backend
+    env_file: .env/dev.env
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - inova-cnj-network
+
+  frontend:
+    image: inova-cnj-frontend   
+    env_file: .env/dev.env
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    networks:
+      - inova-cnj-network
+    depends_on:
+      - ia-core
+
+  metabase:
+    image: metabase/metabase:v0.36.7
+    env_file: .env/dev.env
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - inova-cnj-metabase-data:/metabase-data
+    environment:
+      JAVA_TIMEZONE: America/Recife
+      JAVA_TOOL_OPTIONS: -Xmx1g -Duser.country=BR -Duser.language=pt
+    restart: always
+    networks:
+      - inova-cnj-network
+    depends_on:
+      - postgres
+
+volumes:
+  inova-cnj-postgres-data:
+    driver: local
+  inova-cnj-metabase-data:
+    driver: local
+
+networks: 
+  inova-cnj-network:
+    driver: overlay
