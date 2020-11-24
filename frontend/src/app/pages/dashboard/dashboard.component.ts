@@ -46,7 +46,7 @@ interface CardSettings {
 
 export class DashboardComponent implements OnDestroy, OnInit {
   @ViewChild('fase') faseElement: ElementRef;
-
+  
   tiposOrgao: TipoOrgao[];
   filteredTiposOrgao$: Observable<TipoOrgao[]>;
   orgaoFormControl: FormControl;
@@ -500,11 +500,19 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   //aba config
-  carregarTribunalConfig(tipoJustica) {
+  carregarTribunalConfig(tipoJustica , edicao?:boolean, tribunal?:Tribunal) {
     this.loadingConfig = true;
     this.inovacnjService.consultarTribunal(tipoJustica).subscribe(data => {
-      this.tribunaisConfig = data;
-      this.tribunalConfig = null;
+      this.tribunaisConfig = data
+      if (edicao != null && edicao == true){
+        const trib = this.tribunaisConfig.filter((tj) => tj.codigo == tribunal.codigo);
+        if (trib != null && trib.length == 1) {
+          this.tribunalConfig = trib[0];
+        }
+      } else {
+        this.tribunalConfig = null;
+      }
+
       this.disabledTribunalConfig = false;
       this.loadingConfig = false;
     });
@@ -513,39 +521,43 @@ export class DashboardComponent implements OnDestroy, OnInit {
   onSaveConfirm(event): void {
     if (window.confirm('Deseja salvar?')) {
       this.loadingConfig = true;
-      let novaFase = new Fase();
-      novaFase.cod_tribunal = this.tribunalConfig.codigo;
-      novaFase.tribunal = this.tribunalConfig;
-      novaFase.descricao = this.descricaoFase;
-      //novaFase.movimentos = this.selectedOptions;
-      novaFase.movimentos = this.movimentos;
-      
-      //alterar
-      if (this.codFase > 0) {
-        novaFase.codigo = this.codFase;
-        this.inovacnjService.atualizarFase(novaFase).subscribe(data => {
-          this.dadosTabelaFase.remove(this.FaseSelecionada);
-          this.dadosTabelaFase.add(data);
-          this.dadosTabelaFase.refresh();
-          
-          this.limparCamposFase();
-          this.loadingConfig = false;
-          this.toastrService.success('Fase Alterada com Sucesso!', `Sucesso!`); 
-          //event.confirm.resolve();
-        });
-      //salvar
+      if (this.descricaoFase != null && this.tribunalConfig != null) {
+        let novaFase = new Fase();
+        novaFase.cod_tribunal = this.tribunalConfig.codigo;
+        novaFase.tribunal = this.tribunalConfig;
+        novaFase.descricao = this.descricaoFase;
+        //novaFase.movimentos = this.selectedOptions;
+        novaFase.movimentos = this.movimentos;
+        
+        //alterar
+        if (this.codFase > 0) {
+          novaFase.codigo = this.codFase;
+          this.inovacnjService.atualizarFase(novaFase).subscribe(data => {
+            this.dadosTabelaFase.remove(this.FaseSelecionada);
+            this.dadosTabelaFase.add(data);
+            this.dadosTabelaFase.refresh();
+            
+            this.limparCamposFase();
+            this.loadingConfig = false;
+            this.toastrService.success('Fase Alterada com Sucesso!', `Sucesso!`); 
+            //event.confirm.resolve();
+          });
+        //salvar
+        } else {
+          this.inovacnjService.salvarFase(novaFase).subscribe(data => {
+            this.dadosTabelaFase.add(data);
+            this.dadosTabelaFase.refresh();
+            
+            this.limparCamposFase();
+            this.loadingConfig = false;
+            this.toastrService.success('Fase Cadastrada com Sucesso!', `Sucesso!`);
+            //event.confirm.resolve();
+          });
+        }
       } else {
-        this.inovacnjService.salvarFase(novaFase).subscribe(data => {
-          this.dadosTabelaFase.add(data);
-          this.dadosTabelaFase.refresh();
-          
-          this.limparCamposFase();
-          this.loadingConfig = false;
-          this.toastrService.success('Fase Cadastrada com Sucesso!', `Sucesso!`);
-          //event.confirm.resolve();
-        });
+        this.loadingConfig = false;
+        this.toastrService.warning('Por favor, Preencha os campos.', `Aviso!`);
       }
-      
     } else {
       this.limparCamposFase();
       //event.confirm.reject();
@@ -558,7 +570,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.codFase = 0;
     this.codTribunalFase = "";
     this.descricaoFase = "";
-    //this.selectedOptions = [];
+    this.myControl.setValue('');
     this.movimentos = [];
     this.pesquisaAutoComplete = "";
     this.FaseSelecionada = null;
@@ -573,8 +585,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
       this.codFase = event.data.codigo;
       this.descricaoFase = event.data.descricao;
       this.movimentos = event.data.movimentos;
-      this.tipoJusticaConfig = event.data.tribunal.tipo;
-      this.tribunalConfig = event.data.tribunal;
+      let tip = this.tiposJusticaConfig.filter((tj) => tj.descricao == event.data.tribunal.tipo);
+      if (tip != null && tip.length == 1) {
+        this.tipoJusticaConfig = tip[0];
+      }
+      this.carregarTribunalConfig(this.tipoJusticaConfig, true, event.data.tribunal);
+      
       setTimeout(()=>{ // this will make the execution after the above boolean has changed
         this.faseElement.nativeElement.focus();
       },0);  
@@ -612,10 +628,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
   //evento de selecionar movimento no autocomplete
   onOptionSelected(event: MatAutocompleteSelectedEvent): void {
     let val = event.option.value
-    let index = this.movimentos.indexOf(val);
-    if(index < 0) {
-      this.movimentos.push(event.option.value);
+    let mov = this.movimentos.filter((item) => item.codigo == val.codigo);
+    if (mov == null || mov.length < 1) {
+      this.movimentos.push(val);
     }
+    this.myControl.setValue('');
   }
   
   onRemoverMovimentoLista(event, mov: Movimento): void {

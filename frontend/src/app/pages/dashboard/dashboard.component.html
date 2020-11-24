@@ -325,7 +325,7 @@
                       <label class="label">Tipo de Justiça:</label>
                       <nb-select
                         (selectedChange)="carregarTribunalConfig($event)"
-                        [(selected)]="tipoJusticaConfig"
+                        [(ngModel)]="tipoJusticaConfig"
                         class="position-select"
                         fullWidth
                       >
@@ -341,7 +341,7 @@
                     <div class="form-group">
                       <label class="label">Tribunal:</label>
                       <nb-select
-                        [(selected)]="tribunalConfig"
+                        [(ngModel)]="tribunalConfig"
                         class="position-select"
                         fullWidth
                         [disabled]="disabledTribunalConfig"
