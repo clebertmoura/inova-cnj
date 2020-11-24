@@ -28,6 +28,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { TipoOrgao } from 'app/models/tipo-orgaoJulgador';
+import { Filtro, FiltroComponent } from './filtro/filtro.component';
 
 declare var jQuery: any;
 
@@ -55,45 +56,19 @@ export class DashboardComponent implements OnDestroy, OnInit {
   filteredTiposOrgaoProcess$: Observable<TipoOrgao[]>;
   orgaoProcessFormControl: FormControl;
 
-  loadingVisaoGeral = false;
-  loadingProcess = false;
+  @ViewChild('visaoGeralFiltro') visaoGeralFiltro: FiltroComponent;
+  @ViewChild('fluxoFiltro') fluxoFiltro: FiltroComponent;
+
+
   loadingPredict = false;
   loadingConfig = false;
 
-  tiposJustica: TipoJustica[] = [];
-  tipoJustica: TipoJustica;
-  tribunais: Tribunal[] = [];
-  tribunal: Tribunal;
-  orgaosJulgadores: OrgaoJulgador[] = [];
-  orgaoJulgador: OrgaoJulgador;
-  naturezas: Natureza[] = [];
-  natureza: Natureza;
-  classes: Classe[] = [];
-  classe: Classe;
-  dataInicial = new Date();
-  dataFinal = new Date();
-  rangeDatas: NbCalendarRange<Date>;
+  filtroVisaoGeral : Filtro = new Filtro();
+  filtroProcess : Filtro = new Filtro();
+
   dashboardUrl: any;
-  disabledTribunal = true;
-  disabledOrgaoJulgador = true;
-  disabledNatureza = true;
-  disabledClasse = true;
 
   //aba Process
-  tiposJusticaProcess: TipoJustica[] = [];
-  tipoJusticaProcess: TipoJustica;
-  tribunaisProcess: Tribunal[] = [];
-  tribunalProcess: Tribunal;
-  orgaosJulgadoresProcess: OrgaoJulgador[] = [];
-  orgaoJulgadorProcess: OrgaoJulgador;
-  naturezasProcess: Natureza[] = [];
-  naturezaProcess: Natureza;
-  classesProcess: Classe[] = [];
-  classeProcess: Classe;
-  disabledTribunalProcess = true;
-  disabledOrgaoJulgadorProcess = true;
-  disabledNaturezaProcess = true;
-  disabledClasseProcess = true;
   metricasPm: MetricaPm[] = [
     MetricaPm.Frequency, MetricaPm.Performance
   ];
@@ -260,46 +235,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.inovacnjService.consultarTipoJustica().subscribe(data => {
-      this.tiposJustica = data;
-      this.tiposJusticaProcess = data;
       this.tiposJusticaConfig = data;
     });
-    //this.inovacnjService.consultarTribunal(this.tipoJustica).subscribe(data => {
-    //  this.tribunais = data;
-    //  this.tribunaisProcess = data;
-    //  this.tribunaisConfig = data;
-    //});
-    //this.inovacnjService.consultarNatureza().subscribe(data => { 
-    //  this.naturezas = data;
-    //  this.naturezasProcess = data;
-    //});
-    //this.inovacnjService.consultarClasse().subscribe(data => {
-    //  this.classes = data;
-    //  this.classesProcess = data;
-    //  let arvoreClasses = this.converterParaArvore(this.classes);
-    // console.log(arvoreClasses);
-    //});
-    //this.inovacnjService.consultarOrgaoJulgador(this.tribunal).subscribe(data => { 
-    //  this.orgaosJulgadores = data;
-    //  this.orgaosJulgadoresProcess = data;
-    //});
-    //this.carregarAssuntosRanking();
             
     jQuery(document).ready(function() {
-      var words = [
-        {text: "Lorem", weight: 13},
-        {text: "Ipsum", weight: 10.5},
-        {text: "Dolor", weight: 9.4},
-        {text: "Sit", weight: 8},
-        {text: "Amet", weight: 6.2},
-        {text: "Consectetur", weight: 5},
-        {text: "Adipiscing", weight: 5},
-        /* ... */
-      ];
-      // jQuery('#nuvemAssuntos').jQCloud(words, {
-      //   width: 300,
-      //   height: 250
-      // });
+      
     });
 
     this.filteredOptions = this.myControl.valueChanges
@@ -309,6 +249,16 @@ export class DashboardComponent implements OnDestroy, OnInit {
         map(value => typeof value === 'string' ? value : value.descricao),
         map(descricao => descricao ? this._filter(descricao) : this.options.slice())
       );
+  }
+
+  onAplicarFiltro(event) {
+    console.log('onAplicarFiltro', event);
+    this.filtroVisaoGeral = event;
+    this.setDashboardUrl();
+  }
+
+  onLimparFiltro(event) {
+    console.log('onLimparFiltro', event);
   }
 
   displayFn(mov: Movimento): string {
@@ -321,26 +271,20 @@ export class DashboardComponent implements OnDestroy, OnInit {
     return this.options.filter(option => option.descricao.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  limparModeloProcesso() {
+  onLimparModeloProcesso(event) {
+    console.log('onLimparModeloProcesso', event);
     this.filtrosPm.length = 0;
-    this.tipoJusticaProcess = null;
-    this.orgaoJulgadorProcess = null;
-    this.tribunalProcess = null;
-    this.naturezaProcess = null;
-    this.classeProcess = null;
-    this.tiposOrgaoProcess = [];
-    this.orgaoProcessFormControl.reset;
   }
 
-  private carregarAssuntosRanking() {
-    this.inovacnjService.consultarAssuntoRanking(this.tipoJustica, this.tribunal, this.orgaoJulgador, this.natureza, this.classe).subscribe(data => {
-      this.assuntosRanking = data;
-      if (this.assuntosRanking != null && this.assuntosRanking.length > 0) {
-        this.assuntosRanking.forEach((elem) => {
-        })
-      }
-    });
-  }
+  // private carregarAssuntosRanking() {
+  //   this.inovacnjService.consultarAssuntoRanking(this.tipoJustica, this.tribunal, this.orgaoJulgador, this.natureza, this.classe).subscribe(data => {
+  //     this.assuntosRanking = data;
+  //     if (this.assuntosRanking != null && this.assuntosRanking.length > 0) {
+  //       this.assuntosRanking.forEach((elem) => {
+  //       })
+  //     }
+  //   });
+  // }
 
   toggleCard(event: any, $cardComponent: NbFlipCardComponent) {
     $cardComponent.toggle();
@@ -359,14 +303,16 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.themeSubscription.unsubscribe();
   }
 
-  adicionarModeloPm(): void {
-    this.loadingProcess = true;
-    console.log('adicionarModeloPm');
-    if (this.tribunalProcess != null) {
-      if (this.naturezaProcess != null) {
-        this.orgaoJulgadorProcess = this.orgaoProcessFormControl.value;
-        const filtro = new FiltroPm(this.tipoJusticaProcess, this.tribunalProcess, this.orgaoJulgadorProcess, 
-          this.naturezaProcess, this.classeProcess);
+  onAdicionarModeloProcesso(event) {
+    console.log('onAdicionarModeloProcesso', event);
+    this.filtroProcess = event;
+    if (this.filtroProcess.tribunal != null) {
+      if (this.filtroProcess.natureza != null) {
+
+        const filtro = new FiltroPm(this.filtroProcess.tipoJustica, this.filtroProcess.tribunal, 
+          this.filtroProcess.orgaoJulgador, this.filtroProcess.natureza, this.filtroProcess.classe);
+        
+        this.fluxoFiltro.setLoading(true);
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {
           this.filtrosPm.push(filtro);
           var idx = this.filtrosPm.indexOf(filtro);
@@ -378,7 +324,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
             this.initFiltroModeloSvg(filtro, idx);
             filtro.svgObject.resize();
             filtro.svgObject.fit();
-            this.loadingProcess = false;
+            this.fluxoFiltro.setLoading(false);
           });
         }, error => {
           console.error(error);
@@ -389,15 +335,13 @@ export class DashboardComponent implements OnDestroy, OnInit {
           } else {
             this.toastrService.danger('Ocorreu um erro inesperado ao consultar dados.', `Erro inesperado!`); 
           }
-          this.loadingProcess = false;
+          this.fluxoFiltro.setLoading(false);
         });
       } else {
-        this.loadingProcess = false;
         this.toastrService.warning('Por favor, selecione uma natureza para geração do modelo.', `Selecione os filtros!`);
       }
     } else {
-      this.loadingProcess = false;
-      this.toastrService.warning('Por favor, selecione os filtros para geração do modelo.', `Selecione os filtros!`);
+      this.toastrService.warning('Por favor, selecione um tribunal para geração do modelo.', `Selecione os filtros!`);
     }
   }
 
@@ -415,7 +359,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   onChangeSensibilidade(event: MatSliderChange, filtro: FiltroPm, idx: number) {
     console.log('onChangeSensibilidade', event);
-    this.loadingProcess = true;
+    this.fluxoFiltro.setLoading(true);
     filtro.updateUrl();
     this.downloadModeloPmSvgContent(filtro).subscribe(val => {
       filtro.svgObject = null;
@@ -426,21 +370,21 @@ export class DashboardComponent implements OnDestroy, OnInit {
       this.initFiltroModeloSvg(filtro, idx);
       timer(50).subscribe(val2 => {
         filtro.svgObject.reset();
-        this.loadingProcess = false;
+        this.fluxoFiltro.setLoading(false);
       });
     });
   }
 
   onChangeMetrica(event: MatSliderChange, filtro: FiltroPm, idx: number) {
     console.log('onChangeMetrica', event);
-    this.loadingProcess = true;
+    this.fluxoFiltro.setLoading(true);
     filtro.updateUrl();
     this.downloadModeloPmSvgContent(filtro).subscribe(val => {
       filtro.svgObject = null;
       this.initFiltroModeloSvg(filtro, idx);
       timer(50).subscribe(val2 => {
         filtro.svgObject.reset();
-        this.loadingProcess = false;
+        this.fluxoFiltro.setLoading(false);
       });
     });
   }
@@ -480,30 +424,52 @@ export class DashboardComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Retorna uma coleção de Natureza
+   * Configura a URL do Dashboard
    */
   setDashboardUrl(): any {
-    let url = 'http://161.97.71.108:3000/public/dashboard/4e8d4bbf-eeea-4a85-afbf-b22d8cf3b80e?';
-    if (this.tipoJustica != null) {
-      url += `justi%25C3%25A7a=${this.tipoJustica.codigo}&`
+    let url = 'http://161.97.71.108:3000/public/dashboard/';
+    if (this.filtroVisaoGeral.tipoJustica != null) {
+      switch(this.filtroVisaoGeral.tipoJustica.codigo) {
+        case 'Eleitoral': 
+          url += `3fc379e7-26ac-4138-befe-5bdbc9cf030b`;
+        break;
+        case 'Estadual': 
+          url += `89613a9e-31a9-42cd-b4d0-4c99c0065df7`;
+        break;
+        case 'Federal': 
+          url += `e8f040d4-f400-40fa-9cd0-e9a3b9f16220`;
+        break;
+        case 'Militar': 
+          url += `6b8ba49e-cbaa-4efd-867c-6421cfd3dc29`;
+        break;
+        case 'Trabalho': 
+          url += `21e8ce33-d0b5-4e43-b01a-658a9d4234b8`;
+        break;
+        default:
+          url += `32e1b3c2-6a81-4c79-82a2-048bb708ae44`;
+        break;
+      }
+      url += `?justi%25C3%25A7a=${this.filtroVisaoGeral.tipoJustica.codigo}`
+    } else {
+      url += `?`
     }
-    if (this.tribunal != null) {
-      url += `tribunal=${this.tribunal.codigo}&`
+    if (this.filtroVisaoGeral.tribunal != null) {
+      url += `&tribunal=${this.filtroVisaoGeral.tribunal.codigo}`
     }
-    if (this.orgaoJulgador != null) {
-      url += `%25C3%25B3rg%25C3%25A3o_julgador=${this.orgaoJulgador.descricao}&`
+    if (this.filtroVisaoGeral.orgaoJulgador != null) {
+      url += `&%25C3%25B3rg%25C3%25A3o_julgador=${this.filtroVisaoGeral.orgaoJulgador.descricao}`
     }
-    if (this.natureza != null) {
-      url += `natureza=${this.natureza.codigo}&`
+    if (this.filtroVisaoGeral.natureza != null) {
+      url += `&natureza=${this.filtroVisaoGeral.natureza.descricao}`
     }
-    if (this.classe != null) {
-      url += `classe=${this.classe.descricao}&`
+    if (this.filtroVisaoGeral.classe != null) {
+      url += `&classe=${this.filtroVisaoGeral.classe.descricao}`
     }
-    if (this.rangeDatas != null) {
-      if (this.rangeDatas.start != null && this.rangeDatas.end != null) {
-        const dateStart = this.datePipe.transform(this.rangeDatas.start,"yyyy-MM-dd");
-        const dateEnd = this.datePipe.transform(this.rangeDatas.end,"yyyy-MM-dd");
-        url += `datas=${dateStart}~${dateEnd}`;
+    if (this.filtroVisaoGeral.rangeDatas != null) {
+      if (this.filtroVisaoGeral.rangeDatas.start != null && this.filtroVisaoGeral.rangeDatas.end != null) {
+        const dateStart = this.datePipe.transform(this.filtroVisaoGeral.rangeDatas.start,"yyyy-MM-dd");
+        const dateEnd = this.datePipe.transform(this.filtroVisaoGeral.rangeDatas.end,"yyyy-MM-dd");
+        url += `&datas=${dateStart}~${dateEnd}`;
       }
     }
     console.log(url);
@@ -533,171 +499,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
     });
   }
 
-  onSelectTribunal(event) {
-    this.carregarTribunal(event);
-    this.carregarNatureza(event);
-    this.orgaoJulgador = null;
-    this.orgaoFormControl.reset;
-    //this.tiposOrgao = [];
-    this.classe = null;
-    this.disabledOrgaoJulgador = true;
-    this.disabledClasse = true;
-  }
-
-  carregarTribunal(tipoJustica) {
-    this.loadingVisaoGeral = true;
-    this.inovacnjService.consultarTribunal(tipoJustica).subscribe(data => {
-      this.tribunais = data;
-      this.tribunal = null;
-      this.disabledTribunal = false;
-      this.loadingVisaoGeral = false;
-    });
-  }
-
-  carregarNatureza(tipoJustica) {
-    this.inovacnjService.consultarNatureza().subscribe(data => { 
-      this.naturezas = data;
-      this.natureza = null;
-      this.disabledNatureza = false;
-    });
-  }
-
-  carregarOrgaoJulgador(tribunal) {
-    this.loadingVisaoGeral = true;
-    this.inovacnjService.consultarOrgaoJulgador(tribunal).subscribe(data => {
-      this.orgaosJulgadores = data;
-      this.tiposOrgao = TipoOrgao.criarTipoOrgao(data);
-      this.filteredTiposOrgao$ = of(this.tiposOrgao);
-      this.orgaoFormControl = new FormControl();
-      this.filteredTiposOrgao$ = this.orgaoFormControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(filterString => this.filterOrgao(filterString)),
-      );
-      
-      this.orgaoJulgador = null;
-      this.disabledOrgaoJulgador = false;
-      this.loadingVisaoGeral = false;
-    });
-  }
-
-  private filterOrgaosJulgadores(orgaos: OrgaoJulgador[], filterValue: string) {
-    return orgaos.filter(optionValue => optionValue.descricao.toLowerCase().includes(filterValue));
-  }
-
-  private filterOrgao(value: string): TipoOrgao[] {
-    const filterValue = value.toLowerCase();
-    return this.tiposOrgao
-      .map(tipoOrgao => {
-        return {
-          tipo: tipoOrgao.tipo,
-          orgaos: this.filterOrgaosJulgadores(tipoOrgao.orgaos, filterValue),
-        }
-      })
-      .filter(tipoOrgao => tipoOrgao.orgaos.length);
-  }
-
-  trackByFnOrgao(index, item) {
-    return item.tipo;
-  }
-
-  displayOrgaoJulgador(orgao: OrgaoJulgador): string {
-    return orgao.descricao;
-  }
-
-  carregarClasse(natureza) {
-    this.loadingVisaoGeral = true;
-    this.inovacnjService.consultarClasse(natureza).subscribe(data => {
-      this.classes = data;
-      this.classe = null;
-      this.disabledClasse = false;
-      this.loadingVisaoGeral = false;
-    });
-  }
-
-  //aba process
-  onSelectTribunalProcess(event) {
-    this.carregarTribunalProcess(event);
-    this.carregarNaturezaProcess(event);
-    this.orgaoJulgadorProcess = null;
-    this.orgaoProcessFormControl.reset;
-    this.tiposOrgaoProcess = [];
-    this.classeProcess = null;
-    this.disabledOrgaoJulgadorProcess = true;
-    this.disabledClasseProcess = true;
-  }
-
-  carregarTribunalProcess(tipoJustica) {
-    this.loadingProcess = true;
-    this.inovacnjService.consultarTribunal(tipoJustica).subscribe(data => {
-      this.tribunaisProcess = data;
-      this.tribunalProcess = null;
-      this.disabledTribunalProcess = false;
-      this.loadingProcess = false;
-    });
-  }
-  
-  carregarNaturezaProcess(tipoJustica) {
-    this.inovacnjService.consultarNatureza().subscribe(data => { 
-      this.naturezasProcess = data;
-      this.naturezaProcess = null;
-      this.disabledNaturezaProcess = false;
-    });
-  }
-
-  carregarOrgaoJulgadorProcess(tribunal) {
-    this.loadingProcess = true;
-    this.inovacnjService.consultarOrgaoJulgador(tribunal).subscribe(data => {
-      this.orgaosJulgadoresProcess = data;
-      this.tiposOrgaoProcess = TipoOrgao.criarTipoOrgao(data);
-      this.filteredTiposOrgaoProcess$ = of(this.tiposOrgaoProcess);
-      this.orgaoProcessFormControl = new FormControl();
-      this.filteredTiposOrgaoProcess$ = this.orgaoProcessFormControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(filterString => this.filterOrgaoProcess(filterString)),
-      );
-
-      this.orgaoJulgadorProcess = null;
-      this.disabledOrgaoJulgadorProcess = false;
-      this.loadingProcess = false;
-    });
-  }
-
-  private filterOrgaosJulgadoresProcess(orgaos: OrgaoJulgador[], filterValue: string) {
-    return orgaos.filter(optionValue => optionValue.descricao.toLowerCase().includes(filterValue));
-  }
-
-  private filterOrgaoProcess(value: string): TipoOrgao[] {
-    const filterValue = value.toLowerCase();
-    return this.tiposOrgaoProcess
-      .map(tipoOrgao => {
-        return {
-          tipo: tipoOrgao.tipo,
-          orgaos: this.filterOrgaosJulgadoresProcess(tipoOrgao.orgaos, filterValue),
-        }
-      })
-      .filter(tipoOrgao => tipoOrgao.orgaos.length);
-  }
-
-  trackByFnOrgaoProcess(index, item) {
-    return item.tipo;
-  }
-
-  displayOrgaoJulgadorProcess(orgao: OrgaoJulgador): string {
-    return orgao.descricao;
-  }
-
-  carregarClasseProcess(natureza) {
-    this.loadingProcess = true;
-    this.inovacnjService.consultarClasse(natureza).subscribe(data => {
-      this.classesProcess = data;
-      this.classeProcess = null;
-      this.disabledClasseProcess = false;
-      this.loadingProcess = false;
-    });
-  }
-
   //aba config
   carregarTribunalConfig(tipoJustica) {
     this.loadingConfig = true;
@@ -707,11 +508,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
       this.disabledTribunalConfig = false;
       this.loadingConfig = false;
     });
-  }
-
-  pesquisarAnalitcs() {
-    this.orgaoJulgador = this.orgaoFormControl.value;
-    this.setDashboardUrl();
   }
 
   onSaveConfirm(event): void {

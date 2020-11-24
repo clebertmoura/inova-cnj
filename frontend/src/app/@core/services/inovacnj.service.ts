@@ -76,8 +76,8 @@ export class InovacnjService {
     /**
      * Retorna uma coleção de Natureza
      */
-    public consultarNatureza(): Observable<Natureza[]> {
-        return this.http.get<any[]>(this.url + '/v1/natureza')
+    public consultarNatureza(tipoJustica?: TipoJustica): Observable<Natureza[]> {
+        return this.http.get<any[]>(this.url + '/v1/natureza' + (tipoJustica != null ? `?tipo=${tipoJustica.codigo}` : ''))
         .pipe(
             retry(1),
             map((response : any) => {

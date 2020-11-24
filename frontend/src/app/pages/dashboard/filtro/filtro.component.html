@@ -1,19 +1,27 @@
-<nb-card>
+<nb-card
+  [nbSpinner]="loading"
+  nbSpinnerStatus="warning"
+  nbSpinnerSize="giant"
+  nbSpinnerMessage=""
+>
   <nb-card-body>
     <div class="row">
-      <div class="col-md-3 col-sm-12">
+      <div class="col-md-4 col-sm-12">
         <div class="row">
           <div class="col">
             <div class="form-group">
               <label class="label">Tipo de Justiça:</label>
               <nb-select
+                (selectedChange)="onSelectTipoJustica($event)"
                 [(selected)]="tipoJustica"
                 class="position-select"
                 fullWidth
               >
-                <nb-option *ngFor="let tipoJustica of tiposJustica" [value]="tipoJustica">{{
-                  tipoJustica.descricao
-                }}</nb-option>
+                <nb-option
+                  *ngFor="let tipoJustica of tiposJustica"
+                  [value]="tipoJustica"
+                  >{{ tipoJustica.descricao }}</nb-option
+                >
               </nb-select>
             </div>
           </div>
@@ -23,41 +31,101 @@
             <div class="form-group">
               <label class="label">Tribunal:</label>
               <nb-select
+                (selectedChange)="onSelectTribunal($event)"
                 [(selected)]="tribunal"
                 class="position-select"
                 fullWidth
+                [disabled]="tipoJustica == null"
               >
-              <nb-option *ngFor="let tribunal of tribunais" [value]="tribunal">{{
-                tribunal.descricao
-              }}</nb-option>
+                <nb-option
+                  *ngFor="let tribunal of tribunais"
+                  [value]="tribunal"
+                  >{{ tribunal.descricao }}</nb-option
+                >
               </nb-select>
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="showOrgaoJulgador">
+          <div class="col">
+            <div class="form-group">
+              <label class="label">Orgão Julgador:</label>
+
+              <input
+                [formControl]="orgaoJulgadorFormControl"
+                nbInput
+                fullWidth
+                type="text"
+                [nbAutocomplete]="autoOrgao"
+                [focusInputOnValueChange]="false"
+                />
+
+              <nb-autocomplete #autoOrgao [activeFirst]="true" [handleDisplayFn]="viewOrgaoJulgadorHandle">
+
+                <!-- <nb-option-group *ngFor="let tipoOrgao of filteredTiposOrgao$ | async; trackBy: trackByFnOrgao" [title]="tipoOrgao.tipo" >
+                  <nb-option *ngFor="let orgao of tipoOrgao.orgaos" [value]="orgao">
+                    {{ orgao.descricao }}
+                  </nb-option>
+                </nb-option-group> -->
+
+                <nb-option-group *ngFor="
+                  let orgaoJulgador of filteredOrgaosJulgadores$ | async | groupBy: 'tipo' | keyvalue"
+                  title="{{orgaoJulgador.key}}">
+                  <nb-option *ngFor="let item of orgaoJulgador.value" 
+                    [value]="item">{{item.descricao}}</nb-option>
+                </nb-option-group>
+
+              </nb-autocomplete>
+
+              <!-- <nb-select
+                (selectedChange)="onSelectOrgaoJulgador($event)"
+                [(selected)]="orgaoJulgador"
+                class="position-select"
+                fullWidth
+                [disabled]="tribunal == null"
+              >
+                <nb-option-group *ngFor="
+                  let orgaoJulgador of orgaosJulgadores | groupBy: 'tipo' | keyvalue"
+                  title="{{orgaoJulgador.key}}">
+                  <nb-option *ngFor="let item of orgaoJulgador.value" 
+                    [value]="item">{{item.descricao}}</nb-option>
+                </nb-option-group>
+                
+              </nb-select> -->
+              
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showNatureza">
           <div class="col">
             <div class="form-group">
               <label class="label">Natureza:</label>
               <nb-select
+                (selectedChange)="onSelectNatureza($event)"
                 [(selected)]="natureza"
                 class="position-select"
                 fullWidth
+                [disabled]="tipoJustica == null"
               >
-                <nb-option *ngFor="let natureza of naturezas" [value]="natureza">{{
-                  natureza.descricao
-                }}</nb-option>
+                <nb-option
+                  *ngFor="let natureza of naturezas"
+                  [value]="natureza"
+                  >{{ natureza.descricao }}</nb-option
+                >
               </nb-select>
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="showClasse">
           <div class="col">
             <div class="form-group">
               <label class="label">Classe:</label>
               <nb-select
+                (selectedChange)="onSelectClasse($event)"
                 [(selected)]="classe"
                 class="position-select"
                 fullWidth
+                [disabled]="tipoJustica == null && natureza == null"
               >
                 <nb-option *ngFor="let classe of classes" [value]="classe">{{
                   classe.descricao
@@ -67,49 +135,31 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 col-sm-12 col-lg-6">
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="form-group">
-                  <button nbButton >Pesquisar</button>
-                </div>
-              </div>
-            </div>
+          <div class="col-6">
+            <button nbButton status="info" (click)="onButtonOkClicked()">
+              {{buttonOkLabel}}
+            </button>
+          </div>
+          <div class="col-6">
+            <button nbButton status="cancel" (click)="onButtonCancelClicked()">
+              {{buttonCancelLabel}}
+            </button>
           </div>
         </div>
       </div>
 
       <!-- calendario data inicial -->
-      <div class="col-md-3 col-sm-12">
+      <div class="col-md-3 col-sm-12" *ngIf="showRangeDatas">
         <div class="calendar-container">
-          <label class="label">Data Inicial</label>
-          <nb-calendar
-            [(date)]="dataInicial"
-            [boundingMonth]="true"
+          <label class="label">Período</label>
+          <nb-calendar-range
+            [(range)]="rangeDatas"
             showWeekNumber
-          ></nb-calendar>
-        </div>
-      </div>
-
-      <!-- calendario data final -->
-      <div class="col-md-3 col-sm-12">
-        <div class="calendar-container">
-          <label class="label">Data Final</label>
-          <nb-calendar
-            [(date)]="dataFinal"
-            [boundingMonth]="true"
-            showWeekNumber
-          ></nb-calendar>
+          ></nb-calendar-range>
         </div>
       </div>
 
       <!-- nuvem de assuntos -->
-      <div class="col-md-3 col-sm-12">
-        <div class="form-group">
-          <label class="label">Núvem de Assuntos:</label>
-        </div>
-      </div>
     </div>
-
   </nb-card-body>
 </nb-card>
