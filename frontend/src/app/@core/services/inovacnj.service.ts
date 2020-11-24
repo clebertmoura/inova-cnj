@@ -12,6 +12,7 @@ import { OrgaoJulgador } from 'app/models/orgao-julgador';
 import { Movimento } from 'app/models/movimento';
 import { AssuntoRanking } from '../../models/assunto-ranking';
 import { Fase } from 'app/models/fase';
+import { AtuacaoOrgaoJulgador } from 'app/models/atuacao-orgaojulgador';
 
 @Injectable({
     providedIn: 'root'
@@ -125,6 +126,19 @@ export class InovacnjService {
             retry(1),
             map((response : any[][]) => {
                 return OrgaoJulgador.toArray(response);
+            }),
+            catchError(() => of(null))
+        );
+    }
+
+    public consultarAtuacaoOrgaoJulgador(tribunal?: Tribunal): Observable<AtuacaoOrgaoJulgador[]> {
+        return this.http.get<any[]>(this.url + '/v1/atuacao-orgaojulgador' 
+                                            + (tribunal != null ? `?ramojustica=${tribunal.tipo}` : '')
+                                            + (tribunal != null ? `&codtribunal=${tribunal.codigo}` : ''))
+        .pipe(
+            retry(1),
+            map((response : any[][]) => {
+                return AtuacaoOrgaoJulgador.toArray(response);
             }),
             catchError(() => of(null))
         );

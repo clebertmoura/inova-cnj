@@ -13,6 +13,7 @@ import { FormControl } from '@angular/forms';
 import { TipoOrgao } from '../../../models/tipo-orgaoJulgador';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith, map } from 'rxjs/operators';
+import { AtuacaoOrgaoJulgador } from 'app/models/atuacao-orgaojulgador';
 
 export class Filtro {
 
@@ -20,6 +21,7 @@ export class Filtro {
     public tipoJustica?: TipoJustica,
     public tribunal?: Tribunal,
     public orgaoJulgador?: OrgaoJulgador,
+    public atuacaoOrgaoJulgador?: AtuacaoOrgaoJulgador,
     public natureza?: Natureza,
     public classe?: Classe,
     public baixado: boolean = true,
@@ -38,6 +40,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
   @Input() buttonCancelLabel: string;
 
   @Input() showOrgaoJulgador: boolean = false;
+  @Input() showAtuacaoOrgaoJulgador: boolean = false;
   @Input() showNatureza: boolean = false;
   @Input() showClasse: boolean = false;
   @Input() showRangeDatas: boolean = false;
@@ -49,6 +52,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
   @Output() onTipoJusticaSelected = new EventEmitter();
   @Output() onTribunalSelected = new EventEmitter();
   @Output() onOrgaoJulgadorSelected = new EventEmitter();
+  @Output() onAtuacaoOrgaoJulgadorSelected = new EventEmitter();
   @Output() onNaturezaSelected = new EventEmitter();
   @Output() onClasseSelected = new EventEmitter();
 
@@ -61,6 +65,8 @@ export class FiltroComponent implements OnInit, OnDestroy {
   orgaosJulgadores: OrgaoJulgador[] = [];
   filteredOrgaosJulgadores$: Observable<OrgaoJulgador[]>;
   orgaoJulgador: OrgaoJulgador;
+  atuacoesOrgaoJulgador: AtuacaoOrgaoJulgador[] = [];
+  atuacaoOrgaoJulgador: AtuacaoOrgaoJulgador;
   naturezas: Natureza[] = [];
   natureza: Natureza;
   classes: Classe[] = [];
@@ -89,6 +95,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
   resetFilters() {
     this.tribunal = null;
     this.orgaoJulgador = null;
+    this.atuacaoOrgaoJulgador = null;
     this.natureza = null;
     this.classe = null;
     this.baixado = true;
@@ -117,6 +124,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
       this.tipoJustica,
       this.tribunal,
       this.orgaoJulgador,
+      this.atuacaoOrgaoJulgador,
       this.natureza,
       this.classe,
       this.baixado,
@@ -201,6 +209,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.tipoJustica = tipoJustica;
     this.tribunal = null;
     this.orgaoJulgador = null;
+    this.atuacaoOrgaoJulgador = null;
     this.natureza = null;
     this.classe = null;
     this.onTipoJusticaSelected.emit(this.getSelectedDataObject());
@@ -221,9 +230,11 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.tribunal = tribunal;
     this.orgaoJulgador = null;
+    this.atuacaoOrgaoJulgador = null;
     this.orgaoJulgadorFormControl.setValue('');
     this.onTribunalSelected.emit(this.getSelectedDataObject());
-    return this.inovacnjService.consultarOrgaoJulgador(tribunal)
+    if (this.showOrgaoJulgador) {
+    this.inovacnjService.consultarOrgaoJulgador(tribunal)
       .subscribe((orgaosJulgadores : OrgaoJulgador[]) => {
         this.orgaosJulgadores = orgaosJulgadores;
         this.filteredOrgaosJulgadores$ = of(this.orgaosJulgadores);
@@ -237,6 +248,18 @@ export class FiltroComponent implements OnInit, OnDestroy {
         console.error(error);
         this.loading = false;
       });
+    }
+    if (this.showAtuacaoOrgaoJulgador) {
+    this.inovacnjService.consultarAtuacaoOrgaoJulgador(tribunal)
+      .subscribe((ataucoes : AtuacaoOrgaoJulgador[]) => {
+        this.atuacoesOrgaoJulgador = ataucoes;
+        this.loading = false;
+      }, error => {
+        console.error(error);
+        this.loading = false;
+      });
+    }
+    return;
   }
 
   private filterOrgaoJulgador(value: string): OrgaoJulgador[] {
@@ -255,6 +278,11 @@ export class FiltroComponent implements OnInit, OnDestroy {
   onSelectOrgaoJulgador(orgaoJulgador: OrgaoJulgador) {
     this.orgaoJulgador = orgaoJulgador;
     this.onOrgaoJulgadorSelected.emit(this.getSelectedDataObject());
+  }
+
+  onSelectAtuacaoOrgaoJulgador(atuacaoOrgaoJulgador: AtuacaoOrgaoJulgador) {
+    this.atuacaoOrgaoJulgador = atuacaoOrgaoJulgador;
+    this.onAtuacaoOrgaoJulgadorSelected.emit(this.getSelectedDataObject());
   }
 
   onSelectNatureza(natureza: Natureza) {

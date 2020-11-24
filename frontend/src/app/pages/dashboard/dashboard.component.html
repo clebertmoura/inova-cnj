@@ -22,7 +22,7 @@
         <ngx-filtro 
           buttonOkLabel="Adicionar" (okClicked)="onAdicionarModeloProcesso($event)"
           buttonCancelLabel="Limpar" (cancelClicked)="onLimparModeloProcesso($event)"
-          showNatureza="true" showClasse="true" showProcessosCompletos="true"
+          showAtuacaoOrgaoJulgador="true" showProcessosCompletos="true"
           #fluxoFiltro>
         </ngx-filtro>
 
@@ -39,6 +39,10 @@
                           <nb-action *ngIf="filtro.tribunal != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                             <span>{{filtro.tribunal.codigo}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.atuacaoOrgaoJulgador != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.atuacaoOrgaoJulgador.descricao}}</span>
                           </nb-action>
                           <nb-action *ngIf="filtro.natureza != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
@@ -121,6 +125,10 @@
                           <nb-action *ngIf="filtro.tribunal != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                             <span>{{filtro.tribunal.codigo}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.atuacaoOrgaoJulgador != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.atuacaoOrgaoJulgador.descricao}}</span>
                           </nb-action>
                           <nb-action *ngIf="filtro.natureza != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
