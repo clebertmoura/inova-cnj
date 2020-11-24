@@ -41,14 +41,26 @@ resultadoProcesso = app.model('resultado', {
     'assunto':fields.String(required=True, description='Assunto processual'),
     'dataAjuizamento':fields.String(required=True, description='Data de ajuizamento'),
     'porteTribunal':fields.String(required=True, description='Porte do tribunal'),
+    'tipoJustica':fields.String(required=True, description='Tipo de Justiça'),
     'historicoFases':fields.List(fields.Nested(historicoFase)),
     'dadosFases':fields.List(fields.Nested(dadoFase)),
     'alertas':fields.List(fields.Nested(alerta))
 })
 
+resultadoEstatisticas = app.model('resultado', {
+    'quantidadeProcessos':fields.Integer(required=True, description='Quantidade de Processos'),
+    'quantidadeOrgaosJulgadores':fields.Integer(required=True, description='Quantidade de Orgãos Julgadores'),
+    'quantidadeTiposJustica':fields.Integer(required=True, description='Quantidade de Tipos de Justiça'),
+})
+
 resposta = app.model('resposta', {
     'mensagem':fields.String(required=True, description='Mensagem de retorno'),
     'resultado':fields.Nested(resultadoProcesso)
+})
+
+respostaEstatisticas = app.model('resposta_estatisticas', {
+    'mensagem':fields.String(required=True, description='Mensagem de retorno'),
+    'resultado':fields.Nested(resultadoEstatisticas)
 })
 
 dadosEntradaProcesso = app.model('entradaProcesso', {
@@ -62,7 +74,27 @@ dadosEntradaProcesso = app.model('entradaProcesso', {
     'codigo_classe':fields.Integer(required=True, description='Classe processual'),
     'codigo_assunto':fields.Integer(required=True, description='Assunto processual'),
     'dataAjuizamento':fields.String(required=True, description='Data de ajuizamento'),
-    'porteTribunal':fields.String(required=True, description='Porte do tribunal')
+    'porteTribunal':fields.String(required=True, description='Porte do tribunal'),
+    'grau':fields.String(required=True, description='Grau'),
+    'codigo_localidade':fields.String(required=True, description='codigo da localidade IBGE'),
+    'tipoJustica':fields.String(required=True, description='Tipo de Justiça')
+})
+
+dadosEntradaFase = app.model('entradaProcesso', {
+    'processo':fields.String(required=True, description='Número do processo'),
+    'id_fase':fields.String(required=True, description='Id da fase'),
+    'status_fase':fields.String(required=True, description='Status da fase'),
+    'nome_fase':fields.String(required=True, description='nome_fase'),
+    'classe':fields.String(required=True, description='Classe processual'),
+    'assunto':fields.String(required=True, description='Assunto processual'),
+    'codigo_orgaoJulgador':fields.Integer(required=True, description='Código do Orgão julgador'),
+    'codigo_classe':fields.Integer(required=True, description='Classe processual'),
+    'codigo_assunto':fields.Integer(required=True, description='Assunto processual'),
+    'dataAjuizamento':fields.String(required=True, description='Data de ajuizamento'),
+    'porteTribunal':fields.String(required=True, description='Porte do tribunal'),
+    'grau':fields.String(required=True, description='Grau'),
+    'codigo_localidade':fields.String(required=True, description='codigo da localidade IBGE'),
+    'tipoJustica':fields.String(required=True, description='Tipo de Justiça')
 })
 
 @ns.route('/service')
@@ -80,13 +112,17 @@ class IAHackathonRestService(Resource):
 
 
 @ns.route("/service/processos/cadastrar")
-@app.doc(responses={ 200: 'OK', 400: 'Argumentos invalidos',  502: 'Erro Interno' },
-            params={ 'numero': 'Identificadores do item a ser processado',
-                     'consolidar': 'Indica se o resultado deve ser consolidado em seu processamento',
-                     'unidade': 'Unidade de submissao', 'entradas': 'Campos e valores da proposta' })
+@app.doc(responses={ 200: 'OK', 400: 'Argumentos invalidos',  502: 'Erro Interno'}, body=dadosEntradaProcesso)
 class IAHackathonRestService(Resource):
     def post(self):
-        return ServiceController.cadastrarProcesso(request)
+        return ServiceController.cadastrar_processo(request)
+
+@ns.route("/service/estatisticas")
+@app.doc(responses={ 200: 'OK', 502: 'Erro Interno' })
+class IAHackathonRestService(Resource):
+    @app.marshal_with(respostaEstatisticas)
+    def get(self):
+        return ServiceController.coletar_estatisticas(request)
 
 if __name__ == '__main__':
     flask_app.run(host='0.0.0.0', threaded=False)
