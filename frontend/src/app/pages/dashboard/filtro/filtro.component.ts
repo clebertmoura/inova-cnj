@@ -90,6 +90,10 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.classe = null;
   }
 
+  setLoading(value: boolean) {
+    this.loading = value;
+  }
+
   onButtonOkClicked() {
     console.log('onButtonOkClicked');
     this.okClicked.emit(this.getSelectedDataObject());

@@ -28,7 +28,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { TipoOrgao } from 'app/models/tipo-orgaoJulgador';
-import { Filtro } from './filtro/filtro.component';
+import { Filtro, FiltroComponent } from './filtro/filtro.component';
 
 declare var jQuery: any;
 
@@ -56,8 +56,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
   filteredTiposOrgaoProcess$: Observable<TipoOrgao[]>;
   orgaoProcessFormControl: FormControl;
 
-  loadingVisaoGeral = false;
-  loadingProcess = false;
+  @ViewChild('visaoGeralFiltro') visaoGeralFiltro: FiltroComponent;
+  @ViewChild('fluxoFiltro') fluxoFiltro: FiltroComponent;
+
+
   loadingPredict = false;
   loadingConfig = false;
 
@@ -67,20 +69,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
   dashboardUrl: any;
 
   //aba Process
-  tiposJusticaProcess: TipoJustica[] = [];
-  tipoJusticaProcess: TipoJustica;
-  tribunaisProcess: Tribunal[] = [];
-  tribunalProcess: Tribunal;
-  orgaosJulgadoresProcess: OrgaoJulgador[] = [];
-  orgaoJulgadorProcess: OrgaoJulgador;
-  naturezasProcess: Natureza[] = [];
-  naturezaProcess: Natureza;
-  classesProcess: Classe[] = [];
-  classeProcess: Classe;
-  disabledTribunalProcess = true;
-  disabledOrgaoJulgadorProcess = true;
-  disabledNaturezaProcess = true;
-  disabledClasseProcess = true;
   metricasPm: MetricaPm[] = [
     MetricaPm.Frequency, MetricaPm.Performance
   ];
@@ -247,7 +235,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.inovacnjService.consultarTipoJustica().subscribe(data => {
-      this.tiposJusticaProcess = data;
       this.tiposJusticaConfig = data;
     });
             
@@ -289,17 +276,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.filtrosPm.length = 0;
   }
 
-  limparModeloProcesso() {
-    this.filtrosPm.length = 0;
-    this.tipoJusticaProcess = null;
-    this.orgaoJulgadorProcess = null;
-    this.tribunalProcess = null;
-    this.naturezaProcess = null;
-    this.classeProcess = null;
-    this.tiposOrgaoProcess = [];
-    this.orgaoProcessFormControl.reset;
-  }
-
   // private carregarAssuntosRanking() {
   //   this.inovacnjService.consultarAssuntoRanking(this.tipoJustica, this.tribunal, this.orgaoJulgador, this.natureza, this.classe).subscribe(data => {
   //     this.assuntosRanking = data;
@@ -336,7 +312,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
         const filtro = new FiltroPm(this.filtroProcess.tipoJustica, this.filtroProcess.tribunal, 
           this.filtroProcess.orgaoJulgador, this.filtroProcess.natureza, this.filtroProcess.classe);
         
-        this.loadingProcess = true;
+        this.fluxoFiltro.setLoading(true);
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {
           this.filtrosPm.push(filtro);
           var idx = this.filtrosPm.indexOf(filtro);
@@ -348,7 +324,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
             this.initFiltroModeloSvg(filtro, idx);
             filtro.svgObject.resize();
             filtro.svgObject.fit();
-            this.loadingProcess = false;
+            this.fluxoFiltro.setLoading(false);
           });
         }, error => {
           console.error(error);
@@ -359,55 +335,13 @@ export class DashboardComponent implements OnDestroy, OnInit {
           } else {
             this.toastrService.danger('Ocorreu um erro inesperado ao consultar dados.', `Erro inesperado!`); 
           }
-          this.loadingProcess = false;
+          this.fluxoFiltro.setLoading(false);
         });
       } else {
         this.toastrService.warning('Por favor, selecione uma natureza para geração do modelo.', `Selecione os filtros!`);
       }
     } else {
       this.toastrService.warning('Por favor, selecione um tribunal para geração do modelo.', `Selecione os filtros!`);
-    }
-  }
-
-  adicionarModeloPm(): void {
-    this.loadingProcess = true;
-    console.log('adicionarModeloPm');
-    if (this.tribunalProcess != null) {
-      if (this.naturezaProcess != null) {
-        this.orgaoJulgadorProcess = this.orgaoProcessFormControl.value;
-        const filtro = new FiltroPm(this.tipoJusticaProcess, this.tribunalProcess, this.orgaoJulgadorProcess, 
-          this.naturezaProcess, this.classeProcess);
-        this.downloadModeloPmSvgContent(filtro).subscribe(response => {
-          this.filtrosPm.push(filtro);
-          var idx = this.filtrosPm.indexOf(filtro);
-          this.inovacnjService.consultarEstatisticaModeloPm(filtro).subscribe(data => { 
-            filtro.dadosTabelaEstatistica.load(data);
-            this.initFiltroModeloSvg(filtro, idx);
-          });
-          timer(100).subscribe(val => {
-            this.initFiltroModeloSvg(filtro, idx);
-            filtro.svgObject.resize();
-            filtro.svgObject.fit();
-            this.loadingProcess = false;
-          });
-        }, error => {
-          console.error(error);
-          if (error.status == 400) {
-            this.toastrService.warning('Por favor, selecione os filtros para geração do modelo.', `Selecione os filtros!`);
-          } else if (error.status == 404) {
-            this.toastrService.warning('Não existem dados para geração do modelo.', `Sem dados!`);
-          } else {
-            this.toastrService.danger('Ocorreu um erro inesperado ao consultar dados.', `Erro inesperado!`); 
-          }
-          this.loadingProcess = false;
-        });
-      } else {
-        this.loadingProcess = false;
-        this.toastrService.warning('Por favor, selecione uma natureza para geração do modelo.', `Selecione os filtros!`);
-      }
-    } else {
-      this.loadingProcess = false;
-      this.toastrService.warning('Por favor, selecione os filtros para geração do modelo.', `Selecione os filtros!`);
     }
   }
 
@@ -425,7 +359,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
   onChangeSensibilidade(event: MatSliderChange, filtro: FiltroPm, idx: number) {
     console.log('onChangeSensibilidade', event);
-    this.loadingProcess = true;
+    this.fluxoFiltro.setLoading(true);
     filtro.updateUrl();
     this.downloadModeloPmSvgContent(filtro).subscribe(val => {
       filtro.svgObject = null;
@@ -436,21 +370,21 @@ export class DashboardComponent implements OnDestroy, OnInit {
       this.initFiltroModeloSvg(filtro, idx);
       timer(50).subscribe(val2 => {
         filtro.svgObject.reset();
-        this.loadingProcess = false;
+        this.fluxoFiltro.setLoading(false);
       });
     });
   }
 
   onChangeMetrica(event: MatSliderChange, filtro: FiltroPm, idx: number) {
     console.log('onChangeMetrica', event);
-    this.loadingProcess = true;
+    this.fluxoFiltro.setLoading(true);
     filtro.updateUrl();
     this.downloadModeloPmSvgContent(filtro).subscribe(val => {
       filtro.svgObject = null;
       this.initFiltroModeloSvg(filtro, idx);
       timer(50).subscribe(val2 => {
         filtro.svgObject.reset();
-        this.loadingProcess = false;
+        this.fluxoFiltro.setLoading(false);
       });
     });
   }

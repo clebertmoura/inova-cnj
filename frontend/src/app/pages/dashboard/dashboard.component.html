@@ -10,7 +10,7 @@
           showRangeDatas="true"
           (onTipoJusticaSelected)="onAplicarFiltro($event)"
           (onTribunalSelected)="onAplicarFiltro($event)"
-          ></ngx-filtro>
+          #visaoGeralFiltro></ngx-filtro>
 
         <iframe 
             [src]="dashboardUrl"    
@@ -24,7 +24,7 @@
         <ngx-filtro 
           buttonOkLabel="Adicionar" (okClicked)="onAdicionarModeloProcesso($event)"
           buttonCancelLabel="Limpar" (cancelClicked)="onLimparModeloProcesso($event)"
-          showOrgaoJulgador="true" showNatureza="true" showClasse="true">
+          showOrgaoJulgador="true" showNatureza="true" showClasse="true" #fluxoFiltro>
         </ngx-filtro>
 
         <div class="row">
