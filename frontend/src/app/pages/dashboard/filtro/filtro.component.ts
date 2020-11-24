@@ -215,11 +215,13 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.onTipoJusticaSelected.emit(this.getSelectedDataObject());
     return forkJoin(
       this.inovacnjService.consultarTribunal(tipoJustica),
-      this.inovacnjService.consultarNatureza(tipoJustica)
-    ).subscribe(([tribunais, naturezas]: [Tribunal[], Natureza[]]) => {
+      this.inovacnjService.consultarNatureza(tipoJustica),
+      this.inovacnjService.consultarAtuacaoOrgaoJulgador(tipoJustica, null)
+    ).subscribe(([tribunais, naturezas, atuacoesOrgaoJulgador]: [Tribunal[], Natureza[], AtuacaoOrgaoJulgador[]]) => {
         this.loading = false;
         this.tribunais = tribunais;
         this.naturezas = naturezas;
+        this.atuacoesOrgaoJulgador = atuacoesOrgaoJulgador;
       }, error => {
         console.error(error);
         this.loading = false;
@@ -234,30 +236,30 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.orgaoJulgadorFormControl.setValue('');
     this.onTribunalSelected.emit(this.getSelectedDataObject());
     if (this.showOrgaoJulgador) {
-    this.inovacnjService.consultarOrgaoJulgador(tribunal)
-      .subscribe((orgaosJulgadores : OrgaoJulgador[]) => {
-        this.orgaosJulgadores = orgaosJulgadores;
-        this.filteredOrgaosJulgadores$ = of(this.orgaosJulgadores);
-        this.filteredOrgaosJulgadores$ = this.orgaoJulgadorFormControl.valueChanges
-          .pipe(
-            startWith(''),
-            map(filterString => this.filterOrgaoJulgador(filterString)),
-          );
-        this.loading = false;
-      }, error => {
-        console.error(error);
-        this.loading = false;
-      });
+      this.inovacnjService.consultarOrgaoJulgador(tribunal)
+        .subscribe((orgaosJulgadores : OrgaoJulgador[]) => {
+          this.orgaosJulgadores = orgaosJulgadores;
+          this.filteredOrgaosJulgadores$ = of(this.orgaosJulgadores);
+          this.filteredOrgaosJulgadores$ = this.orgaoJulgadorFormControl.valueChanges
+            .pipe(
+              startWith(''),
+              map(filterString => this.filterOrgaoJulgador(filterString)),
+            );
+          this.loading = false;
+        }, error => {
+          console.error(error);
+          this.loading = false;
+        });
     }
     if (this.showAtuacaoOrgaoJulgador) {
-    this.inovacnjService.consultarAtuacaoOrgaoJulgador(tribunal)
-      .subscribe((ataucoes : AtuacaoOrgaoJulgador[]) => {
-        this.atuacoesOrgaoJulgador = ataucoes;
-        this.loading = false;
-      }, error => {
-        console.error(error);
-        this.loading = false;
-      });
+      this.inovacnjService.consultarAtuacaoOrgaoJulgador(tribunal)
+        .subscribe((ataucoes : AtuacaoOrgaoJulgador[]) => {
+          this.atuacoesOrgaoJulgador = ataucoes;
+          this.loading = false;
+        }, error => {
+          console.error(error);
+          this.loading = false;
+        });
     }
     return;
   }

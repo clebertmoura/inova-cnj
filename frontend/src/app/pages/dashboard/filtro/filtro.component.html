@@ -6,150 +6,128 @@
 >
   <nb-card-body>
     <div class="row">
-      <div class="col-md-4 col-sm-12">
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label class="label">Tipo de Justiça:</label>
-              <nb-select
-                (selectedChange)="onSelectTipoJustica($event)"
-                [(selected)]="tipoJustica"
-                class="position-select"
-                fullWidth
-              >
-                <nb-option
-                  *ngFor="let tipoJustica of tiposJustica"
-                  [value]="tipoJustica"
-                  >{{ tipoJustica.descricao }}</nb-option
-                >
-              </nb-select>
-            </div>
-          </div>
+      <div class="col-md-2 col-sm-12">
+        <div class="form-group">
+          <label class="label">Tipo de Justiça:</label>
+          <nb-select
+            (selectedChange)="onSelectTipoJustica($event)"
+            [(selected)]="tipoJustica"
+            class="position-select"
+            fullWidth
+          >
+            <nb-option
+              *ngFor="let tipoJustica of tiposJustica"
+              [value]="tipoJustica"
+              >{{ tipoJustica.descricao }}</nb-option
+            >
+          </nb-select>
         </div>
       </div>
       <div class="col-md-4 col-sm-12">
-        <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label class="label">Tribunal:</label>
-              <nb-select
-                (selectedChange)="onSelectTribunal($event)"
-                [(selected)]="tribunal"
-                class="position-select"
-                fullWidth
-                [disabled]="tipoJustica == null"
-              >
-                <nb-option
-                  *ngFor="let tribunal of tribunais"
-                  [value]="tribunal"
-                  >{{ tribunal.descricao }}</nb-option
-                >
-              </nb-select>
-            </div>
-          </div>
+        <div class="form-group">
+          <label class="label">Tribunal:</label>
+          <nb-select
+            (selectedChange)="onSelectTribunal($event)"
+            [(selected)]="tribunal"
+            class="position-select"
+            fullWidth
+            [disabled]="tipoJustica == null"
+          >
+            <nb-option
+              *ngFor="let tribunal of tribunais"
+              [value]="tribunal"
+              >{{ tribunal.descricao }}</nb-option
+            >
+          </nb-select>
         </div>
       </div>
       <div class="col-md-4 col-sm-12" *ngIf="showOrgaoJulgador">
-        <div class="row" >
-          <div class="col">
-            <div class="form-group">
-              <label class="label">Orgão Julgador:</label>
+        <div class="form-group">
+          <label class="label">Orgão Julgador:</label>
 
-              <input
-                [formControl]="orgaoJulgadorFormControl"
-                nbInput
-                fullWidth
-                type="text"
-                [nbAutocomplete]="autoOrgao"
-                [focusInputOnValueChange]="false"
-                />
+          <input
+            [formControl]="orgaoJulgadorFormControl"
+            nbInput
+            fullWidth
+            type="text"
+            [nbAutocomplete]="autoOrgao"
+            [focusInputOnValueChange]="false"
+            />
 
-              <nb-autocomplete #autoOrgao [activeFirst]="true" [handleDisplayFn]="viewOrgaoJulgadorHandle">
+          <nb-autocomplete #autoOrgao [activeFirst]="true" [handleDisplayFn]="viewOrgaoJulgadorHandle">
 
-                <nb-option-group *ngFor="
-                  let orgaoJulgador of filteredOrgaosJulgadores$ | async | groupBy: 'tipo' | keyvalue"
-                  title="{{orgaoJulgador.key}}">
-                  <nb-option *ngFor="let item of orgaoJulgador.value" 
-                    [value]="item">{{item.descricao}}</nb-option>
-                </nb-option-group>
+            <nb-option-group *ngFor="
+              let orgaoJulgador of filteredOrgaosJulgadores$ | async | groupBy: 'tipo' | keyvalue"
+              title="{{orgaoJulgador.key}}">
+              <nb-option *ngFor="let item of orgaoJulgador.value" 
+                [value]="item">{{item.descricao}}</nb-option>
+            </nb-option-group>
 
-              </nb-autocomplete>
-              
-            </div>
-          </div>
+          </nb-autocomplete>
+          
         </div>
       </div>
-      <div class="col-md-4 col-sm-12" *ngIf="showAtuacaoOrgaoJulgador">
-        <div class="row" >
-          <div class="col">
-            <div class="form-group">
-              <label class="label">Atuação Vara:</label>
-              <nb-select
-                (selectedChange)="onSelectAtuacaoOrgaoJulgador($event)"
-                [(selected)]="atuacaoOrgaoJulgador"
-                class="position-select"
-                fullWidth
-                [disabled]="tipoJustica == null"
-              >
-                <nb-option
-                  *ngFor="let atuacaoOrgaoJulgador of atuacoesOrgaoJulgador"
-                  [value]="atuacaoOrgaoJulgador"
-                  >{{ atuacaoOrgaoJulgador.descricao }}</nb-option
-                >
-              </nb-select>
-            </div>
-          </div>
+      <div class="col-md-2 col-sm-12" *ngIf="showAtuacaoOrgaoJulgador">
+        <div class="form-group">
+          <label class="label">Atuação Vara:</label>
+          <nb-select
+            (selectedChange)="onSelectAtuacaoOrgaoJulgador($event)"
+            [(selected)]="atuacaoOrgaoJulgador"
+            class="position-select"
+            fullWidth
+            [disabled]="tipoJustica == null"
+          >
+            <nb-option
+              *ngFor="let atuacaoOrgaoJulgador of atuacoesOrgaoJulgador"
+              [value]="atuacaoOrgaoJulgador"
+              >{{ atuacaoOrgaoJulgador.descricao }}</nb-option
+            >
+          </nb-select>
         </div>
       </div>
-      <div class="col-md-4 col-sm-12" *ngIf="showNatureza">
-        <div class="row" >
-          <div class="col">
-            <div class="form-group">
-              <label class="label">Natureza:</label>
-              <nb-select
-                (selectedChange)="onSelectNatureza($event)"
-                [(selected)]="natureza"
-                class="position-select"
-                fullWidth
-                [disabled]="tipoJustica == null"
-              >
-                <nb-option
-                  *ngFor="let natureza of naturezas"
-                  [value]="natureza"
-                  >{{ natureza.descricao }}</nb-option
-                >
-              </nb-select>
-            </div>
-          </div>
+      <div class="col-md-2 col-sm-12" *ngIf="showNatureza">
+        <div class="form-group">
+          <label class="label">Natureza:</label>
+          <nb-select
+            (selectedChange)="onSelectNatureza($event)"
+            [(selected)]="natureza"
+            class="position-select"
+            fullWidth
+            [disabled]="tipoJustica == null"
+          >
+            <nb-option
+              *ngFor="let natureza of naturezas"
+              [value]="natureza"
+              >{{ natureza.descricao }}</nb-option
+            >
+          </nb-select>
         </div>
       </div>
-      <div class="col-md-4 col-sm-12" *ngIf="showClasse">
-        <div class="row" >
-          <div class="col">
-            <div class="form-group">
-              <label class="label">Classe:</label>
-              <nb-select
-                (selectedChange)="onSelectClasse($event)"
-                [(selected)]="classe"
-                class="position-select"
-                fullWidth
-                [disabled]="tipoJustica == null && natureza == null"
-              >
-                <nb-option *ngFor="let classe of classes" [value]="classe">{{
-                  classe.descricao
-                }}</nb-option>
-              </nb-select>
-            </div>
-          </div>
+      <div class="col-md-3 col-sm-12" *ngIf="showClasse">
+        <div class="form-group">
+          <label class="label">Classe:</label>
+          <nb-select
+            (selectedChange)="onSelectClasse($event)"
+            [(selected)]="classe"
+            class="position-select"
+            fullWidth
+            [disabled]="tipoJustica == null && natureza == null"
+          >
+            <nb-option *ngFor="let classe of classes" [value]="classe">{{
+              classe.descricao
+            }}</nb-option>
+          </nb-select>
         </div>
       </div>
-      <div class="col-md-3 col-sm-12" *ngIf="showProcessosCompletos">
-        <div class="row" >
+      <div class="col-md-2 col-sm-12" *ngIf="showProcessosCompletos">
+        <div class="row">
           <div class="col">
-            <div class="form-group">
-              <label class="label">Exibir apenas processos completos!</label>
-              <nb-toggle fullWidth [(ngModel)]="baixado"></nb-toggle>
-            </div>
+            <label class="label">Exibir apenas processos completos!</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col d-flex justify-content-start">
+            <nb-toggle [(ngModel)]="baixado"></nb-toggle>
           </div>
         </div>
       </div>

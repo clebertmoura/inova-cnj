@@ -73,7 +73,7 @@ def gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codna
         qry+= "  fat.mov_dtmov as mov_dtmov "
         qry+= "FROM " + tabela_fato + " fat "
         qry+= "INNER JOIN inovacnj.acervo_processo_" + sufixo_ramo + " ap ON ap.npu = fat.npu "
-        qry+= "INNER JOIN inovacnj.orgao_julgador oj ON oj.cod = fat.oj_cod "
+        qry+= "INNER JOIN inovacnj.orgao_julgador oj ON oj.cod = fat.oj_cod::integer "
         qry+= "INNER JOIN inovacnj.movimentocnj mov ON mov.cod = fat.mov_cod "
         qry+= "INNER JOIN inovacnj.natureza_classe nc ON nc.cod_classe = fat.codclasse "
         qry+= "INNER JOIN inovacnj.natureza nat ON nat.cod = nc.cod_natureza "
