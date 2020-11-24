@@ -4,6 +4,7 @@ export class OrgaoJulgador {
     tipo: string = null;
     descricao: string = null;
     codigoTribunal: string = null;
+    ordem: number;
     
     static fromJson(json: any[]): OrgaoJulgador {
         let entity: OrgaoJulgador = null;
@@ -13,6 +14,7 @@ export class OrgaoJulgador {
             entity.tipo = json[1];
             entity.descricao = json[2];
             entity.codigoTribunal = json[3];
+            entity.ordem = json[4];
         }
         return entity;
     }
