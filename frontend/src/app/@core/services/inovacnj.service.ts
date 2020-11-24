@@ -203,7 +203,7 @@ export class InovacnjService {
                         'valor' : this.converterTempo(response.caso_dur_media),
                     },
                     {
-                        'campo' : 'Intervalo média de chegada entre um processo e outro',
+                        'campo' : 'Intervalo médio entre a chegada de um processo e outro',
                         'valor' : this.converterTempo(response.taxa_chegada_casos),
                     },
                     {
