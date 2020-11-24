@@ -30,7 +30,8 @@ export class FiltroPm {
     constructor(
         public tipoJustica: TipoJustica, 
         public tribunal: Tribunal, public orgaoJulgador: OrgaoJulgador, public natureza: Natureza, 
-        public classe: Classe, public sensibilidade: number = 60
+        public classe: Classe, public baixado: boolean = true,
+        public sensibilidade: number = 60
     ) {
         this.updateUrl();
     }
@@ -45,14 +46,14 @@ export class FiltroPm {
      */
     public static buildUrlModeloPm(filtro: FiltroPm, prefixApi: string = '/api'): string {
         const urlPm = prefixApi + 
-            `/v1/gerar-modelo-pm?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}${filtro.metrica != null ? '&metrica=' + filtro.metrica : MetricaPm.Frequency}${filtro.metrica != null ? '&formato=' + filtro.formato : ImageFormatPm.SVG}`;
+            `/v1/gerar-modelo-pm?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}${filtro.baixado != null && filtro.baixado ? '&baixado=S' : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}${filtro.metrica != null ? '&metrica=' + filtro.metrica : MetricaPm.Frequency}${filtro.metrica != null ? '&formato=' + filtro.formato : ImageFormatPm.SVG}`;
         console.log(urlPm)
         return urlPm;
     }
 
     public static buildUrlEstatisticaModeloPm(filtro: FiltroPm, prefixApi: string = '/api'): string {
         const urlPm = prefixApi + 
-            `/v1/gerar-estatisticas-modelo-pm?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}`;
+            `/v1/gerar-estatisticas-modelo-pm?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}${filtro.baixado != null && filtro.baixado ? '&baixado=S' : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}`;
         console.log(urlPm)
         return urlPm;
     }

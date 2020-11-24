@@ -375,6 +375,7 @@ def api_gerar_modelo_pm():
     codclasse = request.args.get('codclasse')
     dtinicio = request.args.get('dtinicio')
     dtfim = request.args.get('dtfim')
+    baixado = request.args.get('baixado')
     sensibilidade = request.args.get('sensibilidade')
     metrica = request.args.get('metrica')
     formato = request.args.get('formato')
@@ -387,7 +388,7 @@ def api_gerar_modelo_pm():
         abort(400, description="natureza nao informado")
     
     gviz = gerar_view_dfg_model_from_params(ramojustica, codtribunal, grau, codorgaoj, natureza, codclasse, \
-               dtinicio, dtfim, sensibility=sensibilidade, metric_type=metrica, image_format=formato)
+               dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade, metric_type=metrica, image_format=formato)
     if gviz != None:
         file_remover = FileRemover()
         tempdir = tempfile.mkdtemp()
@@ -411,6 +412,7 @@ def api_gerar_estatisticas_modelo_pm():
     codclasse = request.args.get('codclasse')
     dtinicio = request.args.get('dtinicio')
     dtfim = request.args.get('dtfim')
+    baixado = request.args.get('baixado')
     sensibilidade = request.args.get('sensibilidade')
     
     if ramojustica is None:
@@ -421,7 +423,7 @@ def api_gerar_estatisticas_modelo_pm():
         abort(400, description="natureza nao informado")
     
     estat = gerar_estatistica_model_from_params(ramojustica, codtribunal, grau, codorgaoj, natureza, codclasse, \
-               dtinicio, dtfim, sensibility=sensibilidade)
+               dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade)
     if estat is not None:
         return jsonpickle.encode(estat)
     else:

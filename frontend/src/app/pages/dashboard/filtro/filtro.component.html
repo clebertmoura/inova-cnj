@@ -62,12 +62,6 @@
 
               <nb-autocomplete #autoOrgao [activeFirst]="true" [handleDisplayFn]="viewOrgaoJulgadorHandle">
 
-                <!-- <nb-option-group *ngFor="let tipoOrgao of filteredTiposOrgao$ | async; trackBy: trackByFnOrgao" [title]="tipoOrgao.tipo" >
-                  <nb-option *ngFor="let orgao of tipoOrgao.orgaos" [value]="orgao">
-                    {{ orgao.descricao }}
-                  </nb-option>
-                </nb-option-group> -->
-
                 <nb-option-group *ngFor="
                   let orgaoJulgador of filteredOrgaosJulgadores$ | async | groupBy: 'tipo' | keyvalue"
                   title="{{orgaoJulgador.key}}">
@@ -76,22 +70,6 @@
                 </nb-option-group>
 
               </nb-autocomplete>
-
-              <!-- <nb-select
-                (selectedChange)="onSelectOrgaoJulgador($event)"
-                [(selected)]="orgaoJulgador"
-                class="position-select"
-                fullWidth
-                [disabled]="tribunal == null"
-              >
-                <nb-option-group *ngFor="
-                  let orgaoJulgador of orgaosJulgadores | groupBy: 'tipo' | keyvalue"
-                  title="{{orgaoJulgador.key}}">
-                  <nb-option *ngFor="let item of orgaoJulgador.value" 
-                    [value]="item">{{item.descricao}}</nb-option>
-                </nb-option-group>
-                
-              </nb-select> -->
               
             </div>
           </div>
@@ -131,6 +109,13 @@
                   classe.descricao
                 }}</nb-option>
               </nb-select>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="showProcessosCompletos">
+          <div class="col">
+            <div class="form-group">
+              <nb-toggle [(ngModel)]="baixado">Apenas processos completos!</nb-toggle>
             </div>
           </div>
         </div>

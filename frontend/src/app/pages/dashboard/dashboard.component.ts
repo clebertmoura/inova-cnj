@@ -310,7 +310,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       if (this.filtroProcess.natureza != null) {
 
         const filtro = new FiltroPm(this.filtroProcess.tipoJustica, this.filtroProcess.tribunal, 
-          this.filtroProcess.orgaoJulgador, this.filtroProcess.natureza, this.filtroProcess.classe);
+          this.filtroProcess.orgaoJulgador, this.filtroProcess.natureza, this.filtroProcess.classe, this.filtroProcess.baixado);
         
         this.fluxoFiltro.setLoading(true);
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {

@@ -17,6 +17,7 @@ import {
   NbCalendarRangeModule,
   NbSpinnerModule,
   NbAutocompleteModule,
+  NbToggleModule,
 } from '@nebular/theme';
 
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -51,6 +52,7 @@ import { NgPipesModule } from 'ngx-pipes';
     NbCalendarModule,
     NbCalendarRangeModule,
     NbStepperModule,
+    NbToggleModule,
     NgxChartsModule,
     Ng2SmartTableModule,
     ThemeModule,

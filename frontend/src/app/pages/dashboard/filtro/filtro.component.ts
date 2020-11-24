@@ -22,6 +22,7 @@ export class Filtro {
     public orgaoJulgador?: OrgaoJulgador,
     public natureza?: Natureza,
     public classe?: Classe,
+    public baixado: boolean = true,
     public rangeDatas?: NbCalendarRange<Date>) {
   }
 }
@@ -40,6 +41,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
   @Input() showNatureza: boolean = false;
   @Input() showClasse: boolean = false;
   @Input() showRangeDatas: boolean = false;
+  @Input() showProcessosCompletos: boolean = false;
 
   @Output() okClicked = new EventEmitter();
   @Output() cancelClicked = new EventEmitter();
@@ -63,6 +65,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
   natureza: Natureza;
   classes: Classe[] = [];
   classe: Classe;
+  baixado: boolean = true;
   dataInicial = new Date();
   dataFinal = new Date();
   rangeDatas: NbCalendarRange<Date>;
@@ -88,6 +91,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.orgaoJulgador = null;
     this.natureza = null;
     this.classe = null;
+    this.baixado = true;
   }
 
   setLoading(value: boolean) {
@@ -115,6 +119,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
       this.orgaoJulgador,
       this.natureza,
       this.classe,
+      this.baixado,
       this.rangeDatas);
   }
 
