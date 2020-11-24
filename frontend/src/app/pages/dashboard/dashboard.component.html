@@ -6,8 +6,6 @@
         <ngx-filtro 
           buttonOkLabel="Aplicar Filtro" (okClicked)="onAplicarFiltro($event)"
           buttonCancelLabel="Limpar Filtro" (cancelClicked)="onLimparFiltro($event)"
-          showOrgaoJulgador="true" showNatureza="true" showClasse="true"
-          showRangeDatas="true"
           (onTipoJusticaSelected)="onAplicarFiltro($event)"
           (onTribunalSelected)="onAplicarFiltro($event)"
           #visaoGeralFiltro></ngx-filtro>
@@ -24,7 +22,7 @@
         <ngx-filtro 
           buttonOkLabel="Adicionar" (okClicked)="onAdicionarModeloProcesso($event)"
           buttonCancelLabel="Limpar" (cancelClicked)="onLimparModeloProcesso($event)"
-          showOrgaoJulgador="true" showNatureza="true" showClasse="true" showProcessosCompletos="true"
+          showNatureza="true" showClasse="true" showProcessosCompletos="true"
           #fluxoFiltro>
         </ngx-filtro>
 

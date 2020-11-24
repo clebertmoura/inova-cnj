@@ -26,6 +26,8 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="col-md-4 col-sm-12">
         <div class="row">
           <div class="col">
             <div class="form-group">
@@ -46,7 +48,9 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="showOrgaoJulgador">
+      </div>
+      <div class="col-md-4 col-sm-12" *ngIf="showOrgaoJulgador">
+        <div class="row" >
           <div class="col">
             <div class="form-group">
               <label class="label">Orgão Julgador:</label>
@@ -74,7 +78,9 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="showNatureza">
+      </div>
+      <div class="col-md-4 col-sm-12" *ngIf="showNatureza">
+        <div class="row" >
           <div class="col">
             <div class="form-group">
               <label class="label">Natureza:</label>
@@ -94,7 +100,9 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="showClasse">
+      </div>
+      <div class="col-md-4 col-sm-12" *ngIf="showClasse">
+        <div class="row" >
           <div class="col">
             <div class="form-group">
               <label class="label">Classe:</label>
@@ -112,23 +120,14 @@
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="showProcessosCompletos">
+      </div>
+      <div class="col-md-3 col-sm-12" *ngIf="showProcessosCompletos">
+        <div class="row" >
           <div class="col">
             <div class="form-group">
-              <nb-toggle [(ngModel)]="baixado">Apenas processos completos!</nb-toggle>
+              <label class="label">Exibir apenas processos completos!</label>
+              <nb-toggle fullWidth [(ngModel)]="baixado"></nb-toggle>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <button nbButton status="info" (click)="onButtonOkClicked()">
-              {{buttonOkLabel}}
-            </button>
-          </div>
-          <div class="col-6">
-            <button nbButton status="cancel" (click)="onButtonCancelClicked()">
-              {{buttonCancelLabel}}
-            </button>
           </div>
         </div>
       </div>
@@ -145,6 +144,20 @@
       </div>
 
       <!-- nuvem de assuntos -->
+    </div>
+    <div class="col-md-4 col-sm-12">
+      <div class="row">
+        <div class="col-6">
+          <button nbButton status="info" (click)="onButtonOkClicked()">
+            {{buttonOkLabel}}
+          </button>
+        </div>
+        <div class="col-6">
+          <button nbButton status="cancel" (click)="onButtonCancelClicked()">
+            {{buttonCancelLabel}}
+          </button>
+        </div>
+      </div>
     </div>
   </nb-card-body>
 </nb-card>
