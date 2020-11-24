@@ -9,6 +9,8 @@ FROM node:12.19.0-alpine3.12 as node
 #     HTTPS_PROXY=http://192.168.251.227:8080 \
 #     NO_PROXY=localhost
 
+ENV NODE_OPTIONS=--max-old-space-size=4096
+
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
