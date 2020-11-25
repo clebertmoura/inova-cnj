@@ -231,6 +231,14 @@ export class InovacnjService {
         );
     }
 
+    public consultarOrgaosJulgadoresModelFit(filtro: FiltroPm): Observable<any[]> {
+        return this.http.get<any[]>(FiltroPm.buildUrlOrgaoJulgadoresModelFit(filtro))
+        .pipe(
+            retry(1),
+            catchError(() => of(null))
+        );
+    }
+
     // sample method from angular doc
     protected handleError(httpError: HttpErrorResponse) {
         console.error('Ocorreu erro na requisição:', httpError);

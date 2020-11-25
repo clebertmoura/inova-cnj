@@ -360,4 +360,33 @@ def api_gerar_estatisticas_modelo_pm():
     else:
         print("sem dados")
         abort(404, description="Nao encontrado")
+
+@servico.route('/api/v1/gerar-orgaosjulgadores-modelfit')
+def api_gerar_orgaosjulgadores_modelfit():
+    ramojustica = request.args.get('ramojustica')
+    codtribunal = request.args.get('codtribunal')
+    atuacao = request.args.get('atuacao')
+    grau = request.args.get('grau')
+    codorgaoj = request.args.get('codorgaoj')
+    natureza = request.args.get('natureza')
+    codclasse = request.args.get('codclasse')
+    dtinicio = request.args.get('dtinicio')
+    dtfim = request.args.get('dtfim')
+    baixado = request.args.get('baixado')
+    sensibilidade = request.args.get('sensibilidade')
+    
+    if ramojustica is None:
+        abort(400, description="ramojustica nao informado")
+    if codtribunal is None:
+        abort(400, description="codtribunal nao informado")
+    if atuacao is None:
+        abort(400, description="atuacao nao informado")
+    
+    modelfit = gerar_orgaosjulgadores_modelfit_from_params(ramojustica, codtribunal, atuacao, grau, codorgaoj, natureza, codclasse, \
+               dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade)
+    if modelfit is not None:
+        return jsonpickle.encode(modelfit)
+    else:
+        print("sem dados")
+        abort(404, description="Nao encontrado")
     

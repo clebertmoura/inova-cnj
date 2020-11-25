@@ -14,13 +14,18 @@ import tempfile
 import weakref
 
 import timer3
+import concurrent.futures
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import as_completed
 
 import pm4py
 from pm4py.objects.log.util import dataframe_utils
 from pm4py.objects.conversion.log import converter as log_converter
 from pm4py.objects.conversion.dfg import converter as dfg_mining
 from pm4py.algo.discovery.dfg import algorithm as dfg_discovery
+from pm4py.algo.discovery.alpha import algorithm as alpha_miner
 from pm4py.algo.filtering.log.variants import variants_filter
+from pm4py.algo.conformance.tokenreplay import algorithm as token_replay
 from pm4py.visualization.dfg import visualizer as dfg_visualization
 from pm4py.visualization.petrinet import visualizer as pn_visualizer
 from pm4py.statistics.traces.log import case_statistics
@@ -108,7 +113,8 @@ def gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codna
             eventLog = pm4py.convert_to_event_log(df_event_log)
 
             eventLogCache[cacheKey] = eventLog
-            timer3.apply_after(1000 * 60 * 10, clear_eventlog_cache, args=([cacheKey]), priority=0)
+            #limpa da cache depois de 10 minutos
+            timer3.apply_after(1000 * 60 * 15, clear_eventlog_cache, args=([cacheKey]), priority=0)
 
     if eventLog is not None :
         if sensibility is not None :
@@ -220,3 +226,71 @@ def gerar_estatistica_model_from_params(ramo_justica, codtribunal, atuacao, grau
         est_model = gerar_estatisticas_model_from_log_eventos(eventLog)
     
     return est_model
+
+# consulta os orgaos julgadores por tribunal e atuacao da vara
+def consultar_orgaosjulgadores_por_tribunal_e_atuacaovara(codtribunal, atuacao):
+    
+    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+
+    qry = "SELECT "
+    qry+= "  cod, "
+    qry+= "  descricao "
+    qry+= "FROM inovacnj.orgao_julgador oj "
+    qry+= "WHERE (1=1) "
+
+    if codtribunal is not None :
+        qry+= "AND oj.codtribunal = '" + codtribunal + "' "
+    if atuacao is not None :
+        qry+= "AND oj.atuacao_vara = '" + atuacao + "' "
+
+    qry+= "ORDER BY descricao ASC"
+    
+    df = pd.read_sql_query(qry, conn)
+    
+    return df
+
+# executa um token replay em um log de eventos
+def get_token_replayed_traces_from_params(net, initial_marking, final_marking,
+                             ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+                             dtinicio, dtfim, baixado = None, sensibility = '60'):
+    eventLog_oj = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
+    replayed_traces = token_replay.apply(eventLog_oj, net, initial_marking, final_marking)
+   
+    return replayed_traces
+
+# Gera as lista de orgao julgadores com o percentual de compatibilidade com o modelo
+def gerar_orgaosjulgadores_modelfit_from_params(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+                                     dtinicio, dtfim, baixado = None, sensibility = '60'):
+    
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+                                 dtinicio, dtfim, baixado, sensibility)
+    net, initial_marking, final_marking = alpha_miner.apply(eventLog)
+    
+    orgaos_model_fit = []
+    
+    df = consultar_orgaosjulgadores_por_tribunal_e_atuacaovara(codtribunal, atuacao)
+    
+    with ThreadPoolExecutor(max_workers = 15) as executor:
+        
+        future_to_row = {executor.submit(
+                            get_token_replayed_traces_from_params, 
+                            net, initial_marking, final_marking,
+                             ramo_justica, codtribunal, atuacao, grau, str(row["cod"]), codnatureza, codclasse, 
+                             dtinicio, dtfim, baixado, sensibility): row for index, row in df.iterrows()}
+        for future in concurrent.futures.as_completed(future_to_row):
+            row = future_to_row[future]
+            try:
+                replayed_traces = future.result()
+                orgao_model_fit = {
+                  "cod": row["cod"],
+                  "descricao": row["descricao"],
+                  "traceFitness": str(replayed_traces[0]['trace_fitness'] * 100) + ' %',
+                  "traceIsFit": replayed_traces[0]['trace_is_fit']
+                }
+                orgaos_model_fit.append(orgao_model_fit)
+            except Exception as exc:
+                print('%r generated an exception: %s' % (row, exc))
+    
+    sorted_orgaos_model_fit = sorted(orgaos_model_fit, key = lambda i: i['traceFitness'], reverse=True)
+    
+    return sorted_orgaos_model_fit
