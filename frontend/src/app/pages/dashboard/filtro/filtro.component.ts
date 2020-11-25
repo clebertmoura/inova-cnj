@@ -261,6 +261,9 @@ export class FiltroComponent implements OnInit, OnDestroy {
           this.loading = false;
         });
     }
+    if (this.showOrgaoJulgador == false && this.showAtuacaoOrgaoJulgador == false) {
+      this.loading = false;
+    }
     return;
   }
 
