@@ -252,7 +252,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
         });
     }
     if (this.showAtuacaoOrgaoJulgador) {
-      this.inovacnjService.consultarAtuacaoOrgaoJulgador(tribunal)
+      this.inovacnjService.consultarAtuacaoOrgaoJulgador(this.tipoJustica, tribunal)
         .subscribe((ataucoes : AtuacaoOrgaoJulgador[]) => {
           this.atuacoesOrgaoJulgador = ataucoes;
           this.loading = false;
