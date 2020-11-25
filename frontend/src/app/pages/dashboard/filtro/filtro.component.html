@@ -145,18 +145,17 @@
 
       <!-- nuvem de assuntos -->
     </div>
-    <div class="col-md-4 col-sm-12">
-      <div class="row">
-        <div class="col-6">
-          <button nbButton status="info" (click)="onButtonOkClicked()">
-            {{buttonOkLabel}}
-          </button>
-        </div>
-        <div class="col-6">
-          <button nbButton status="cancel" (click)="onButtonCancelClicked()">
-            {{buttonCancelLabel}}
-          </button>
-        </div>
+
+    <div class="row d-flex justify-content-end">
+      <div class="col-md-2 col-sm-3 p-1">
+        <button fullWidth nbButton status="info" (click)="onButtonOkClicked()">
+          {{buttonOkLabel}}
+        </button>
+      </div>
+      <div class="col-md-2 col-sm-3 p-1">
+        <button fullWidth nbButton status="cancel" (click)="onButtonCancelClicked()">
+          {{buttonCancelLabel}}
+        </button>
       </div>
     </div>
   </nb-card-body>
