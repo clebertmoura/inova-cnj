@@ -199,6 +199,30 @@ def get_orgaosJulgadores():
     lista = cur.fetchall()
     return jsonify(lista)
     
+@servico.route('/api/v1/orgao-julgador-por-tribunal-e-atuacao', methods=['GET'])
+def get_orgaosJulgadores_por_tribunal_e_atuacao():
+    codtribunal = request.args.get('codtribunal')
+    atuacao = request.args.get('atuacao')
+    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+    cur = conn.cursor()
+
+    qry = "SELECT "
+    qry+= "  cod, "
+    qry+= "  descricao "
+    qry+= "FROM inovacnj.orgao_julgador oj "
+    qry+= "WHERE (1=1) "
+
+    if codtribunal is not None :
+        qry+= "AND oj.codtribunal = '" + codtribunal + "' "
+    if atuacao is not None :
+        qry+= "AND oj.atuacao_vara = '" + atuacao + "' "
+
+    qry+= "ORDER BY ordem NULLS LAST"
+
+    cur.execute(qry)
+    lista = cur.fetchall()
+    return jsonify(lista)
+    
 @servico.route('/api/v1/atuacao-orgaojulgador', methods=['GET'])
 def get_atuacaoOrgaosJulgador():
     ramojustica = request.args.get('ramojustica')
