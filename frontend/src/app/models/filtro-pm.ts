@@ -29,6 +29,7 @@ export class FiltroPm {
     public svgObject: any;
     public dadosTabelaEstatistica : LocalDataSource = new LocalDataSource();
     public dadosTabelaOrgaosJulgadoresModelFit : LocalDataSource = new LocalDataSource();
+    public dadosGrafico: any;
 
     constructor(
         public tipoJustica: TipoJustica, 

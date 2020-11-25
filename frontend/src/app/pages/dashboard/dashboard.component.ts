@@ -46,19 +46,20 @@ interface CardSettings {
 
 export class DashboardComponent implements OnDestroy, OnInit {
   @ViewChild('fase') faseElement: ElementRef;
-  
-  //tiposOrgao: TipoOrgao[];
-  //filteredTiposOrgao$: Observable<TipoOrgao[]>;
-  //orgaoFormControl: FormControl;
-  //valorInputOrgao: String = "";
-
-  //tiposOrgaoProcess: TipoOrgao[];
-  //filteredTiposOrgaoProcess$: Observable<TipoOrgao[]>;
-  //orgaoProcessFormControl: FormControl;
-
   @ViewChild('visaoGeralFiltro') visaoGeralFiltro: FiltroComponent;
   @ViewChild('fluxoFiltro') fluxoFiltro: FiltroComponent;
 
+  // configurações grafico de barras
+  view: any[] = [450, 250];
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = false;
+  showXAxisLabel = true;
+  xAxisLabel = 'Intervalo em Dias';
+  showYAxisLabel = true;
+  yAxisLabel = 'Prob. de Término(%)';
+  colorSchemeGrafico: any;
 
   loadingPredict = false;
   loadingConfig = false;
@@ -257,6 +258,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
       this.colorScheme = {
         domain: [colors.primaryLight, colors.infoLight, colors.successLight, colors.warningLight, colors.dangerLight],
       };
+      this.colorSchemeGrafico = {
+        domain: [colors.infoLight],
+      };
     });
     this.setDashboardUrl();
   }
@@ -386,7 +390,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
           this.filtrosPm.push(filtro);
           var idx = this.filtrosPm.indexOf(filtro);
           this.inovacnjService.consultarEstatisticaModeloPm(filtro).subscribe(dadosEstatistica => {
-            filtro.dadosTabelaEstatistica.load(dadosEstatistica);
+            filtro.dadosTabelaEstatistica.load(dadosEstatistica.estatistica);
+            filtro.dadosGrafico = dadosEstatistica.grafico;
           });
           timer(100).subscribe(val => {
             this.initFiltroModeloSvg(filtro, idx);
@@ -487,6 +492,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
     
       var smartTableElement = jQuery(`#smartTableModeloPm_${idx}`)[0];
       smartTableElement.setAttribute('source', filtro.dadosTabelaEstatistica);
+
+      var graficoElement = jQuery(`#graficoModeloPm_${idx}`)[0];
+      graficoElement.setAttribute('results', filtro.dadosGrafico);
       
       filtro.svgObject = svgPanZoom(svgElement, {
         zoomEnabled: true,

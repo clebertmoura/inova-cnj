@@ -195,6 +195,24 @@
                         </ng2-smart-table>  
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                        <ngx-charts-bar-vertical id="graficoModeloPmOj_{{idx}}"
+                          [view]="view"
+                          [scheme]="colorSchemeGrafico"
+                          [results]="filtro.dadosGrafico"
+                          [gradient]="gradient"
+                          [xAxis]="showXAxis"
+                          [yAxis]="showYAxis"
+                          [legend]="showLegend"
+                          [showXAxisLabel]="showXAxisLabel"
+                          [showYAxisLabel]="showYAxisLabel"
+                          [xAxisLabel]="xAxisLabel"
+                          [yAxisLabel]="yAxisLabel"
+                          >
+                        </ngx-charts-bar-vertical>
+                      </div>
+                    </div>
                   </nb-card-body>
                 </nb-card>  
               </nb-card-back>

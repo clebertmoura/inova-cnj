@@ -195,12 +195,23 @@ export class InovacnjService {
         return "erro na conversao do tempo";
     }
 
-    public consultarEstatisticaModeloPm(filtro: FiltroPm): Observable<any[]> {
+    public consultarEstatisticaModeloPm(filtro: FiltroPm): Observable<any> {
         return this.http.get<any[]>(filtro.urlEstatistica)
         .pipe(
             retry(1),
             map((response : any) => {
-                let entities = [
+                let dados: any[] = [];
+                    if (response.previsoes_termino != null && response.previsoes_termino.length > 0) {
+                        response.previsoes_termino.forEach(item => {
+                            let entity = {
+                                'name' : "" + item.intervaloEmDias,
+                                'value' : (item.probabilidadeDeTermino*100).toFixed(2),
+                            };
+                            dados.push(entity);
+                        });
+                    }
+                let entities = { 
+                    'estatistica' : [
                     {
                         'campo' : 'Quantidade de processos no modelo',
                         'valor' : response.qtde_casos,
@@ -224,8 +235,9 @@ export class InovacnjService {
                     {
                         'campo' : 'Tempo médio de finalização entre processos',
                         'valor' : this.converterTempo(response.taxa_dispersao_casos),
-                    },
-                ];
+                    },],
+                    'grafico' : dados,
+                };
                 return entities;
             }),
             catchError(() => of(null))
