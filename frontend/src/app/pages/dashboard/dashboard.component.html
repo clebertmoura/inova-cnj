@@ -36,6 +36,10 @@
                     <div class="row">
                       <div class="col-10 d-flex justify-content-start">
                         <nb-actions size="small" fullWidth>
+                          <nb-action *ngIf="filtro.tipoJustica != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.tipoJustica.descricao}}</span>
+                          </nb-action>
                           <nb-action *ngIf="filtro.tribunal != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                             <span>{{filtro.tribunal.codigo}}</span>
@@ -91,7 +95,7 @@
                           <div class="col-12">
                             <mat-slider thumbLabel horizontal color="primary"
                             (change)="onChangeSensibilidade($event, filtro, idx)"
-                            min="0" max="100" step="10" [(value)]="filtro.sensibilidade"></mat-slider>
+                            min="0" max="100" step="5" [(value)]="filtro.sensibilidade"></mat-slider>
                           </div>
                         </div>
                       </div>
