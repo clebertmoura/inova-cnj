@@ -30,6 +30,9 @@ from pm4py.visualization.dfg import visualizer as dfg_visualization
 from pm4py.visualization.petrinet import visualizer as pn_visualizer
 from pm4py.statistics.traces.log import case_statistics
 from pm4py.statistics.traces.log import case_arrival
+from pm4py.statistics.start_activities.log import get as start_activities
+from pm4py.statistics.end_activities.log import get as end_activities
+from pm4py.objects.stochastic_petri import ctmc
 
 db_host = os.getenv('POSTGRES_HOST')
 db_port = os.getenv('POSTGRES_PORT')
@@ -78,7 +81,7 @@ def gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codna
         qry+= "  fat.mov_dtmov as mov_dtmov "
         qry+= "FROM " + tabela_fato + " fat "
         qry+= "INNER JOIN inovacnj.acervo_processo_" + sufixo_ramo + " ap ON ap.npu = fat.npu "
-        qry+= "INNER JOIN inovacnj.orgao_julgador oj ON oj.cod = fat.oj_cod::integer "
+        qry+= "INNER JOIN inovacnj.orgao_julgador oj ON oj.cod::varchar = fat.oj_cod "
         qry+= "INNER JOIN inovacnj.movimentocnj mov ON mov.cod = fat.mov_cod "
         qry+= "INNER JOIN inovacnj.natureza_classe nc ON nc.cod_classe = fat.codclasse "
         qry+= "INNER JOIN inovacnj.natureza nat ON nat.cod = nc.cod_natureza "
@@ -161,17 +164,77 @@ def gerar_view_dfg_model_from_params(ramo_justica, codtribunal, atuacao, grau, c
     
     return gviz
 
+# Gera as lista de previsoes de conclusao de um caso para o modelo do log de eventos
+def gerar_previsoes_modelo_from_log_eventos(eventLog):
+    
+    dfg_perf = dfg_discovery.apply(eventLog, variant=dfg_discovery.Variants.PERFORMANCE)
+
+    sa = start_activities.get_start_activities(eventLog)
+    ea = end_activities.get_end_activities(eventLog)
+
+    reach_graph, tang_reach_graph, stochastic_map, q_matrix = ctmc.get_tangible_reachability_and_q_matrix_from_dfg_performance(dfg_perf, parameters={"start_activities": sa, "end_activities": ea})
+
+    intervalo_um_dia_em_segundos = 60 * 60 * 24
+    intervalos = [
+        intervalo_um_dia_em_segundos * 30,
+        intervalo_um_dia_em_segundos * 60,
+        intervalo_um_dia_em_segundos * 90,
+        intervalo_um_dia_em_segundos * 180,
+        intervalo_um_dia_em_segundos * 365,
+        intervalo_um_dia_em_segundos * 365 * 2,
+        intervalo_um_dia_em_segundos * 365 * 3,
+        intervalo_um_dia_em_segundos * 365 * 4,
+        intervalo_um_dia_em_segundos * 365 * 5,
+        intervalo_um_dia_em_segundos * 365 * 6,
+        intervalo_um_dia_em_segundos * 365 * 7,
+        intervalo_um_dia_em_segundos * 365 * 8,
+        intervalo_um_dia_em_segundos * 365 * 9,
+        intervalo_um_dia_em_segundos * 365 * 10
+    ]
+
+    previsoes_por_intervalo = []
+
+    # pick the source state
+    initial_state = [x for x in tang_reach_graph.states if x.name == "source1"][0]
+    final_state = [x for x in tang_reach_graph.states if x.name == "sink1"][0]
+
+    for intervalo in intervalos:
+        # analyse the distribution over the states of the system starting from the source after 172800.0 seconds (2 days)
+        transient_result = ctmc.transient_analysis_from_tangible_q_matrix_and_single_state(
+            tang_reach_graph, q_matrix, initial_state, intervalo)
+
+        for key, value in filter(lambda elem: elem[0].name == "sink1", transient_result.items()):
+            previsoes_por_intervalo.append({
+                "intervaloEmDias": intervalo / intervalo_um_dia_em_segundos,
+                "probabilidadeDeTermino": float(value)
+            })
+
+    
+    return previsoes_por_intervalo
+
+# Gera as lista de previsoes de conclusao de um caso para o modelo por parametros
+def gerar_previsoes_modelo_from_params(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+                                     dtinicio, dtfim, baixado = None, sensibility = '60'):
+    
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+                                 dtinicio, dtfim, baixado, sensibility)
+    
+    previsoes_por_intervalo = gerar_previsoes_modelo_from_log_eventos(eventLog)
+    
+    return previsoes_por_intervalo
+
 
 class ModeloEstatisticas:
 
     def __init__(self, qtde_casos, caso_dur_min, caso_dur_max, caso_dur_media, \
-                 taxa_chegada_casos, taxa_dispersao_casos):
+                 taxa_chegada_casos, taxa_dispersao_casos, previsoes_termino):
         self.qtde_casos = qtde_casos
         self.caso_dur_min = caso_dur_min
         self.caso_dur_max = caso_dur_max
         self.caso_dur_media = caso_dur_media
         self.taxa_chegada_casos = taxa_chegada_casos
         self.taxa_dispersao_casos = taxa_dispersao_casos
+        self.previsoes_termino = previsoes_termino
 
 class FileRemover(object):
     def __init__(self):
@@ -211,8 +274,12 @@ def gerar_estatisticas_model_from_log_eventos(eventLog):
     # (distância média entre a finalização de dois casos consecutivos)
     case_dispersion_ratio = case_arrival.get_case_dispersion_avg(eventLog, parameters=parameters_arrival)
     
-    return ModeloEstatisticas(qtde_casos=len(all_case_durations), caso_dur_min=min_case_duration, caso_dur_max=max_case_duration, \
-        caso_dur_media=median_case_duration, taxa_chegada_casos=case_arrival_ratio, taxa_dispersao_casos=case_dispersion_ratio)
+    previsoes = gerar_previsoes_modelo_from_log_eventos(eventLog)
+    
+    return ModeloEstatisticas(qtde_casos=len(all_case_durations), caso_dur_min=min_case_duration, caso_dur_max=max_case_duration,
+                              caso_dur_media=median_case_duration, taxa_chegada_casos=case_arrival_ratio, 
+                              taxa_dispersao_casos=case_dispersion_ratio,previsoes_termino=previsoes)
+
 
 # Gera as estatisticas do modelo com base nos parametros
 def gerar_estatistica_model_from_params(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
