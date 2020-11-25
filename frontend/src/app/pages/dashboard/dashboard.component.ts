@@ -100,9 +100,14 @@ export class DashboardComponent implements OnDestroy, OnInit {
   // config tabela Estatistica
   configTabelaOrgaoJulgadorModelFit = {
     actions: {
+      columnTitle: 'Ver o fluxo',
       add: false,
       edit: false,
-      delete: false
+      delete: false,
+      custom: [
+        { name: 'adcionarModelo', title: '<div class="ph-2"><i class="fa fa-eye"></i></div>'}
+      ],
+      position: 'right'
     },
     hideHeader: false,
     hideSubHeader: true,
@@ -114,8 +119,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
         filter: true
       },
       traceFitness: {
-        title: '% de correspondência ao modelo',
-        type: 'string',
+        title: '% de conformidade ao modelo',
+        type: 'float',
         filter: false
       },
     },
@@ -274,6 +279,48 @@ export class DashboardComponent implements OnDestroy, OnInit {
       );
   }
 
+  onCustomAction(event) {
+    console.log('onCustomAction', event);
+    switch (event.action) {
+      case 'adcionarModelo':
+        const orgaoJulgador = new OrgaoJulgador();
+        orgaoJulgador.codigo = event.data.codigo;
+        orgaoJulgador.descricao = event.data.descricao;
+        orgaoJulgador.codigoTribunal = event.data.codigoTribunal;
+
+        const filtro = new FiltroPm(this.filtroProcess.tipoJustica, this.filtroProcess.tribunal, 
+          orgaoJulgador, this.filtroProcess.atuacaoOrgaoJulgador, this.filtroProcess.natureza, 
+          this.filtroProcess.classe, this.filtroProcess.baixado);
+        
+        this.fluxoFiltro.setLoading(true);
+        this.downloadModeloPmSvgContent(filtro).subscribe(response => {
+          this.fluxoFiltro.setLoading(false);
+          this.filtrosPm.push(filtro);
+          var idx = this.filtrosPm.indexOf(filtro);
+          this.inovacnjService.consultarEstatisticaModeloPm(filtro).subscribe(dadosEstatistica => {
+            filtro.dadosTabelaEstatistica.load(dadosEstatistica);
+          });
+          timer(100).subscribe(val => {
+            this.initFiltroModeloSvg(filtro, idx);
+            filtro.svgObject.resize();
+            filtro.svgObject.fit();
+            this.fluxoFiltro.setLoading(false);
+          });
+        }, error => {
+          console.error(error);
+          if (error.status == 400) {
+            this.toastrService.warning('Por favor, selecione os filtros para geração do modelo.', `Selecione os filtros!`);
+          } else if (error.status == 404) {
+            this.toastrService.warning('Não existem dados para geração do modelo.', `Sem dados!`);
+          } else {
+            this.toastrService.danger('Ocorreu um erro inesperado ao consultar dados.', `Erro inesperado!`); 
+          }
+          this.fluxoFiltro.setLoading(false);
+        });
+        break;
+    }
+  }
+
   onAplicarFiltro(event) {
     console.log('onAplicarFiltro', event);
     this.filtroVisaoGeral = event;
@@ -329,8 +376,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     console.log('onAdicionarModeloProcesso', event);
     this.filtroProcess = event;
     if (this.filtroProcess.tribunal != null) {
-      //if (this.filtroProcess.natureza != null) {
-
+      if (this.filtroProcess.atuacaoOrgaoJulgador != null) {
         const filtro = new FiltroPm(this.filtroProcess.tipoJustica, this.filtroProcess.tribunal, this.filtroProcess.orgaoJulgador, 
           this.filtroProcess.atuacaoOrgaoJulgador, this.filtroProcess.natureza, this.filtroProcess.classe, this.filtroProcess.baixado);
         
@@ -359,9 +405,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
           }
           this.fluxoFiltro.setLoading(false);
         });
-      //} else {
-      //  this.toastrService.warning('Por favor, selecione uma natureza para geração do modelo.', `Selecione os filtros!`);
-      //}
+      } else {
+        this.toastrService.warning('Por favor, selecione o ramo de atuação para geração do modelo.', `Selecione os filtros!`);
+      }
     } else {
       this.toastrService.warning('Por favor, selecione um tribunal para geração do modelo.', `Selecione os filtros!`);
     }

@@ -390,27 +390,32 @@ def api_gerar_orgaosjulgadores_modelfit():
     ramojustica = request.args.get('ramojustica')
     codtribunal = request.args.get('codtribunal')
     atuacao = request.args.get('atuacao')
-    grau = request.args.get('grau')
     codorgaoj = request.args.get('codorgaoj')
-    natureza = request.args.get('natureza')
-    codclasse = request.args.get('codclasse')
-    dtinicio = request.args.get('dtinicio')
-    dtfim = request.args.get('dtfim')
-    baixado = request.args.get('baixado')
-    sensibilidade = request.args.get('sensibilidade')
     
     if ramojustica is None:
         abort(400, description="ramojustica nao informado")
-    if codtribunal is None:
-        abort(400, description="codtribunal nao informado")
-    if atuacao is None:
-        abort(400, description="atuacao nao informado")
+    if codtribunal is None and atuacao is None:
+        abort(400, description="codtribunal ou atuacao deve ser informado")
     
-    modelfit = gerar_orgaosjulgadores_modelfit_from_params(ramojustica, codtribunal, atuacao, grau, codorgaoj, natureza, codclasse, \
-               dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade)
-    if modelfit is not None:
-        return jsonpickle.encode(modelfit)
-    else:
-        print("sem dados")
-        abort(404, description="Nao encontrado")
+    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+    cur = conn.cursor()
+
+    qry = "SELECT "
+    qry+= " cod_orgao_julg AS cod, desc_orgao_julg as descricao, codtribunal, tipo, atuacao_vara, trace_fitness "
+    qry+= "FROM inovacnj.fitnessmodel_org_julg_atuacao "
+    qry+= "WHERE (1=1) "
+    
+    if ramojustica != None :
+        qry+= "AND tipo = '" + ramojustica + "' "
+    if codtribunal != None :
+        qry+= "AND codtribunal = '" + codtribunal + "' "
+    if atuacao != None :
+        qry+= "AND atuacao_vara = '" + atuacao + "' "
+    if codorgaoj != None :
+        qry+= "AND cod_orgao_julg = '" + codorgaoj + "' "
+    qry+= "ORDER BY trace_fitness DESC "
+
+    cur.execute(qry)
+    lista = cur.fetchall()
+    return jsonify(lista)
     
