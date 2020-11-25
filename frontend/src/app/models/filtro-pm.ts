@@ -20,6 +20,7 @@ export class FiltroPm {
 
     public url: string = '';
     public urlEstatistica: string = '';
+    public urlOrgaosJulgadoresModelFit: string = '';
     public loaded: boolean = false;
     public maximized: boolean = false;
     public metrica: MetricaPm = MetricaPm.Frequency;
@@ -27,6 +28,7 @@ export class FiltroPm {
     public svgContent: any;
     public svgObject: any;
     public dadosTabelaEstatistica : LocalDataSource = new LocalDataSource();
+    public dadosTabelaOrgaosJulgadoresModelFit : LocalDataSource = new LocalDataSource();
 
     constructor(
         public tipoJustica: TipoJustica, 
@@ -40,6 +42,7 @@ export class FiltroPm {
     updateUrl() {
         this.url = FiltroPm.buildUrlModeloPm(this);
         this.urlEstatistica = FiltroPm.buildUrlEstatisticaModeloPm(this);
+        this.urlOrgaosJulgadoresModelFit = FiltroPm.buildUrlOrgaoJulgadoresModelFit(this);
     }
 
     /**
@@ -55,6 +58,13 @@ export class FiltroPm {
     public static buildUrlEstatisticaModeloPm(filtro: FiltroPm, prefixApi: string = '/api'): string {
         const urlPm = prefixApi + 
             `/v1/gerar-estatisticas-modelo-pm?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.atuacaoOrgaoJulgador != null ? '&atuacao=' + filtro.atuacaoOrgaoJulgador.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}${filtro.baixado != null && filtro.baixado ? '&baixado=S' : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}`;
+        console.log(urlPm)
+        return urlPm;
+    }
+
+    public static buildUrlOrgaoJulgadoresModelFit(filtro: FiltroPm, prefixApi: string = '/api'): string {
+        const urlPm = prefixApi + 
+            `/v1/gerar-orgaosjulgadores-modelfit?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.atuacaoOrgaoJulgador != null ? '&atuacao=' + filtro.atuacaoOrgaoJulgador.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}${filtro.classe != null ? '&codclasse=' + filtro.classe.codigo : ''}${filtro.baixado != null && filtro.baixado ? '&baixado=S' : ''}${filtro.sensibilidade != null ? '&sensibilidade=' + filtro.sensibilidade : '60'}`;
         console.log(urlPm)
         return urlPm;
     }

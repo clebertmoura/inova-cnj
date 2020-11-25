@@ -17,7 +17,7 @@ import { AssuntoRanking } from '../../models/assunto-ranking';
 import * as svgPanZoom from 'svg-pan-zoom';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { of, timer } from 'rxjs';
+import { of, timer, forkJoin } from 'rxjs';
 import { MatSliderChange } from '@angular/material/slider';
 import { MetricaPm } from '../../models/filtro-pm';
 import { Fase } from 'app/models/fase';
@@ -82,7 +82,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     },
     hideHeader: true,
     hideSubHeader: true,
-    noDataMessage: "Carregando Dados",
+    noDataMessage: "Carregando as estatísticas do modelo...",
     columns: {
       campo: {
         title: 'Campo',
@@ -96,6 +96,31 @@ export class DashboardComponent implements OnDestroy, OnInit {
       },
     },
   };
+
+  // config tabela Estatistica
+  configTabelaOrgaoJulgadorModelFit = {
+    actions: {
+      add: false,
+      edit: false,
+      delete: false
+    },
+    hideHeader: false,
+    hideSubHeader: true,
+    noDataMessage: "Sem dados...",
+    columns: {
+      descricao: {
+        title: 'Órgão Julagor',
+        type: 'string',
+        filter: true
+      },
+      traceFitness: {
+        title: '% de correspondência ao modelo',
+        type: 'string',
+        filter: false
+      },
+    },
+  };
+
   assuntosRanking: AssuntoRanking[] = [];
 
   // dados aba predict
@@ -311,11 +336,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
         
         this.fluxoFiltro.setLoading(true);
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {
+          this.fluxoFiltro.setLoading(false);
           this.filtrosPm.push(filtro);
           var idx = this.filtrosPm.indexOf(filtro);
-          this.inovacnjService.consultarEstatisticaModeloPm(filtro).subscribe(data => { 
-            filtro.dadosTabelaEstatistica.load(data);
-            this.initFiltroModeloSvg(filtro, idx);
+          this.inovacnjService.consultarEstatisticaModeloPm(filtro).subscribe(dadosEstatistica => {
+            filtro.dadosTabelaEstatistica.load(dadosEstatistica);
           });
           timer(100).subscribe(val => {
             this.initFiltroModeloSvg(filtro, idx);
@@ -340,6 +365,13 @@ export class DashboardComponent implements OnDestroy, OnInit {
     } else {
       this.toastrService.warning('Por favor, selecione um tribunal para geração do modelo.', `Selecione os filtros!`);
     }
+  }
+
+  onClickVerficarConformidade(filtro: FiltroPm) {
+    this.inovacnjService.consultarOrgaosJulgadoresModelFit(filtro).subscribe(dadosOrgaosJulgadoresModelFit => {
+      console.log(dadosOrgaosJulgadoresModelFit);
+      filtro.dadosTabelaOrgaosJulgadoresModelFit.load(dadosOrgaosJulgadoresModelFit);
+    });
   }
 
   downloadModeloPmSvgContent(filtro: FiltroPm) {
