@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { forkJoin, of } from 'rxjs';
 import { InovacnjService } from 'app/@core/services/inovacnj.service';
 import { TipoJustica } from 'app/models/tipo-justica';
@@ -6,7 +6,7 @@ import { Tribunal } from 'app/models/tribunal';
 import { Natureza } from 'app/models/natureza';
 import { Classe } from 'app/models/classe';
 import { OrgaoJulgador } from '../../../models/orgao-julgador';
-import { NbCalendarRange } from '@nebular/theme';
+import { NbCalendarRange, NbSelectComponent } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
@@ -38,6 +38,8 @@ export class FiltroComponent implements OnInit, OnDestroy {
 
   @Input() buttonOkLabel: string;
   @Input() buttonCancelLabel: string;
+
+  @Input() selectAtuacaoOrgaoJulgador: NbSelectComponent;
 
   @Input() showOrgaoJulgador: boolean = false;
   @Input() showAtuacaoOrgaoJulgador: boolean = false;
@@ -83,6 +85,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
   constructor(
     private inovacnjService: InovacnjService,
     private sanitizer: DomSanitizer,
+    private ref: ChangeDetectorRef,
     private datePipe: DatePipe) {
       console.log('FiltroComponent');
   }
@@ -212,7 +215,6 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.atuacaoOrgaoJulgador = null;
     this.natureza = null;
     this.classe = null;
-    this.onTipoJusticaSelected.emit(this.getSelectedDataObject());
     return forkJoin(
       this.inovacnjService.consultarTribunal(tipoJustica),
       this.inovacnjService.consultarNatureza(tipoJustica),
@@ -222,9 +224,14 @@ export class FiltroComponent implements OnInit, OnDestroy {
         this.tribunais = tribunais;
         this.naturezas = naturezas;
         this.atuacoesOrgaoJulgador = atuacoesOrgaoJulgador;
+        if (atuacoesOrgaoJulgador != null && atuacoesOrgaoJulgador.length == 1) {
+          this.atuacaoOrgaoJulgador = atuacoesOrgaoJulgador[0];
+        }
+        this.onTipoJusticaSelected.emit(this.getSelectedDataObject());
       }, error => {
         console.error(error);
         this.loading = false;
+        this.onTipoJusticaSelected.emit(this.getSelectedDataObject());
       });
   }
 

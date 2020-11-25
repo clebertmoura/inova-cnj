@@ -36,17 +36,21 @@
                     <div class="row">
                       <div class="col-10 d-flex justify-content-start">
                         <nb-actions size="small" fullWidth>
-                          <nb-action *ngIf="filtro.tipoJustica != null">
+                          <!-- <nb-action *ngIf="filtro.tipoJustica != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                             <span>{{filtro.tipoJustica.descricao}}</span>
-                          </nb-action>
+                          </nb-action> -->
                           <nb-action *ngIf="filtro.tribunal != null">
-                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <!-- <nb-icon class="action-icon" icon="chevron-right"></nb-icon> -->
                             <span>{{filtro.tribunal.codigo}}</span>
                           </nb-action>
                           <nb-action *ngIf="filtro.atuacaoOrgaoJulgador != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                             <span>{{filtro.atuacaoOrgaoJulgador.descricao}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.orgaoJulgador != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.orgaoJulgador.descricao}}</span>
                           </nb-action>
                           <nb-action *ngIf="filtro.natureza != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
@@ -126,17 +130,21 @@
                     <div class="row">
                       <div class="col-10 d-flex justify-content-start">
                         <nb-actions size="small" fullWidth>
-                          <nb-action *ngIf="filtro.tipoJustica != null">
+                          <!-- <nb-action *ngIf="filtro.tipoJustica != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                             <span>{{filtro.tipoJustica.descricao}}</span>
-                          </nb-action>
+                          </nb-action> -->
                           <nb-action *ngIf="filtro.tribunal != null">
-                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <!-- <nb-icon class="action-icon" icon="chevron-right"></nb-icon> -->
                             <span>{{filtro.tribunal.codigo}}</span>
                           </nb-action>
                           <nb-action *ngIf="filtro.atuacaoOrgaoJulgador != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                             <span>{{filtro.atuacaoOrgaoJulgador.descricao}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.orgaoJulgador != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.orgaoJulgador.descricao}}</span>
                           </nb-action>
                           <nb-action *ngIf="filtro.natureza != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
@@ -181,7 +189,9 @@
                     </div>
                     <div class="row">
                       <div class="col-md-12 col-sm-12">
-                        <ng2-smart-table id="smartTableModeloPmOj_{{idx}}" [settings]="configTabelaOrgaoJulgadorModelFit" [source]="filtro.dadosTabelaOrgaosJulgadoresModelFit">
+                        <ng2-smart-table id="smartTableModeloPmOj_{{idx}}" [settings]="configTabelaOrgaoJulgadorModelFit" 
+                          [source]="filtro.dadosTabelaOrgaosJulgadoresModelFit"
+                          (custom)="onCustomAction($event)">
                         </ng2-smart-table>  
                       </div>
                     </div>

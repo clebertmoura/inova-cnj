@@ -69,13 +69,14 @@
       </div>
       <div class="col-md-2 col-sm-12" *ngIf="showAtuacaoOrgaoJulgador">
         <div class="form-group">
-          <label class="label">Atuação Vara:</label>
+          <label class="label">Atuação do Órgão Julgador:</label>
           <nb-select
             (selectedChange)="onSelectAtuacaoOrgaoJulgador($event)"
             [(selected)]="atuacaoOrgaoJulgador"
             class="position-select"
             fullWidth
             [disabled]="tipoJustica == null"
+            #selectAtuacaoOrgaoJulgador
           >
             <nb-option
               *ngFor="let atuacaoOrgaoJulgador of atuacoesOrgaoJulgador"

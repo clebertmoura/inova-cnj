@@ -13,6 +13,7 @@ import { Movimento } from 'app/models/movimento';
 import { AssuntoRanking } from '../../models/assunto-ranking';
 import { Fase } from 'app/models/fase';
 import { AtuacaoOrgaoJulgador } from 'app/models/atuacao-orgaojulgador';
+import { ModelFitnessOrgaoJulgador } from '../../models/modelfitness-orgao-julgador';
 
 @Injectable({
     providedIn: 'root'
@@ -231,10 +232,13 @@ export class InovacnjService {
         );
     }
 
-    public consultarOrgaosJulgadoresModelFit(filtro: FiltroPm): Observable<any[]> {
+    public consultarOrgaosJulgadoresModelFit(filtro: FiltroPm): Observable<ModelFitnessOrgaoJulgador[]> {
         return this.http.get<any[]>(FiltroPm.buildUrlOrgaoJulgadoresModelFit(filtro))
         .pipe(
             retry(1),
+            map((response : any[][]) => {
+                return ModelFitnessOrgaoJulgador.toArray(response);
+            }),
             catchError(() => of(null))
         );
     }
