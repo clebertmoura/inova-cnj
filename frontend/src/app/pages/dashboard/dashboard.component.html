@@ -12,7 +12,7 @@
 
         <iframe 
             [src]="dashboardUrl"    
-            frameborder="0" scrolling="no" width="100%" style="min-height: 1800px;"
+            frameborder="0" scrolling="yes" width="100%" style="min-height: 2500px;"
             allowtransparency ></iframe>
 
       </nb-tab>
@@ -51,6 +51,10 @@
                           <nb-action *ngIf="filtro.orgaoJulgador != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                             <span>{{filtro.orgaoJulgador.descricao}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.cluster != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.cluster.descricao}}</span>
                           </nb-action>
                           <nb-action *ngIf="filtro.natureza != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
@@ -145,6 +149,10 @@
                           <nb-action *ngIf="filtro.orgaoJulgador != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
                             <span>{{filtro.orgaoJulgador.descricao}}</span>
+                          </nb-action>
+                          <nb-action *ngIf="filtro.cluster != null">
+                            <nb-icon class="action-icon" icon="chevron-right"></nb-icon>
+                            <span>{{filtro.cluster.descricao}}</span>
                           </nb-action>
                           <nb-action *ngIf="filtro.natureza != null">
                             <nb-icon class="action-icon" icon="chevron-right"></nb-icon>

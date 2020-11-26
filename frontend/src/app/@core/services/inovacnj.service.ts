@@ -211,7 +211,7 @@ export class InovacnjService {
     }
     private converterDiaParaAno(dias: number): string {
         if (dias < 365) {
-            return "" + dias;
+            return "" + dias + " dias";
         } else if (dias >= 365 && dias < 730) {
             return "1 ano";
         } else if (dias >= 730 && dias < 1095) {

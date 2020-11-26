@@ -231,8 +231,9 @@ export class FiltroComponent implements OnInit, OnDestroy {
     return forkJoin(
       this.inovacnjService.consultarTribunal(tipoJustica),
       this.inovacnjService.consultarNatureza(tipoJustica),
-      this.inovacnjService.consultarAtuacaoOrgaoJulgador(tipoJustica, null)
-    ).subscribe(([tribunais, naturezas, atuacoesOrgaoJulgador]: [Tribunal[], Natureza[], AtuacaoOrgaoJulgador[]]) => {
+      this.inovacnjService.consultarAtuacaoOrgaoJulgador(tipoJustica, null),
+      this.inovacnjService.consultarCluster(tipoJustica, null)
+    ).subscribe(([tribunais, naturezas, atuacoesOrgaoJulgador, clusters]: [Tribunal[], Natureza[], AtuacaoOrgaoJulgador[], Cluster[]]) => {
         this.loading = false;
         this.tribunais = tribunais;
         this.naturezas = naturezas;
@@ -240,6 +241,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
         if (atuacoesOrgaoJulgador != null && atuacoesOrgaoJulgador.length == 1) {
           this.atuacaoOrgaoJulgador = atuacoesOrgaoJulgador[0];
         }
+        this.clusters = clusters;
         this.onTipoJusticaSelected.emit(this.getSelectedDataObject());
       }, error => {
         console.error(error);
@@ -310,7 +312,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.cluster = null;
     this.atuacaoOrgaoJulgador = atuacaoOrgaoJulgador;
     if (this.showCluster) {
-      this.inovacnjService.consultarCluster(this.tipoJustica, this.tribunal)
+      this.inovacnjService.consultarCluster(this.tipoJustica, this.atuacaoOrgaoJulgador)
       .subscribe((clusters : Cluster[]) => {
         this.clusters = clusters;
         this.loading = false;
