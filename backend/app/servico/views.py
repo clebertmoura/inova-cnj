@@ -371,7 +371,7 @@ def api_gerar_modelo_pm():
     if codtribunal is None and cluster is None:
         abort(400, description="codtribunal ou cluster deve ser informado")
     
-    gviz = gerar_view_dfg_model_from_params(ramojustica, codtribunal, atuacao, grau, codorgaoj, natureza, codclasse, \
+    gviz = gerar_view_dfg_model_from_params(ramojustica, codtribunal, atuacao, cluster, grau, codorgaoj, natureza, codclasse, \
                dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade, metric_type=metrica, image_format=formato)
     if gviz != None:
         file_remover = FileRemover()
@@ -391,6 +391,7 @@ def api_gerar_estatisticas_modelo_pm():
     ramojustica = request.args.get('ramojustica')
     codtribunal = request.args.get('codtribunal')
     atuacao = request.args.get('atuacao')
+    cluster = request.args.get('cluster')
     grau = request.args.get('grau')
     codorgaoj = request.args.get('codorgaoj')
     natureza = request.args.get('natureza')
@@ -405,7 +406,7 @@ def api_gerar_estatisticas_modelo_pm():
     if codtribunal is None:
         abort(400, description="codtribunal nao informado")
     
-    estat = gerar_estatistica_model_from_params(ramojustica, codtribunal, atuacao, grau, codorgaoj, natureza, codclasse, \
+    estat = gerar_estatistica_model_from_params(ramojustica, codtribunal, atuacao, cluster, grau, codorgaoj, natureza, codclasse, \
                dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade)
     if estat is not None:
         return jsonpickle.encode(estat)
