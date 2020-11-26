@@ -1,4 +1,4 @@
-codtribunal;grau;cod_orgao_julg;tipo_justica;descricao;uf;Porte_Municipio;PIB_percapita;tipo_processo;Porte_Tribunal;Atuacao_Vara;Classificacao_Acervo_2;Median(numero_dias);Count*(npu);Sum(numero_dias)
+codtribunal;grau;cod_orgao_julg;tipo_justica;descricao;uf;Porte_Municipio;PIB_percapita;tipo_processo;Porte_Tribunal;Atuacao_Vara;Classificacao_Acervo_2;mediana;qtd_npu;num_dias
 TJAC;G1;11674;Estadual;VARA CÍVEL;AC;Pequeno_Porte;9634.33984375;Civel;PEQUENO;Civel Pura;Acervo Grande;626;52;38983
 TJAC;G1;11674;Estadual;VARA CÍVEL;AC;Pequeno_Porte;9634.33984375;Execução Fiscal;PEQUENO;Civel Pura;Acervo Grande;935;21;23059
 TJAC;G1;11674;Estadual;VARA CÍVEL;AC;Pequeno_Porte;9634.33984375;Família;PEQUENO;Civel Pura;Acervo Grande;209;12;4112
