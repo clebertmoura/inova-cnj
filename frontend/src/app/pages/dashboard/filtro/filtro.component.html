@@ -26,15 +26,6 @@
       <div class="col-md-3 col-sm-12" *ngIf="showModoComparacao">
         <div class="form-group">
           <label class="label">Modo de Comparação:</label>
-          <!-- <nb-radio-group [(value)]="modoComparacaoSelectedOption" (valueChange)="onChangeModoComparacao($event)">
-            <nb-radio value="1">Órgão Julgador do mesmo tribunal</nb-radio>
-            <nb-radio value="2">Órgão Julgador de tribunais distintos</nb-radio>
-            <nb-radio *ngFor="let option of modoComparacaoOptions"
-              [checked]="option.checked"
-              [value]="modoComparacaoSelectedOption != null && modoComparacaoSelectedOption.value == option.value">
-              {{ option.label }}
-            </nb-radio>
-          </nb-radio-group> -->
           <mat-radio-group aria-label="Modo de Comparação" [(ngModel)]="modoComparacaoSelectedOption"
             color="primary"
             (change)="onChangeModoComparacao($event)">
