@@ -10,6 +10,8 @@ class ServiceController:
     @staticmethod
     def converter_json_entrada(request):
         dados = request.get_json()
+        print("Convert")
+        print(dados)
         if type(dados) == str:
             data = json.loads(dados)
         else:
@@ -46,6 +48,7 @@ class ServiceController:
                 resposta['resultado']['assunto'] = retorno[0]['assunto']
                 resposta['resultado']['dataAjuizamento'] = retorno[0]['dh_ajuizamento']
                 resposta['resultado']['porteTribunal'] = retorno[0]['porte_tribunal']
+                resposta['resultado']['tipoJustica'] = retorno[0]['tipo_justica']
                 cod_assunto = retorno[0]['cod_assunto']
                 cod_classe = retorno[0]['cod_classe']
                 cod_orgao_julgador = retorno[0]['cod_orgao_julgador']
@@ -130,17 +133,44 @@ class ServiceController:
 
         except Exception as ex:
             resposta['mensagem'] = str(ex)
-            return resposta, 502
             #raise ex
+            return resposta, 502
         return resposta, 200
 
     @staticmethod
     def cadastrar_processo(request):
+        result = {}
+        resposta = {'mensagem': "", 'resultado': result}
         dados = ServiceController.converter_json_entrada(request)
+        print(dados)
+        #processo = dados['processo']
+        try:
+            DatabaseController.cadastrar_processo(dados)
+        except Exception as ex:
+            resposta['mensagem'] = str(ex)
+            return resposta, 502
+            # raise ex
 
-        processo = dados['processo']
+        return resposta, 200
 
 
 
         return "OK", 200
 
+    @staticmethod
+    def coletar_estatisticas(request):
+        result = {}
+        resposta = {'mensagem': "", 'resultado': result}
+        try:
+            total_processos = DatabaseController.consultar_total_processos_cadastrados()
+            total_tipos_justica = DatabaseController.consultar_total_tipos_justica()
+            total_orgaos_julgadores = DatabaseController.consultar_total_orgaos_julgadores()
+            resposta['resultado']['quantidadeProcessos'] = total_processos
+            resposta['resultado']['quantidadeOrgaosJulgadores'] = total_orgaos_julgadores
+            resposta['resultado']['quantidadeTiposJustica'] = total_tipos_justica
+        except Exception as ex:
+            resposta['mensagem'] = str(ex)
+            return resposta, 502
+            # raise ex
+
+        return resposta, 200

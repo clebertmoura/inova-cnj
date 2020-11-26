@@ -12,6 +12,7 @@ export class ProcessoPredict {
     assunto: string = null;
     dataAjuizamento: string = null;
     porteTribunal: string = null;
+    tipoJustica: string = null;
     historicoFases: HistoricoFase[] = [];
     dadosFases: DadosFase[] = [];
     alertas: Alerta[] = [];
@@ -28,6 +29,7 @@ export class ProcessoPredict {
             entity.assunto = json.resultado.assunto;
             entity.dataAjuizamento = json.resultado.dataAjuizamento;
             entity.porteTribunal = json.resultado.porteTribunal;
+            entity.tipoJustica = json.resultado.tipoJustica;
             entity.historicoFases = json.resultado.historicoFases;
             entity.dadosFases = json.resultado.dadosFases;
             entity.alertas = json.resultado.alertas;

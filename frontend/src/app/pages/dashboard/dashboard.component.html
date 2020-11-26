@@ -269,11 +269,17 @@
                     <div class="row">
                       <div class="col-md-3">
                         <div class="summary-container">
+                            <div><label class="label">Tipo de Justiça</label></div>
+                            <div class="h6">{{ dadosProcessoTipoJustica }}</div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="summary-container">
                             <div><label class="label">Tribunal</label></div>
                             <div class="h6">{{ dadosProcessoSiglaTribunal }}</div>
                         </div>
                       </div>
-                      <div class="col-md-9">
+                      <div class="col-md-6">
                         <div class="summary-container">
                               <div><label class="label">Orgão Julgador</label></div>
                               <div class="h6">{{ dadosProcessoOrgaoJulgador }}</div> 
@@ -287,13 +293,13 @@
                             <div class="h6">{{ dadosProcessoNatureza }}</div>
                         </div>
                       </div>
-                      <div class="col">
+                      <div class="col-md-3">
                         <div class="summary-container">
                               <div><label class="label">Classe</label></div>
                               <div class="h6">{{ dadosProcessoClasse }}</div> 
                         </div>
                       </div>
-                      <div class="col">
+                      <div class="col-md-6">
                         <div class="summary-container">
                               <div><label class="label">Assunto</label></div>
                               <div class="h6">{{ dadosProcessoAssunto }}</div> 
@@ -306,47 +312,88 @@
             </div>
           
           <br>
+          <nb-card #card [(hidden)]="!exibirSlice">
+            <nb-card-body >
+              <div class="col-md-12">
+                <!--Stepper-->
+                <nb-stepper orientation="horizontal">
+                  <nb-step *ngFor="let historico of historicoFases; let i = index" 
+                  label="{{ historico.nome }} - {{ historico.situacao }}"> 
+                    <p>Data Inicio: {{ historico.dataInicio }} </p>
+                    <p>Data Conclusão: {{ historico.dataConclusao }} </p>
+                  </nb-step>
+                </nb-stepper>
+              </div>
+            </nb-card-body>
+          </nb-card>
 
-            <div class="col-md-12">
-              <!--Stepper-->
-              <nb-stepper orientation="horizontal">
-                <nb-step *ngFor="let historico of historicoFases; let i = index" 
-                label="{{ historico.nome }} - {{ historico.situacao }}"> 
-                  <p>Data Inicio: {{ historico.dataInicio }} </p>
-                  <p>Data Conclusão: {{ historico.dataConclusao }} </p>
-                </nb-step>
-              </nb-stepper>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 col-sm-12">
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <h4>Fases do Processo</h4>
-                      <ng2-smart-table [settings]="configTabelaPredict" [source]="dadosTabelaPredict">
-                      </ng2-smart-table>  
+          <nb-card #card [(hidden)]="!exibirTabelaFases">
+            <nb-card-body >
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <h4>Fases do Processo</h4>
+                        <ng2-smart-table [settings]="configTabelaPredict" [source]="dadosTabelaPredict">
+                        </ng2-smart-table>  
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-    
-              <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                  <h4>Alertas</h4>
-                  <nb-card class="list-card" size="small">
-                    <nb-list>
-                      <nb-list-item *ngFor="let dados of alertas">
-                        <article>
-                          <p>{{dados.nome}}</p>
-                          <h6>{{dados.valor}}</h6>
-                        </article>
-                      </nb-list-item>
-                    </nb-list>
-                  </nb-card>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <h4>Alertas</h4>
+                    <nb-card class="list-card" size="small">
+                      <nb-list>
+                        <nb-list-item *ngFor="let dados of alertas">
+                          <article>
+                            <p>{{dados.nome}}</p>
+                            <h6>{{dados.valor}}</h6>
+                          </article>
+                        </nb-list-item>
+                      </nb-list>
+                    </nb-card>
+                  </div>
                 </div>
               </div>
-            </div>
+            </nb-card-body>
+          </nb-card>
+
+          <nb-card #card [(hidden)]="exibirTabelaFases">
+            <nb-card-body >
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col">
+                      <div class="form-group">
+                        <h4>Fases do Processo</h4>
+                        <br><br>
+                        <h6>Sem fases cadastradas para o processo</h6>  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group">
+                    <h4>Alertas</h4>
+                    <nb-card class="list-card" size="small">
+                      <nb-list>
+                        <nb-list-item *ngFor="let dados of alertas">
+                          <article>
+                            <p>{{dados.nome}}</p>
+                            <h6>{{dados.valor}}</h6>
+                          </article>
+                        </nb-list-item>
+                      </nb-list>
+                    </nb-card>
+                  </div>
+                </div>
+              </div>
+            </nb-card-body>
+          </nb-card>
+    
+              
             
           </nb-card-body>
         </nb-card>

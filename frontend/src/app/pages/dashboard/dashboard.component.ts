@@ -134,7 +134,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
   dadosTabelaPredict : LocalDataSource = new LocalDataSource();
   alertas = [];
   exibirResultadoPredict= false;
-  exibirResultadoNaoLocalizado= false;  
+  exibirResultadoNaoLocalizado= false;
+  exibirSlice=false;
+  exibirTabelaFases=false;  
   // config tabela predict
   configTabelaPredict = {
     actions: {
@@ -238,6 +240,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
   dadosProcessoClasse: String;
   dadosProcessoNatureza: String;
   dadosProcessoAssunto: String;
+  dadosProcessoTipoJustica: String;
 
   private alive = true;
   
@@ -571,11 +574,24 @@ export class DashboardComponent implements OnDestroy, OnInit {
     this.inovacnjService.consultarNpuPredict(npu).subscribe(data => {
       console.log(data);
       if (data !== null) {
-        this.dadosTabelaPredict.load(data.dadosFases);
+        if(data.dadosFases != null) {
+          this.dadosTabelaPredict.load(data.dadosFases);
+          this.exibirSlice =true;
+        } else {
+          this.exibirSlice =false;
+        }
+        
         this.alertas = data.alertas;
-        this.historicoFases = data.historicoFases;
+        if(data.historicoFases != null) {
+          this.historicoFases = data.historicoFases;
+          this.exibirTabelaFases=true;
+        } else {
+          this.exibirTabelaFases=false;
+        }
+        
         this.exibirResultadoPredict = true;
         this.exibirResultadoNaoLocalizado = false;
+        this.dadosProcessoTipoJustica = data.tipoJustica;
         this.dadosProcessoSiglaTribunal = data.siglaTribunal;
         this.dadosProcessoOrgaoJulgador = data.orgaoJulgador;
         this.dadosProcessoClasse = data.classe;
