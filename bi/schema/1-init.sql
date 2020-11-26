@@ -101,6 +101,27 @@ COMMENT ON COLUMN inovacnj.movimentocnj.descricao IS 'Descrição da Movimentaç
 COMMENT ON COLUMN inovacnj.movimentocnj.codpai IS 'Código identificador da Movimentação Processual pai.';
 ALTER TABLE inovacnj.movimentocnj  OWNER to inovacnj;
 
+-- Table: inovacnj.fase_movimento
+CREATE TABLE inovacnj.fase_movimento
+(
+    cod_movimento integer NOT NULL,
+    cod_fase integer NOT NULL,
+    fase text ,
+    CONSTRAINT pk_fasemov PRIMARY KEY (cod_movimento, cod_fase),
+    CONSTRAINT fk_fasemov_fase FOREIGN KEY (cod_fase)
+        REFERENCES inovacnj.fase (cod) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk_fasemov_movimento FOREIGN KEY (cod_movimento)
+        REFERENCES inovacnj.movimentocnj (cod) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+COMMENT ON COLUMN inovacnj.fase_movimento.cod_movimento IS 'Código do movimento.';
+COMMENT ON COLUMN inovacnj.fase_movimento.cod_fase  IS 'Código da fase.';
+ALTER TABLE inovacnj.fase_movimento OWNER to inovacnj;
+
 -- Table: inovacnj.ORGAO_JULGADOR
 CREATE TABLE inovacnj.orgao_julgador
 (
@@ -118,7 +139,7 @@ CREATE TABLE inovacnj.orgao_julgador
     esfera character varying(1),
     latitude real,
     longitude real
-	CONSTRAINT pk_ojulg PRIMARY KEY (cod)
+    CONSTRAINT pk_ojulg PRIMARY KEY (cod)
 );
 
 ALTER TABLE inovacnj.orgao_julgador OWNER to inovacnj;
@@ -259,7 +280,229 @@ CREATE INDEX ix_fatjele_npu
     ON inovacnj.fat_movimento_jele USING btree
     (npu ASC NULLS LAST, mov_dtmov ASC NULLS LAST, mov_cod ASC NULLS LAST)
     TABLESPACE pg_default;
-                                    
+ 
+ -- Table: inovacnj.fat_movimento_jest
+CREATE TABLE inovacnj.fat_movimento_jest
+(   codtribunal text ,
+    grau text ,
+    millisinsercao bigint,
+    codclasse bigint,
+    descclasse text ,
+    codlocalidade text ,
+    competencia text NOT NULL,
+    dtajuizamento timestamp without time zone,
+    descsistema text ,
+    nivelsigilo bigint,
+    npu text ,
+    valorcausa text ,
+    tramitacao bigint,
+    tamanhoprocesso text ,
+    oj_codibge bigint,
+    oj_cod text ,
+    oj_instancia text ,
+    oj_descricao text ,
+    mov_dtmov timestamp without time zone,
+    mov_cod bigint,
+    descmovimento text ,
+    mov_codlocal bigint,
+    mov_codpainacional bigint,
+    mov_nivelsigilo text ,
+    mov_oj_codibge bigint,
+    mov_oj_cod text ,
+    mov_oj_instancia text ,
+    mov_oj_descricao text ,
+    mov_tpdecisao text  NOT NULL,
+    mov_tprespmov text  NOT NULL,
+    cod_oj bigint
+);
+
+ALTER TABLE inovacnj.fat_movimento_jest  OWNER to inovacnj;
+
+-- Index: ix_codtribunal
+CREATE INDEX ix_codtribunal
+    ON inovacnj.fat_movimento_jest USING btree
+    (codtribunal  DESC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Index: ix_dtmov_npu
+CREATE INDEX ix_dtmov_npu
+    ON inovacnj.fat_movimento_jest USING btree
+    (npu  ASC NULLS LAST, mov_dtmov ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Index: ix_npu
+CREATE INDEX ix_npu
+    ON inovacnj.fat_movimento_jest USING btree
+    (npu  ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Index: ix_tramitacao
+CREATE INDEX ix_tramitacao
+    ON inovacnj.fat_movimento_jest USING btree
+    (tramitacao ASC NULLS LAST)
+    TABLESPACE pg_default;
+ 
+ -- Table: inovacnj.fat_movimento_jfed
+CREATE TABLE inovacnj.fat_movimento_jfed
+(
+    codtribunal text ,
+    grau text ,
+    millisinsercao bigint,
+    codclasse bigint,
+    descclasse text ,
+    codlocalidade text ,
+    competencia text  NOT NULL,
+    dtajuizamento timestamp without time zone,
+    descsistema text ,
+    nivelsigilo bigint,
+    npu text ,
+    valorcausa text ,
+    tramitacao bigint,
+    tamanhoprocesso text ,
+    oj_codibge bigint,
+    oj_cod text ,
+    oj_instancia text ,
+    oj_descricao text ,
+    mov_dtmov timestamp without time zone,
+    mov_cod bigint,
+    descmovimento text ,
+    mov_codlocal bigint,
+    mov_codpainacional bigint,
+    mov_nivelsigilo text ,
+    mov_oj_codibge bigint,
+    mov_oj_cod text ,
+    mov_oj_instancia text ,
+    mov_oj_descricao text ,
+    mov_tpdecisao text  NOT NULL,
+    mov_tprespmov text  NOT NULL
+);
+
+ALTER TABLE inovacnj.fat_movimento_jfed OWNER to inovacnj;
+
+-- Table: inovacnj.fat_movimento_jmil
+CREATE TABLE inovacnj.fat_movimento_jmil
+(   codtribunal text ,
+    grau text ,
+    millisinsercao bigint,
+    codclasse bigint,
+    descclasse text ,
+    codlocalidade text ,
+    competencia text  NOT NULL,
+    dtajuizamento timestamp without time zone,
+    descsistema text ,
+    nivelsigilo bigint,
+    npu text ,
+    valorcausa text ,
+    tramitacao bigint,
+    tamanhoprocesso text ,
+    oj_codibge bigint,
+    oj_cod text ,
+    oj_instancia text ,
+    oj_descricao text ,
+    mov_dtmov timestamp without time zone,
+    mov_cod bigint,
+    descmovimento text ,
+    mov_codlocal bigint,
+    mov_codpainacional bigint,
+    mov_nivelsigilo text ,
+    mov_oj_codibge bigint,
+    mov_oj_cod text ,
+    mov_oj_instancia text ,
+    mov_oj_descricao text ,
+    mov_tpdecisao text  NOT NULL,
+    mov_tprespmov text  NOT NULL
+);
+
+ALTER TABLE inovacnj.fat_movimento_jmil OWNER to inovacnj;
+ 
+-- Table: inovacnj.fat_movimento_jtra
+CREATE TABLE inovacnj.fat_movimento_jtra
+(
+    codtribunal text ,
+    grau text ,
+    millisinsercao bigint,
+    codclasse bigint,
+    descclasse text ,
+    codlocalidade text ,
+    competencia text  NOT NULL,
+    dtajuizamento timestamp without time zone,
+    descsistema text ,
+    nivelsigilo bigint,
+    npu text ,
+    valorcausa text ,
+    tramitacao bigint,
+    tamanhoprocesso text ,
+    oj_codibge bigint,
+    oj_cod text ,
+    oj_instancia text ,
+    oj_descricao text ,
+    mov_dtmov timestamp without time zone,
+    mov_cod bigint,
+    descmovimento text ,
+    mov_codlocal bigint,
+    mov_codpainacional bigint,
+    mov_nivelsigilo text ,
+    mov_oj_codibge bigint,
+    mov_oj_cod text ,
+    mov_oj_instancia text ,
+    mov_oj_descricao text ,
+    mov_tpdecisao text  NOT NULL,
+    mov_tprespmov text  NOT NULL
+);
+
+ALTER TABLE inovacnj.fat_movimento_jtra  OWNER to inovacnj; 
+
+-- Table: inovacnj.fat_movimentos_te
+CREATE TABLE inovacnj.fat_movimentos_te
+(
+    codtribunal text ,
+    grau text ,
+    millisinsercao bigint,
+    codclasse bigint,
+    descclasse text ,
+    codlocalidade text ,
+    competencia text ,
+    dtajuizamento timestamp without time zone,
+    descsistema text ,
+    nivelsigilo bigint,
+    npu text ,
+    oj_codibge bigint,
+    oj_cod text ,
+    oj_instancia text ,
+    oj_descricao text ,
+    tramitacao bigint,
+    tamanhoprocesso text ,
+    valorcausa text ,
+    ass_cod bigint,
+    descassunto text ,
+    ass_principal boolean,
+    ass_codlocal bigint,
+    ass_codpainacional bigint,
+    ass_desclocal text ,
+    mov_codlocal bigint,
+    mov_codpainacional bigint,
+    mov_cod bigint,
+    descmovimento text ,
+    mov_nivelsigilo text ,
+    mov_oj_codibge bigint,
+    mov_oj_cod text ,
+    mov_oj_instancia text ,
+    mov_oj_descricao text ,
+    mov_tpdecisao text ,
+    mov_tprespmov text ,
+    natureza text ,
+    fase text ,
+    mov_dtmov timestamp without time zone
+);
+
+ALTER TABLE inovacnj.fat_movimentos_te OWNER to inovacnj;
+
+-- Index: ix_codoj
+CREATE INDEX ix_codoj
+    ON inovacnj.fat_movimentos_te USING btree
+    (oj_cod  ASC NULLS LAST)
+    TABLESPACE pg_default;
+ 
 -- SEQUENCE: inovacnj.seq_fase
 CREATE SEQUENCE inovacnj.seq_fase
     INCREMENT 1
@@ -268,6 +511,7 @@ CREATE SEQUENCE inovacnj.seq_fase
 ALTER SEQUENCE inovacnj.seq_fase
     OWNER TO inovacnj;
 
+-- Table: inovacnj.clusteroj
 CREATE TABLE inovacnj.clusteroj
 (
     cod integer,
@@ -277,6 +521,7 @@ CREATE TABLE inovacnj.clusteroj
 
 ALTER TABLE inovacnj.clusteroj OWNER to inovacnj;
 
+-- Table: inovacnj.clusteroj_orgjulg
 CREATE TABLE inovacnj.clusteroj_orgjulg
 (
     cod_cluster integer,
@@ -286,6 +531,7 @@ CREATE TABLE inovacnj.clusteroj_orgjulg
 
 ALTER TABLE inovacnj.clusteroj_orgjulg OWNER to inovacnj;
 
+-- Table: inovacnj.fitnessmodel_org_julg_atuacao
 CREATE TABLE inovacnj.fitnessmodel_org_julg_atuacao
 (
     tipo character varying(50),
