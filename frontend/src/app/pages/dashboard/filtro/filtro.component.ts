@@ -15,6 +15,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { startWith, map } from 'rxjs/operators';
 import { AtuacaoOrgaoJulgador } from 'app/models/atuacao-orgaojulgador';
 import { Cluster } from 'app/models/cluster';
+import { MatRadioChange } from '@angular/material/radio';
 
 export class Filtro {
 
@@ -85,7 +86,11 @@ export class FiltroComponent implements OnInit, OnDestroy {
   dataInicial = new Date();
   dataFinal = new Date();
   rangeDatas: NbCalendarRange<Date>;
-  modoComparacaoSelectedOption: number = 1;
+  modoComparacaoOptions: any[] = [
+    {'value': 1, 'label': 'Órgãos Julgadores do mesmo tribunal'},
+    {'value': 2, 'label': 'Órgãos Julgadores de tribunais distintos'}
+  ];
+  modoComparacaoSelectedOption: any;
 
   orgaoJulgadorFormControl: FormControl = new FormControl();
 
@@ -112,7 +117,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.natureza = null;
     this.classe = null;
     this.baixado = true;
-    this.modoComparacaoSelectedOption = 0;
+    this.modoComparacaoSelectedOption = this.modoComparacaoOptions.filter((i) => i.value == 1)[0];
   }
 
   setLoading(value: boolean) {
@@ -290,9 +295,9 @@ export class FiltroComponent implements OnInit, OnDestroy {
     return;
   }
 
-  onChangeModoComparacao(event) {
+  onChangeModoComparacao(event: MatRadioChange) {
     console.log('onChangeModoComparacao', event);
-    if (event == 2) {
+    if (event.value != null && event.value.value == 2) {
       this.tribunal = null;
     }
     this.onModoComparacaoSelected.emit(this.getSelectedDataObject());
@@ -317,6 +322,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
   }
 
   onSelectAtuacaoOrgaoJulgador(atuacaoOrgaoJulgador: AtuacaoOrgaoJulgador) {
+    this.loading = true;
     this.cluster = null;
     this.atuacaoOrgaoJulgador = atuacaoOrgaoJulgador;
     if (this.showCluster) {
@@ -359,7 +365,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
 
   public exibirTribunal():boolean {
     if (this.showModoComparacao) {
-      if (this.modoComparacaoSelectedOption != null && this.modoComparacaoSelectedOption == 1) {
+      if (this.modoComparacaoSelectedOption != null && this.modoComparacaoSelectedOption.value == 1) {
         return true;
       } else {
         return false;
@@ -371,7 +377,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
 
   public exibirCluster():boolean {
     if (this.showCluster) {
-      if (this.modoComparacaoSelectedOption != null && this.modoComparacaoSelectedOption == 2) {
+      if (this.modoComparacaoSelectedOption != null && this.modoComparacaoSelectedOption.value == 2) {
         return true;
       } else {
         return false;
