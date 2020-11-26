@@ -123,9 +123,13 @@ Por segurança, as credenciais de acesso no ambiente Live Demo, serão fornecida
 
 # Modelo de dados
 
-O projeto contempla uma modelagem dimensional para facilitar a criação de dashboards com indicadores de performance.
+Modelo de dados utilizado para persistência dos dados provenientes dos arquivos .json e .csv.
+Cada ramo de justiça foi carregado na respectiva fato: Estadual (fat_movimento_jest), Eleitoral (fat_movimento_jele), Federal (fat_movimento_jfed), Militar (fat_movimento_jmil),
+Trabalho (fat_movimento_jtra)
 
 ![alt text](https://github.com/clebertmoura/inova-cnj/blob/main/dbinova_modelo.png)
+
+
 
 ## Scripts DDL
 DDL do modelo dimensional está definido no arquivo: `./bi/schema/1-init.sql`
