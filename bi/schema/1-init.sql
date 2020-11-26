@@ -936,5 +936,123 @@ AS
 WITH DATA;
 
 ALTER TABLE inovacnj.mv_acervo_ultmov_jtra  OWNER TO inovacnj;
+
+-- tabelas de acervo de processos, separadas por ramo de justica                                           
+-- acervo_processo_jele
+CREATE TABLE inovacnj.acervo_processo_jele
+  AS 
+  SELECT p.codtribunal, p.grau, p.codclasse, p.descclasse, p.competencia, p.dtajuizamento,
+         p.npu, p.oj_cod as cod_orgao_julg, p.oj_descricao as desc_orgao_julg, p.dt_prim_mov,
+		 p.descmovimento as primeiro_mov, u.dt_ult_mov, u.descmovimento as ultimo_mov,
+		 (u.dt_ult_mov::date-p.dt_prim_mov::date) as numero_dias,
+		 case when u.mov_cod in (22,246) then 'S'
+		 else 'N' end as baixado,
+		 p.tramitacao as meio_tramitacao
+      FROM inovacnj.mv_acervo_primmov_jele p,
+	       inovacnj.mv_acervo_ultmov_jele u
+	 WHERE 1=1
+	   AND p.npu=u.npu;	                                             
+
+ -- acervo_processo_jest  
+    CREATE TABLE inovacnj.acervo_processo_jest
+  AS 
+  SELECT p.codtribunal, p.grau, p.codclasse, p.descclasse, p.competencia, p.dtajuizamento,
+         p.npu, p.oj_cod as cod_orgao_julg, p.oj_descricao as desc_orgao_julg, p.dt_prim_mov,
+		 p.descmovimento as primeiro_mov, u.dt_ult_mov, u.descmovimento as ultimo_mov,
+		 (u.dt_ult_mov::date-p.dt_prim_mov::date) as numero_dias,
+		 case when u.mov_cod in (22,246) then 'S'
+		 else 'N' end as baixado,
+		 p.tramitacao as meio_tramitacao
+      FROM inovacnj.mv_acervo_primmov_jest p,
+	       inovacnj.mv_acervo_ultmov_jest u
+	 WHERE 1=1
+	   AND p.npu=u.npu;	    
+
+-- acervo_processo_jfed
+CREATE TABLE inovacnj.acervo_processo_jfed
+  AS 
+  SELECT p.codtribunal, p.grau, p.codclasse, p.descclasse, p.competencia, p.dtajuizamento,
+         p.npu, p.oj_cod as cod_orgao_julg, p.oj_descricao as desc_orgao_julg, p.dt_prim_mov,
+		 p.descmovimento as primeiro_mov, u.dt_ult_mov, u.descmovimento as ultimo_mov,
+		 (u.dt_ult_mov::date-p.dt_prim_mov::date) as numero_dias,
+		 case when u.mov_cod in (22,246) then 'S'
+		 else 'N' end as baixado,
+		 p.tramitacao as meio_tramitacao
+      FROM inovacnj.mv_acervo_primmov_jfed p,
+	       inovacnj.mv_acervo_ultmov_jfed u
+	 WHERE 1=1
+	   AND p.npu=u.npu;	
+  
+-- acervo_processo_jmil
+CREATE TABLE inovacnj.acervo_processo_jmil
+  AS 
+  SELECT p.codtribunal, p.grau, p.codclasse, p.descclasse, p.competencia, p.dtajuizamento,
+         p.npu, p.oj_cod as cod_orgao_julg, p.oj_descricao as desc_orgao_julg, p.dt_prim_mov,
+		 p.descmovimento as primeiro_mov, u.dt_ult_mov, u.descmovimento as ultimo_mov,
+		 (u.dt_ult_mov::date-p.dt_prim_mov::date) as numero_dias,
+		 case when u.mov_cod in (22,246) then 'S'
+		 else 'N' end as baixado,
+		 p.tramitacao as meio_tramitacao
+      FROM inovacnj.mv_acervo_primmov_jmil p,
+	       inovacnj.mv_acervo_ultmov_jmil u
+	 WHERE 1=1
+	   AND p.npu=u.npu;		 
+                
+-- 	acervo_processo_jtra
+CREATE TABLE inovacnj.acervo_processo_jtra
+  AS 
+  SELECT p.codtribunal, p.grau, p.codclasse, p.descclasse, p.competencia, p.dtajuizamento,
+         p.npu, p.oj_cod as cod_orgao_julg, p.oj_descricao as desc_orgao_julg, p.dt_prim_mov,
+		 p.descmovimento as primeiro_mov, u.dt_ult_mov, u.descmovimento as ultimo_mov,
+		 (u.dt_ult_mov::date-p.dt_prim_mov::date) as numero_dias,
+		 case when u.mov_cod in (22,246) then 'S'
+		 else 'N' end as baixado,
+		 p.tramitacao as meio_tramitacao
+      FROM inovacnj.mv_acervo_primmov_jtra p,
+	       inovacnj.mv_acervo_ultmov_jtra u
+	 WHERE 1=1
+	   AND p.npu=u.npu;
+
+-- Table: inovacnj.duracao_total_cf
+CREATE TABLE inovacnj.duracao_total_cf
+(
+    codtribunal text ,
+    grau character varying(3) ,
+    cod_orgjulg integer,
+    desc_orgjulg text ,
+    tipo_justica character varying(10) ,
+    siglauf character varying(2) ,
+    natureza text ,
+    porte_municipio character varying(50) ,
+    porte_tribunal character varying(50) ,
+    pib_percapita numeric,
+    atuacao_vara character varying(50) ,
+    classificacao_acervo character varying(50) ,
+    mediana integer,
+    qtd_npu integer,
+    num_dias integer
+);
+
+ALTER TABLE inovacnj.duracao_total_cf  OWNER to inovacnj;   
                                              
-                                             
+-- Table: inovacnj.duracao_total_sf
+CREATE TABLE inovacnj.duracao_total_sf
+(
+    codtribunal text ,
+    grau character varying(3) ,
+    cod_orgjulg integer,
+    desc_orgjulg text ,
+    tipo_justica character varying(10) ,
+    siglauf character varying(2) ,
+    natureza text ,
+    porte_municipio character varying(50) ,
+    porte_tribunal character varying(50) ,
+    pib_percapita numeric,
+    atuacao_vara character varying(50) ,
+    classificacao_acervo character varying(50) ,
+    mediana integer,
+    qtd_npu integer,
+    num_dias integer
+);
+
+ALTER TABLE inovacnj.duracao_total_sf  OWNER to inovacnj;                                             
