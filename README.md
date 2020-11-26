@@ -109,7 +109,7 @@ Para acessar a console do pgAdmin, acesse o link com as credenciais abaixo:
 
 - Endereço: http://161.97.71.108:16543
 
-Por segurança, as credenciais de acesso no ambiente Live Demo, serão fornecidas pela equipe.
+Por segurança, as credenciais de acesso no ambiente Live Demo serão fornecidas pela equipe.
 
 ## Acessar o metabase
 
@@ -119,11 +119,11 @@ Para acessar o metabase, acesse o link abaixo:
 
 No primeiro acesso, será solicitada a criação do usuário administrador.
 
-Por segurança, as credenciais de acesso no ambiente Live Demo, serão fornecidas pela equipe.
+Por segurança, as credenciais de acesso no ambiente Live Demo serão fornecidas pela equipe.
 
 # Modelo de dados
 
-Modelo de dados utilizado para persistência dos dados provenientes dos arquivos .json e .csv.
+Modelo físico utilizado para persistência dos dados provenientes dos arquivos .json e .csv.
 Cada ramo de justiça foi carregado na respectiva fato: Estadual (fat_movimento_jest), Eleitoral (fat_movimento_jele), Federal (fat_movimento_jfed), Militar (fat_movimento_jmil),
 Trabalho (fat_movimento_jtra)
 
