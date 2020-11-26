@@ -421,6 +421,7 @@ def api_gerar_orgaosjulgadores_modelfit():
     ramojustica = request.args.get('ramojustica')
     codtribunal = request.args.get('codtribunal')
     atuacao = request.args.get('atuacao')
+    cluster = request.args.get('cluster')
     codorgaoj = request.args.get('codorgaoj')
     
     if ramojustica is None:
@@ -432,18 +433,21 @@ def api_gerar_orgaosjulgadores_modelfit():
     cur = conn.cursor()
 
     qry = "SELECT "
-    qry+= " cod_orgao_julg AS cod, desc_orgao_julg as descricao, codtribunal, tipo, atuacao_vara, trace_fitness "
-    qry+= "FROM inovacnj.fitnessmodel_org_julg_atuacao "
+    qry+= " oja.cod_orgao_julg AS cod, oja.desc_orgao_julg as descricao, oja.codtribunal, oja.tipo, oja.atuacao_vara, oja.trace_fitness "
+    qry+= "FROM inovacnj.fitnessmodel_org_julg_atuacao oja "
+    qry+= "INNER JOIN inovacnj.clusteroj_orgjulg cojoj ON cojoj.cod_orgao_julg = oja.cod_orgao_julg "
     qry+= "WHERE (1=1) "
     
     if ramojustica != None :
-        qry+= "AND tipo = '" + ramojustica + "' "
+        qry+= "AND oja.tipo = '" + ramojustica + "' "
     if codtribunal != None :
-        qry+= "AND codtribunal = '" + codtribunal + "' "
+        qry+= "AND oja.codtribunal = '" + codtribunal + "' "
     if atuacao != None :
-        qry+= "AND atuacao_vara = '" + atuacao + "' "
+        qry+= "AND oja.atuacao_vara = '" + atuacao + "' "
+    if cluster != None :
+        qry+= "AND cojoj.cod_cluster = " + cluster + " "
     if codorgaoj != None :
-        qry+= "AND cod_orgao_julg = '" + codorgaoj + "' "
+        qry+= "AND oja.cod_orgao_julg = '" + codorgaoj + "' "
     qry+= "ORDER BY trace_fitness DESC "
 
     cur.execute(qry)

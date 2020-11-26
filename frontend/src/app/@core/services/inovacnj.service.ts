@@ -236,7 +236,9 @@ export class InovacnjService {
     }
 
     public consultarEstatisticaModeloPm(filtro: FiltroPm): Observable<any> {
-        return this.http.get<any[]>(filtro.urlEstatistica)
+        const headers = new HttpHeaders();
+        headers.set('timeout', '900000');
+        return this.http.get<any[]>(filtro.urlEstatistica, {headers: headers})
         .pipe(
             retry(1),
             map((response : any) => {
@@ -285,7 +287,9 @@ export class InovacnjService {
     }
 
     public consultarOrgaosJulgadoresModelFit(filtro: FiltroPm): Observable<ModelFitnessOrgaoJulgador[]> {
-        return this.http.get<any[]>(FiltroPm.buildUrlOrgaoJulgadoresModelFit(filtro))
+        const headers = new HttpHeaders();
+        headers.set('timeout', '900000');
+        return this.http.get<any[]>(FiltroPm.buildUrlOrgaoJulgadoresModelFit(filtro), {headers: headers})
         .pipe(
             retry(1),
             map((response : any[][]) => {

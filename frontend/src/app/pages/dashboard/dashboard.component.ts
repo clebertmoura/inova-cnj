@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbThemeService, NbCalendarRange, NbDateService, NbDialogService, NbToastrService, NbFlipCardComponent } from '@nebular/theme';
+import { NbThemeService, NbDateService, NbDialogService, NbToastrService, NbFlipCardComponent } from '@nebular/theme';
 import { InovacnjService } from 'app/@core/services/inovacnj.service';
 import { TipoJustica } from 'app/models/tipo-justica';
 import { Tribunal } from 'app/models/tribunal';
@@ -17,17 +17,16 @@ import { AssuntoRanking } from '../../models/assunto-ranking';
 import * as svgPanZoom from 'svg-pan-zoom';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { of, timer, forkJoin } from 'rxjs';
+import { timer } from 'rxjs';
 import { MatSliderChange } from '@angular/material/slider';
 import { MetricaPm } from '../../models/filtro-pm';
 import { Fase } from 'app/models/fase';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
-import { debounceTime, map, startWith, timeout } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
-import { TipoOrgao } from 'app/models/tipo-orgaoJulgador';
 import { Filtro, FiltroComponent } from './filtro/filtro.component';
 
 declare var jQuery: any;
@@ -434,10 +433,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
   downloadModeloPmSvgContent(filtro: FiltroPm) {
     const headers = new HttpHeaders();
     headers.set('Accept', 'image/svg+xml');
-    var obs = this.http.get(filtro.url, {headers: headers, responseType: 'text'})
-      .pipe(
-        timeout(1000 * 15)
-      );
+    headers.set('timeout', '900000');
+    var obs = this.http.get(filtro.url, {headers: headers, responseType: 'text'});
     obs.subscribe(response => {
       if (response != null) {
         filtro.svgContent = this.sanitizer.bypassSecurityTrustHtml(response);

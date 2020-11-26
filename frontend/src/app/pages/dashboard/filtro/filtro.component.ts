@@ -85,7 +85,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
   dataInicial = new Date();
   dataFinal = new Date();
   rangeDatas: NbCalendarRange<Date>;
-  modoComparacaoSelectedOption: number;
+  modoComparacaoSelectedOption: number = 1;
 
   orgaoJulgadorFormControl: FormControl = new FormControl();
 
@@ -288,6 +288,14 @@ export class FiltroComponent implements OnInit, OnDestroy {
       this.loading = false;
     }
     return;
+  }
+
+  onChangeModoComparacao(event) {
+    console.log('onChangeModoComparacao', event);
+    if (event == 2) {
+      this.tribunal = null;
+    }
+    this.onModoComparacaoSelected.emit(this.getSelectedDataObject());
   }
 
   private filterOrgaoJulgador(value: string): OrgaoJulgador[] {

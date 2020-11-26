@@ -26,7 +26,7 @@
       <div class="col-md-3 col-sm-12" *ngIf="showModoComparacao">
         <div class="form-group">
           <label class="label">Modo de Comparação:</label>
-          <nb-radio-group [(ngModel)]="modoComparacaoSelectedOption">
+          <nb-radio-group [(value)]="modoComparacaoSelectedOption" (valueChange)="onChangeModoComparacao($event)">
             <nb-radio value="1">Órgão Julgador do mesmo tribunal</nb-radio>
             <nb-radio value="2">Órgão Julgador de tribunais distintos</nb-radio>
           </nb-radio-group>

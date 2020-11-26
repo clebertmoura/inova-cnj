@@ -66,7 +66,7 @@ export class FiltroPm {
 
     public static buildUrlOrgaoJulgadoresModelFit(filtro: FiltroPm, prefixApi: string = '/api'): string {
         const urlPm = prefixApi + 
-            `/v1/gerar-orgaosjulgadores-modelfit?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.atuacaoOrgaoJulgador != null ? '&atuacao=' + filtro.atuacaoOrgaoJulgador.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}`;
+            `/v1/gerar-orgaosjulgadores-modelfit?${filtro.tipoJustica != null ? '&ramojustica=' + filtro.tipoJustica.codigo : ''}${filtro.tribunal != null ? '&codtribunal=' + filtro.tribunal.codigo : ''}${filtro.atuacaoOrgaoJulgador != null ? '&atuacao=' + filtro.atuacaoOrgaoJulgador.codigo : ''}${filtro.cluster != null ? '&cluster=' + filtro.cluster.codigo : ''}${filtro.orgaoJulgador != null ? '&codorgaoj=' + filtro.orgaoJulgador.codigo : ''}${filtro.natureza != null ? '&natureza=' + filtro.natureza.codigo : ''}`;
         console.log(urlPm)
         return urlPm;
     }
