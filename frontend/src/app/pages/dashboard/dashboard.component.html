@@ -22,7 +22,7 @@
         <ngx-filtro 
           buttonOkLabel="Adicionar" (okClicked)="onAdicionarModeloProcesso($event)"
           buttonCancelLabel="Limpar" (cancelClicked)="onLimparModeloProcesso($event)"
-          showAtuacaoOrgaoJulgador="true" showProcessosCompletos="true"
+          showAtuacaoOrgaoJulgador="true" showModoComparacao="true" showCluster="true" showProcessosCompletos="true"
           #fluxoFiltro>
         </ngx-filtro>
 
@@ -181,21 +181,6 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-12 col-sm-12 d-flex justify-content-end py-2">
-                        <button nbButton status="info" (click)="onClickVerficarConformidade(filtro)">
-                          Verificar conformidade nos Orgãos Julagores de mesma atuação
-                        </button>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12 col-sm-12">
-                        <ng2-smart-table id="smartTableModeloPmOj_{{idx}}" [settings]="configTabelaOrgaoJulgadorModelFit" 
-                          [source]="filtro.dadosTabelaOrgaosJulgadoresModelFit"
-                          (custom)="onCustomAction($event)">
-                        </ng2-smart-table>  
-                      </div>
-                    </div>
-                    <div class="row">
                       <div class="col-md-12 col-sm-12">
                         <ngx-charts-bar-vertical id="graficoModeloPmOj_{{idx}}"
                           [view]="view"
@@ -213,6 +198,24 @@
                         </ngx-charts-bar-vertical>
                       </div>
                     </div>
+                    <!--
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 d-flex justify-content-end py-2">
+                        <button nbButton status="info" (click)="onClickVerficarConformidade(filtro)">
+                          Verificar conformidade nos Orgãos Julagores de mesma atuação
+                        </button>
+                      </div>
+                    </div>
+                    -->
+                    <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                        <ng2-smart-table id="smartTableModeloPmOj_{{idx}}" [settings]="configTabelaOrgaoJulgadorModelFit" 
+                          [source]="filtro.dadosTabelaOrgaosJulgadoresModelFit"
+                          (custom)="onCustomAction($event)">
+                        </ng2-smart-table>  
+                      </div>
+                    </div>
+                    
                   </nb-card-body>
                 </nb-card>  
               </nb-card-back>

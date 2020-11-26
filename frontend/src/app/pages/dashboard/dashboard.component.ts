@@ -294,7 +294,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
         const filtro = new FiltroPm(this.filtroProcess.tipoJustica, this.filtroProcess.tribunal, 
           orgaoJulgador, this.filtroProcess.atuacaoOrgaoJulgador, this.filtroProcess.natureza, 
-          this.filtroProcess.classe, this.filtroProcess.baixado);
+          this.filtroProcess.classe, this.filtroProcess.cluster, this.filtroProcess.baixado);
         
         this.fluxoFiltro.setLoading(true);
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {
@@ -302,7 +302,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
           this.filtrosPm.push(filtro);
           var idx = this.filtrosPm.indexOf(filtro);
           this.inovacnjService.consultarEstatisticaModeloPm(filtro).subscribe(dadosEstatistica => {
-            filtro.dadosTabelaEstatistica.load(dadosEstatistica);
+            filtro.dadosTabelaEstatistica.load(dadosEstatistica.estatistica);
+            filtro.dadosGrafico = dadosEstatistica.grafico;
           });
           timer(100).subscribe(val => {
             this.initFiltroModeloSvg(filtro, idx);
@@ -379,10 +380,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
   onAdicionarModeloProcesso(event) {
     console.log('onAdicionarModeloProcesso', event);
     this.filtroProcess = event;
-    if (this.filtroProcess.tribunal != null) {
+    //if (this.filtroProcess.tribunal != null) {
       if (this.filtroProcess.atuacaoOrgaoJulgador != null) {
         const filtro = new FiltroPm(this.filtroProcess.tipoJustica, this.filtroProcess.tribunal, this.filtroProcess.orgaoJulgador, 
-          this.filtroProcess.atuacaoOrgaoJulgador, this.filtroProcess.natureza, this.filtroProcess.classe, this.filtroProcess.baixado);
+          this.filtroProcess.atuacaoOrgaoJulgador, this.filtroProcess.natureza, this.filtroProcess.classe, this.filtroProcess.cluster, 
+          this.filtroProcess.baixado);
         
         this.fluxoFiltro.setLoading(true);
         this.downloadModeloPmSvgContent(filtro).subscribe(response => {
@@ -393,6 +395,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
             filtro.dadosTabelaEstatistica.load(dadosEstatistica.estatistica);
             filtro.dadosGrafico = dadosEstatistica.grafico;
           });
+          this.onClickVerficarConformidade(filtro);
           timer(100).subscribe(val => {
             this.initFiltroModeloSvg(filtro, idx);
             filtro.svgObject.resize();
@@ -413,9 +416,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
       } else {
         this.toastrService.warning('Por favor, selecione o ramo de atuação para geração do modelo.', `Selecione os filtros!`);
       }
-    } else {
-      this.toastrService.warning('Por favor, selecione um tribunal para geração do modelo.', `Selecione os filtros!`);
-    }
+    //} else {
+    //  this.toastrService.warning('Por favor, selecione um tribunal para geração do modelo.', `Selecione os filtros!`);
+    //}
   }
 
   onClickVerficarConformidade(filtro: FiltroPm) {
@@ -498,12 +501,12 @@ export class DashboardComponent implements OnDestroy, OnInit {
       });
 
       var smartTableElement = jQuery(`#smartTableModeloPm_${idx}`)[0];
-      if (smartTableElement != null) {
+      if (smartTableElement != null && filtro.dadosTabelaEstatistica !== null) {
         smartTableElement.setAttribute('source', filtro.dadosTabelaEstatistica);
       }
 
       var graficoElement = jQuery(`#graficoModeloPm_${idx}`)[0];
-      if (graficoElement != null) {
+      if (graficoElement != null && filtro.dadosGrafico !== null) {
         graficoElement.setAttribute('results', filtro.dadosGrafico);
       }
     }

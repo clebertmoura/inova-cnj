@@ -23,7 +23,16 @@
           </nb-select>
         </div>
       </div>
-      <div class="col-md-4 col-sm-12">
+      <div class="col-md-3 col-sm-12" *ngIf="showModoComparacao">
+        <div class="form-group">
+          <label class="label">Modo de Comparação:</label>
+          <nb-radio-group [(ngModel)]="modoComparacaoSelectedOption">
+            <nb-radio value="1">Orgão Julgador do mesmo tribunal</nb-radio>
+            <nb-radio value="2">Orgão Julgador de tribunais distintos</nb-radio>
+          </nb-radio-group>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12" *ngIf="exibirTribunal()">
         <div class="form-group">
           <label class="label">Tribunal:</label>
           <nb-select
@@ -82,6 +91,25 @@
               *ngFor="let atuacaoOrgaoJulgador of atuacoesOrgaoJulgador"
               [value]="atuacaoOrgaoJulgador"
               >{{ atuacaoOrgaoJulgador.descricao }}</nb-option
+            >
+          </nb-select>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-12" *ngIf="exibirCluster()">
+        <div class="form-group">
+          <label class="label">Cluster:</label>
+          <nb-select
+            (selectedChange)="onSelectCluster($event)"
+            [(selected)]="cluster"
+            class="position-select"
+            fullWidth
+            [disabled]="atuacaoOrgaoJulgador == null"
+            #selectAtuacaoOrgaoJulgador
+          >
+            <nb-option
+              *ngFor="let cluster of clusters"
+              [value]="cluster"
+              >{{ cluster.descricao }}</nb-option
             >
           </nb-select>
         </div>

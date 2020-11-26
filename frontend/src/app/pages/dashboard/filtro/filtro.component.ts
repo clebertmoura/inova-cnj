@@ -14,6 +14,7 @@ import { TipoOrgao } from '../../../models/tipo-orgaoJulgador';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith, map } from 'rxjs/operators';
 import { AtuacaoOrgaoJulgador } from 'app/models/atuacao-orgaojulgador';
+import { Cluster } from 'app/models/cluster';
 
 export class Filtro {
 
@@ -24,6 +25,7 @@ export class Filtro {
     public atuacaoOrgaoJulgador?: AtuacaoOrgaoJulgador,
     public natureza?: Natureza,
     public classe?: Classe,
+    public cluster?: Cluster,
     public baixado: boolean = true,
     public rangeDatas?: NbCalendarRange<Date>) {
   }
@@ -41,10 +43,12 @@ export class FiltroComponent implements OnInit, OnDestroy {
 
   @Input() selectAtuacaoOrgaoJulgador: NbSelectComponent;
 
+  @Input() showModoComparacao: boolean = false;
   @Input() showOrgaoJulgador: boolean = false;
   @Input() showAtuacaoOrgaoJulgador: boolean = false;
   @Input() showNatureza: boolean = false;
   @Input() showClasse: boolean = false;
+  @Input() showCluster: boolean = false;
   @Input() showRangeDatas: boolean = false;
   @Input() showProcessosCompletos: boolean = false;
 
@@ -57,6 +61,8 @@ export class FiltroComponent implements OnInit, OnDestroy {
   @Output() onAtuacaoOrgaoJulgadorSelected = new EventEmitter();
   @Output() onNaturezaSelected = new EventEmitter();
   @Output() onClasseSelected = new EventEmitter();
+  @Output() onClusterSelected = new EventEmitter();
+  @Output() onModoComparacaoSelected = new EventEmitter();
 
   loading = false;
 
@@ -73,10 +79,13 @@ export class FiltroComponent implements OnInit, OnDestroy {
   natureza: Natureza;
   classes: Classe[] = [];
   classe: Classe;
+  clusters: Cluster[] = [];
+  cluster: Cluster;
   baixado: boolean = true;
   dataInicial = new Date();
   dataFinal = new Date();
   rangeDatas: NbCalendarRange<Date>;
+  modoComparacaoSelectedOption: number;
 
   orgaoJulgadorFormControl: FormControl = new FormControl();
 
@@ -99,9 +108,11 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.tribunal = null;
     this.orgaoJulgador = null;
     this.atuacaoOrgaoJulgador = null;
+    this.cluster = null
     this.natureza = null;
     this.classe = null;
     this.baixado = true;
+    this.modoComparacaoSelectedOption = 0;
   }
 
   setLoading(value: boolean) {
@@ -130,6 +141,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
       this.atuacaoOrgaoJulgador,
       this.natureza,
       this.classe,
+      this.cluster,
       this.baixado,
       this.rangeDatas);
   }
@@ -215,6 +227,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.atuacaoOrgaoJulgador = null;
     this.natureza = null;
     this.classe = null;
+    this.cluster = null;
     return forkJoin(
       this.inovacnjService.consultarTribunal(tipoJustica),
       this.inovacnjService.consultarNatureza(tipoJustica),
@@ -240,6 +253,7 @@ export class FiltroComponent implements OnInit, OnDestroy {
     this.tribunal = tribunal;
     this.orgaoJulgador = null;
     this.atuacaoOrgaoJulgador = null;
+    this.cluster = null;
     this.orgaoJulgadorFormControl.setValue('');
     this.onTribunalSelected.emit(this.getSelectedDataObject());
     if (this.showOrgaoJulgador) {
@@ -293,7 +307,18 @@ export class FiltroComponent implements OnInit, OnDestroy {
   }
 
   onSelectAtuacaoOrgaoJulgador(atuacaoOrgaoJulgador: AtuacaoOrgaoJulgador) {
+    this.cluster = null;
     this.atuacaoOrgaoJulgador = atuacaoOrgaoJulgador;
+    if (this.showCluster) {
+      this.inovacnjService.consultarCluster(this.tipoJustica, this.tribunal)
+      .subscribe((clusters : Cluster[]) => {
+        this.clusters = clusters;
+        this.loading = false;
+      }, error => {
+        console.error(error);
+        this.loading = false;
+      });  
+    }
     this.onAtuacaoOrgaoJulgadorSelected.emit(this.getSelectedDataObject());
   }
 
@@ -315,6 +340,35 @@ export class FiltroComponent implements OnInit, OnDestroy {
   onSelectClasse(classe: Classe) {
     this.classe = classe;
     this.onClasseSelected.emit(this.getSelectedDataObject());
+  }
+
+  onSelectCluster(cluster: Cluster) {
+    this.cluster = cluster;
+    this.onClusterSelected.emit(this.getSelectedDataObject());
+  }
+
+  public exibirTribunal():boolean {
+    if (this.showModoComparacao) {
+      if (this.modoComparacaoSelectedOption != null && this.modoComparacaoSelectedOption == 1) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  public exibirCluster():boolean {
+    if (this.showCluster) {
+      if (this.modoComparacaoSelectedOption != null && this.modoComparacaoSelectedOption == 2) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
   ngOnDestroy() {

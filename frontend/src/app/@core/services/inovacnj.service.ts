@@ -199,7 +199,6 @@ export class InovacnjService {
     }
 
     private converterTempo(segundos: number): string {
-        let data = new Date( 0, 0, 0, 0, 0, segundos);
         if (segundos < 60) {
             return segundos + " segundos";
         } else if (segundos < 3600) {
@@ -209,7 +208,31 @@ export class InovacnjService {
         } else {
             return (segundos/86400).toFixed(0) + " dias";
         }
-        return "erro na conversao do tempo";
+    }
+    private converterDiaParaAno(dias: number): string {
+        if (dias < 365) {
+            return "" + dias;
+        } else if (dias >= 365 && dias < 730) {
+            return "1 ano";
+        } else if (dias >= 730 && dias < 1095) {
+            return "2 anos";
+        } else if (dias >= 1095 && dias < 1460) {
+            return "3 anos";
+        } else if (dias >= 1460 && dias < 1825) {
+            return "4 anos";
+        } else if (dias >= 1825 && dias < 2190) {
+            return "5 anos";
+        } else if (dias >= 2190 && dias < 2555) {
+            return "6 anos";
+        } else if (dias >= 2555 && dias < 2920) {
+            return "7 anos";
+        } else if (dias >= 2920 && dias < 3285) {
+            return "8 anos";
+        } else if (dias >= 3285 && dias < 3650) {
+            return "9 anos";
+        } else if (dias >= 3650) {
+            return "10 anos";
+        } 
     }
 
     public consultarEstatisticaModeloPm(filtro: FiltroPm): Observable<any> {
@@ -221,7 +244,7 @@ export class InovacnjService {
                     if (response.previsoes_termino != null && response.previsoes_termino.length > 0) {
                         response.previsoes_termino.forEach(item => {
                             let entity = {
-                                'name' : "" + item.intervaloEmDias,
+                                'name' : this.converterDiaParaAno(item.intervaloEmDias),
                                 'value' : (item.probabilidadeDeTermino*100).toFixed(2),
                             };
                             dados.push(entity);
