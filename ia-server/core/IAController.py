@@ -9,25 +9,29 @@ class IAController:
     @staticmethod
     def prever_duracao_total(processo_info):
         resultado = 0
-        #Carrega o modelo
-        modelo = pickle.load(open('data/modelo_duracao_regressao_duracao.sav', 'rb'))
-        # Obtem as informacoes do
-        if isinstance(processo_info, dict):
-            dados = json_normalize(processo_info)
-        else:
-            dados = processo_info.copy()
-        colunas_x = ['classeProcessual', 'codigoLocalidade',
+        try:
+            #Carrega o modelo
+            modelo = pickle.load(open('data/modelo_duracao_regressao_duracao.sav', 'rb'))
+            # Obtem as informacoes do
+            if isinstance(processo_info, dict):
+                dados = json_normalize(processo_info)
+            else:
+                dados = processo_info.copy()
+            colunas_x = ['classeProcessual', 'codigoLocalidade',
                      'orgaoJulgador_codigoOrgao', 'assunto_codigoNacional',
                      'mes_ajuizamento']
-        #alvo_y = ['duracao_dias']
-        dummies = ['G1', 'G2', 'JE', 'TR', 'CRIMINAL', 'CIVIL', 'JUIZADOS',
+            #alvo_y = ['duracao_dias']
+            dummies = ['G1', 'G2', 'JE', 'TR', 'CRIMINAL', 'CIVIL', 'JUIZADOS',
                      'EXECUTIVOS', 'OUTROS', 'PEQUENO', 'MÉDIO', 'GRANDE']
 
-        IAController.ajuste_dummies(dados)
+            IAController.ajuste_dummies(dados)
+            submit_df = dados[colunas_x + dummies]
+            #print(submit_df)
+            resultado = modelo.predict(submit_df)
 
-        resultado = modelo.predict(dados[colunas_x + dummies])
-
-        print(type(resultado))
+            print(type(resultado))
+        except Exception as e:
+            raise Exception("Erro na submissão ao modelo - " + str(e))
 
         return int(round(resultado[0]))
 

@@ -84,17 +84,7 @@ dadosEntradaFase = app.model('entradaProcesso', {
     'processo':fields.String(required=True, description='Número do processo'),
     'id_fase':fields.String(required=True, description='Id da fase'),
     'status_fase':fields.String(required=True, description='Status da fase'),
-    'nome_fase':fields.String(required=True, description='nome_fase'),
-    'classe':fields.String(required=True, description='Classe processual'),
-    'assunto':fields.String(required=True, description='Assunto processual'),
-    'codigo_orgaoJulgador':fields.Integer(required=True, description='Código do Orgão julgador'),
-    'codigo_classe':fields.Integer(required=True, description='Classe processual'),
-    'codigo_assunto':fields.Integer(required=True, description='Assunto processual'),
-    'dataAjuizamento':fields.String(required=True, description='Data de ajuizamento'),
-    'porteTribunal':fields.String(required=True, description='Porte do tribunal'),
-    'grau':fields.String(required=True, description='Grau'),
-    'codigo_localidade':fields.String(required=True, description='codigo da localidade IBGE'),
-    'tipoJustica':fields.String(required=True, description='Tipo de Justiça')
+    'nome_fase':fields.String(required=True, description='nome_fase')
 })
 
 @ns.route('/service')

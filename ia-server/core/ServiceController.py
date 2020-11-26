@@ -48,6 +48,7 @@ class ServiceController:
                 resposta['resultado']['assunto'] = retorno[0]['assunto']
                 resposta['resultado']['dataAjuizamento'] = retorno[0]['dh_ajuizamento']
                 resposta['resultado']['porteTribunal'] = retorno[0]['porte_tribunal']
+                resposta['resultado']['tipoJustica'] = retorno[0]['tipo_justica']
                 cod_assunto = retorno[0]['cod_assunto']
                 cod_classe = retorno[0]['cod_classe']
                 cod_orgao_julgador = retorno[0]['cod_orgao_julgador']
@@ -132,8 +133,8 @@ class ServiceController:
 
         except Exception as ex:
             resposta['mensagem'] = str(ex)
-            return resposta, 502
             #raise ex
+            return resposta, 502
         return resposta, 200
 
     @staticmethod
