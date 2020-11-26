@@ -142,6 +142,20 @@ CREATE TABLE inovacnj.orgao_julgador
     CONSTRAINT pk_ojulg PRIMARY KEY (cod)
 );
 
+COMMENT ON COLUMN inovacnj.orgao_julgador.cod  IS 'Código identificador Órgão Julgador.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.descricao IS 'Nome do Órgão Julgador.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.ordem  IS 'Utilizado na identificação ordinal da serventia (Ex: 1ª Vara).';
+COMMENT ON COLUMN inovacnj.orgao_julgador.codpai  IS 'Código pai do órgão julgador.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.codtribunal  IS 'Sigla do tribunal.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.atuacao_vara  IS 'Tipo de competência. Valores: Cível, Trabalho, Família, etc.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.sigla_tipoj  IS 'Sigla do tipo do órgão julgador. Vara, gabinete, comarca, etc.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.tipo_oj   IS 'Descrição completo do tipo do órgão julgador. ';
+COMMENT ON COLUMN inovacnj.orgao_julgador.cidade  IS 'Cidade do órgão julgador.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.uf   IS 'UF do órgão julgador.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.codibge  IS 'código IBGE da cidade do órgão julgador.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.esfera   IS 'Esfera da justiça. E - Estadual, M - Militar, F - Federal, etc.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.latitude   IS 'Coordenadas de latitude.';
+COMMENT ON COLUMN inovacnj.orgao_julgador.longitude   IS 'coordenadas de longitude.';
 ALTER TABLE inovacnj.orgao_julgador OWNER to inovacnj;
     
 -- Table: inovacnj.PROCESSO_ASSUNTO
