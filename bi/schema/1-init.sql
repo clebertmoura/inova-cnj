@@ -544,3 +544,397 @@ CREATE TABLE inovacnj.fitnessmodel_org_julg_atuacao
 );
 
 ALTER TABLE inovacnj.fitnessmodel_org_julg_atuacao OWNER to inovacnj;
+
+-- MVs
+
+-- View: inovacnj.mv_acervo_primmov_jele
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_primmov_jele
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_prim_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jele f,
+    ( SELECT min(a.mov_dtmov) AS dt_pmov,
+            a.npu
+           FROM fat_movimento_jele a
+          GROUP BY a.npu) pmov
+  WHERE ((1 = 1) AND (f.npu = pmov.npu) AND (f.mov_dtmov = pmov.dt_pmov) AND (f.mov_cod = 26))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_primmov_jele  OWNER TO inovacnj;
+
+-- View: inovacnj.mv_acervo_primmov_jest
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_primmov_jest
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_prim_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jest f,
+    ( SELECT min(a.mov_dtmov) AS dt_pmov,
+            a.npu
+           FROM fat_movimento_jest a
+          GROUP BY a.npu) pmov
+  WHERE ((1 = 1) AND (f.npu = pmov.npu) AND (f.mov_dtmov = pmov.dt_pmov) AND (f.mov_cod = 26))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_primmov_jest  OWNER TO inovacnj;
+                                                                              
+-- View: inovacnj.mv_acervo_primmov_jfed
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_primmov_jfed
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_prim_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jfed f,
+    ( SELECT min(a.mov_dtmov) AS dt_pmov,
+            a.npu
+           FROM fat_movimento_jfed a
+          GROUP BY a.npu) pmov
+  WHERE ((1 = 1) AND (f.npu = pmov.npu) AND (f.mov_dtmov = pmov.dt_pmov) AND (f.mov_cod = 26))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_primmov_jfed  OWNER TO inovacnj;                                                                              
+                                                                              
+-- View: inovacnj.mv_acervo_primmov_jmil
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_primmov_jmil
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_prim_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jmil f,
+    ( SELECT min(a.mov_dtmov) AS dt_pmov,
+            a.npu
+           FROM fat_movimento_jmil a
+          GROUP BY a.npu) pmov
+  WHERE ((1 = 1) AND (f.npu = pmov.npu) AND (f.mov_dtmov = pmov.dt_pmov) AND (f.mov_cod = 26))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_primmov_jmil   OWNER TO inovacnj;                                                                              
+
+-- View: inovacnj.mv_acervo_primmov_jtra
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_primmov_jtra
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_prim_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jtra f,
+    ( SELECT min(a.mov_dtmov) AS dt_pmov,
+            a.npu
+           FROM fat_movimento_jtra a
+          GROUP BY a.npu) pmov
+  WHERE ((1 = 1) AND (f.npu = pmov.npu) AND (f.mov_dtmov = pmov.dt_pmov) AND (f.mov_cod = 26))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_primmov_jtra   OWNER TO inovacnj; 
+
+-- View: inovacnj.mv_acervo_sentenca_jele
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_sentenca_jele
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT fat_movimento_jele.codtribunal,
+    fat_movimento_jele.npu,
+    fat_movimento_jele.oj_cod,
+    fat_movimento_jele.oj_descricao
+   FROM fat_movimento_jele
+  WHERE ((1 = 1) AND (fat_movimento_jele.mov_cod = ANY (ARRAY[(218)::bigint, (385)::bigint, (228)::bigint, (230)::bigint, (235)::bigint, (236)::bigint, (244)::bigint, (456)::bigint, (853)::bigint, (10953)::bigint, (10961)::bigint, (11373)::bigint, (11394)::bigint, (11396)::bigint, (12184)::bigint, (12319)::bigint, (12458)::bigint, (12459)::bigint, (12709)::bigint, (472)::bigint, (473)::bigint, (454)::bigint, (457)::bigint, (458)::bigint, (459)::bigint, (460)::bigint, (461)::bigint, (462)::bigint, (463)::bigint, (464)::bigint, (465)::bigint, (11374)::bigint, (11375)::bigint, (11376)::bigint, (11377)::bigint, (11378)::bigint, (11379)::bigint, (11380)::bigint, (11381)::bigint, (12256)::bigint, (12298)::bigint, (12325)::bigint, (12617)::bigint, (12710)::bigint, (12711)::bigint, (12712)::bigint, (12713)::bigint, (12714)::bigint, (12715)::bigint, (12716)::bigint, (12717)::bigint, (12718)::bigint, (12719)::bigint, (12720)::bigint, (12721)::bigint, (12722)::bigint, (12723)::bigint, (12724)::bigint, (196)::bigint, (198)::bigint, (200)::bigint, (202)::bigint, (208)::bigint, (210)::bigint, (212)::bigint, (214)::bigint, (219)::bigint, (220)::bigint, (221)::bigint, (237)::bigint, (238)::bigint, (239)::bigint, (240)::bigint, (241)::bigint, (242)::bigint, (455)::bigint, (466)::bigint, (471)::bigint, (871)::bigint, (884)::bigint, (900)::bigint, (901)::bigint, (972)::bigint, (973)::bigint, (10964)::bigint, (11401)::bigint, (11402)::bigint, (11403)::bigint, (11404)::bigint, (11405)::bigint, (11406)::bigint, (11407)::bigint, (11408)::bigint, (11409)::bigint, (11795)::bigint, (11796)::bigint, (11876)::bigint, (11877)::bigint, (12187)::bigint, (12252)::bigint, (12253)::bigint, (12254)::bigint, (12257)::bigint, (12258)::bigint, (12321)::bigint, (12326)::bigint, (12329)::bigint, (12330)::bigint, (12331)::bigint, (12433)::bigint, (12450)::bigint, (12615)::bigint, (12649)::bigint, (12650)::bigint, (12651)::bigint, (12652)::bigint, (12653)::bigint, (12654)::bigint, (12660)::bigint, (12661)::bigint, (12662)::bigint, (12663)::bigint, (12664)::bigint, (12665)::bigint, (12678)::bigint, (12738)::bigint, (442)::bigint, (443)::bigint, (444)::bigint, (445)::bigint, (10965)::bigint, (12032)::bigint, (12041)::bigint, (12475)::bigint, (446)::bigint, (447)::bigint, (448)::bigint, (449)::bigint, (450)::bigint, (451)::bigint, (452)::bigint, (453)::bigint, (1042)::bigint, (1043)::bigint, (1044)::bigint, (1045)::bigint, (1046)::bigint, (1047)::bigint, (1048)::bigint, (1049)::bigint, (1050)::bigint, (11411)::bigint, (11801)::bigint, (11878)::bigint, (11879)::bigint, (12028)::bigint, (12616)::bigint, (12735)::bigint, (12322)::bigint, (12323)::bigint, (12324)::bigint, (12327)::bigint, (12328)::bigint, (12434)::bigint, (12435)::bigint, (12436)::bigint, (12437)::bigint, (12438)::bigint, (12439)::bigint, (12440)::bigint, (12441)::bigint, (12442)::bigint, (12443)::bigint, (12451)::bigint, (12452)::bigint, (12453)::bigint, (12666)::bigint, (12667)::bigint, (12668)::bigint, (12669)::bigint, (12670)::bigint, (12672)::bigint, (12673)::bigint, (12674)::bigint, (12675)::bigint, (12676)::bigint, (12677)::bigint, (12792)::bigint, (12671)::bigint, (12679)::bigint, (12680)::bigint, (12681)::bigint, (12682)::bigint, (12683)::bigint, (12684)::bigint, (12685)::bigint, (12686)::bigint, (12687)::bigint, (12688)::bigint, (12689)::bigint, (12690)::bigint, (12691)::bigint, (12692)::bigint, (12693)::bigint, (12694)::bigint, (12695)::bigint, (12696)::bigint, (12697)::bigint, (12698)::bigint, (12699)::bigint, (12700)::bigint, (12701)::bigint, (12702)::bigint, (12703)::bigint, (12704)::bigint, (12705)::bigint, (12706)::bigint, (12707)::bigint, (12708)::bigint])))
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_sentenca_jele  OWNER TO inovacnj;                                                                              
+
+-- View: inovacnj.mv_acervo_sentenca_jest
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_sentenca_jest
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT fat_movimento_jest.codtribunal,
+    fat_movimento_jest.npu,
+    fat_movimento_jest.oj_cod,
+    fat_movimento_jest.oj_descricao
+   FROM fat_movimento_jest
+  WHERE ((1 = 1) AND (fat_movimento_jest.mov_cod = ANY (ARRAY[(218)::bigint, (385)::bigint, (228)::bigint, (230)::bigint, (235)::bigint, (236)::bigint, (244)::bigint, (456)::bigint, (853)::bigint, (10953)::bigint, (10961)::bigint, (11373)::bigint, (11394)::bigint, (11396)::bigint, (12184)::bigint, (12319)::bigint, (12458)::bigint, (12459)::bigint, (12709)::bigint, (472)::bigint, (473)::bigint, (454)::bigint, (457)::bigint, (458)::bigint, (459)::bigint, (460)::bigint, (461)::bigint, (462)::bigint, (463)::bigint, (464)::bigint, (465)::bigint, (11374)::bigint, (11375)::bigint, (11376)::bigint, (11377)::bigint, (11378)::bigint, (11379)::bigint, (11380)::bigint, (11381)::bigint, (12256)::bigint, (12298)::bigint, (12325)::bigint, (12617)::bigint, (12710)::bigint, (12711)::bigint, (12712)::bigint, (12713)::bigint, (12714)::bigint, (12715)::bigint, (12716)::bigint, (12717)::bigint, (12718)::bigint, (12719)::bigint, (12720)::bigint, (12721)::bigint, (12722)::bigint, (12723)::bigint, (12724)::bigint, (196)::bigint, (198)::bigint, (200)::bigint, (202)::bigint, (208)::bigint, (210)::bigint, (212)::bigint, (214)::bigint, (219)::bigint, (220)::bigint, (221)::bigint, (237)::bigint, (238)::bigint, (239)::bigint, (240)::bigint, (241)::bigint, (242)::bigint, (455)::bigint, (466)::bigint, (471)::bigint, (871)::bigint, (884)::bigint, (900)::bigint, (901)::bigint, (972)::bigint, (973)::bigint, (10964)::bigint, (11401)::bigint, (11402)::bigint, (11403)::bigint, (11404)::bigint, (11405)::bigint, (11406)::bigint, (11407)::bigint, (11408)::bigint, (11409)::bigint, (11795)::bigint, (11796)::bigint, (11876)::bigint, (11877)::bigint, (12187)::bigint, (12252)::bigint, (12253)::bigint, (12254)::bigint, (12257)::bigint, (12258)::bigint, (12321)::bigint, (12326)::bigint, (12329)::bigint, (12330)::bigint, (12331)::bigint, (12433)::bigint, (12450)::bigint, (12615)::bigint, (12649)::bigint, (12650)::bigint, (12651)::bigint, (12652)::bigint, (12653)::bigint, (12654)::bigint, (12660)::bigint, (12661)::bigint, (12662)::bigint, (12663)::bigint, (12664)::bigint, (12665)::bigint, (12678)::bigint, (12738)::bigint, (442)::bigint, (443)::bigint, (444)::bigint, (445)::bigint, (10965)::bigint, (12032)::bigint, (12041)::bigint, (12475)::bigint, (446)::bigint, (447)::bigint, (448)::bigint, (449)::bigint, (450)::bigint, (451)::bigint, (452)::bigint, (453)::bigint, (1042)::bigint, (1043)::bigint, (1044)::bigint, (1045)::bigint, (1046)::bigint, (1047)::bigint, (1048)::bigint, (1049)::bigint, (1050)::bigint, (11411)::bigint, (11801)::bigint, (11878)::bigint, (11879)::bigint, (12028)::bigint, (12616)::bigint, (12735)::bigint, (12322)::bigint, (12323)::bigint, (12324)::bigint, (12327)::bigint, (12328)::bigint, (12434)::bigint, (12435)::bigint, (12436)::bigint, (12437)::bigint, (12438)::bigint, (12439)::bigint, (12440)::bigint, (12441)::bigint, (12442)::bigint, (12443)::bigint, (12451)::bigint, (12452)::bigint, (12453)::bigint, (12666)::bigint, (12667)::bigint, (12668)::bigint, (12669)::bigint, (12670)::bigint, (12672)::bigint, (12673)::bigint, (12674)::bigint, (12675)::bigint, (12676)::bigint, (12677)::bigint, (12792)::bigint, (12671)::bigint, (12679)::bigint, (12680)::bigint, (12681)::bigint, (12682)::bigint, (12683)::bigint, (12684)::bigint, (12685)::bigint, (12686)::bigint, (12687)::bigint, (12688)::bigint, (12689)::bigint, (12690)::bigint, (12691)::bigint, (12692)::bigint, (12693)::bigint, (12694)::bigint, (12695)::bigint, (12696)::bigint, (12697)::bigint, (12698)::bigint, (12699)::bigint, (12700)::bigint, (12701)::bigint, (12702)::bigint, (12703)::bigint, (12704)::bigint, (12705)::bigint, (12706)::bigint, (12707)::bigint, (12708)::bigint])))
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_sentenca_jest   OWNER TO inovacnj;                      
+             
+-- View: inovacnj.mv_acervo_sentenca_jfed
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_sentenca_jfed
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT fat_movimento_jfed.codtribunal,
+    fat_movimento_jfed.npu,
+    fat_movimento_jfed.oj_cod,
+    fat_movimento_jfed.oj_descricao
+   FROM fat_movimento_jfed
+  WHERE ((1 = 1) AND (fat_movimento_jfed.mov_cod = ANY (ARRAY[(218)::bigint, (385)::bigint, (228)::bigint, (230)::bigint, (235)::bigint, (236)::bigint, (244)::bigint, (456)::bigint, (853)::bigint, (10953)::bigint, (10961)::bigint, (11373)::bigint, (11394)::bigint, (11396)::bigint, (12184)::bigint, (12319)::bigint, (12458)::bigint, (12459)::bigint, (12709)::bigint, (472)::bigint, (473)::bigint, (454)::bigint, (457)::bigint, (458)::bigint, (459)::bigint, (460)::bigint, (461)::bigint, (462)::bigint, (463)::bigint, (464)::bigint, (465)::bigint, (11374)::bigint, (11375)::bigint, (11376)::bigint, (11377)::bigint, (11378)::bigint, (11379)::bigint, (11380)::bigint, (11381)::bigint, (12256)::bigint, (12298)::bigint, (12325)::bigint, (12617)::bigint, (12710)::bigint, (12711)::bigint, (12712)::bigint, (12713)::bigint, (12714)::bigint, (12715)::bigint, (12716)::bigint, (12717)::bigint, (12718)::bigint, (12719)::bigint, (12720)::bigint, (12721)::bigint, (12722)::bigint, (12723)::bigint, (12724)::bigint, (196)::bigint, (198)::bigint, (200)::bigint, (202)::bigint, (208)::bigint, (210)::bigint, (212)::bigint, (214)::bigint, (219)::bigint, (220)::bigint, (221)::bigint, (237)::bigint, (238)::bigint, (239)::bigint, (240)::bigint, (241)::bigint, (242)::bigint, (455)::bigint, (466)::bigint, (471)::bigint, (871)::bigint, (884)::bigint, (900)::bigint, (901)::bigint, (972)::bigint, (973)::bigint, (10964)::bigint, (11401)::bigint, (11402)::bigint, (11403)::bigint, (11404)::bigint, (11405)::bigint, (11406)::bigint, (11407)::bigint, (11408)::bigint, (11409)::bigint, (11795)::bigint, (11796)::bigint, (11876)::bigint, (11877)::bigint, (12187)::bigint, (12252)::bigint, (12253)::bigint, (12254)::bigint, (12257)::bigint, (12258)::bigint, (12321)::bigint, (12326)::bigint, (12329)::bigint, (12330)::bigint, (12331)::bigint, (12433)::bigint, (12450)::bigint, (12615)::bigint, (12649)::bigint, (12650)::bigint, (12651)::bigint, (12652)::bigint, (12653)::bigint, (12654)::bigint, (12660)::bigint, (12661)::bigint, (12662)::bigint, (12663)::bigint, (12664)::bigint, (12665)::bigint, (12678)::bigint, (12738)::bigint, (442)::bigint, (443)::bigint, (444)::bigint, (445)::bigint, (10965)::bigint, (12032)::bigint, (12041)::bigint, (12475)::bigint, (446)::bigint, (447)::bigint, (448)::bigint, (449)::bigint, (450)::bigint, (451)::bigint, (452)::bigint, (453)::bigint, (1042)::bigint, (1043)::bigint, (1044)::bigint, (1045)::bigint, (1046)::bigint, (1047)::bigint, (1048)::bigint, (1049)::bigint, (1050)::bigint, (11411)::bigint, (11801)::bigint, (11878)::bigint, (11879)::bigint, (12028)::bigint, (12616)::bigint, (12735)::bigint, (12322)::bigint, (12323)::bigint, (12324)::bigint, (12327)::bigint, (12328)::bigint, (12434)::bigint, (12435)::bigint, (12436)::bigint, (12437)::bigint, (12438)::bigint, (12439)::bigint, (12440)::bigint, (12441)::bigint, (12442)::bigint, (12443)::bigint, (12451)::bigint, (12452)::bigint, (12453)::bigint, (12666)::bigint, (12667)::bigint, (12668)::bigint, (12669)::bigint, (12670)::bigint, (12672)::bigint, (12673)::bigint, (12674)::bigint, (12675)::bigint, (12676)::bigint, (12677)::bigint, (12792)::bigint, (12671)::bigint, (12679)::bigint, (12680)::bigint, (12681)::bigint, (12682)::bigint, (12683)::bigint, (12684)::bigint, (12685)::bigint, (12686)::bigint, (12687)::bigint, (12688)::bigint, (12689)::bigint, (12690)::bigint, (12691)::bigint, (12692)::bigint, (12693)::bigint, (12694)::bigint, (12695)::bigint, (12696)::bigint, (12697)::bigint, (12698)::bigint, (12699)::bigint, (12700)::bigint, (12701)::bigint, (12702)::bigint, (12703)::bigint, (12704)::bigint, (12705)::bigint, (12706)::bigint, (12707)::bigint, (12708)::bigint])))
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_sentenca_jfed  OWNER TO inovacnj;        
+
+-- View: inovacnj.mv_acervo_sentenca_jmil
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_sentenca_jmil
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT fat_movimento_jmil.codtribunal,
+    fat_movimento_jmil.npu,
+    fat_movimento_jmil.oj_cod,
+    fat_movimento_jmil.oj_descricao
+   FROM fat_movimento_jmil
+  WHERE ((1 = 1) AND (fat_movimento_jmil.mov_cod = ANY (ARRAY[(218)::bigint, (385)::bigint, (228)::bigint, (230)::bigint, (235)::bigint, (236)::bigint, (244)::bigint, (456)::bigint, (853)::bigint, (10953)::bigint, (10961)::bigint, (11373)::bigint, (11394)::bigint, (11396)::bigint, (12184)::bigint, (12319)::bigint, (12458)::bigint, (12459)::bigint, (12709)::bigint, (472)::bigint, (473)::bigint, (454)::bigint, (457)::bigint, (458)::bigint, (459)::bigint, (460)::bigint, (461)::bigint, (462)::bigint, (463)::bigint, (464)::bigint, (465)::bigint, (11374)::bigint, (11375)::bigint, (11376)::bigint, (11377)::bigint, (11378)::bigint, (11379)::bigint, (11380)::bigint, (11381)::bigint, (12256)::bigint, (12298)::bigint, (12325)::bigint, (12617)::bigint, (12710)::bigint, (12711)::bigint, (12712)::bigint, (12713)::bigint, (12714)::bigint, (12715)::bigint, (12716)::bigint, (12717)::bigint, (12718)::bigint, (12719)::bigint, (12720)::bigint, (12721)::bigint, (12722)::bigint, (12723)::bigint, (12724)::bigint, (196)::bigint, (198)::bigint, (200)::bigint, (202)::bigint, (208)::bigint, (210)::bigint, (212)::bigint, (214)::bigint, (219)::bigint, (220)::bigint, (221)::bigint, (237)::bigint, (238)::bigint, (239)::bigint, (240)::bigint, (241)::bigint, (242)::bigint, (455)::bigint, (466)::bigint, (471)::bigint, (871)::bigint, (884)::bigint, (900)::bigint, (901)::bigint, (972)::bigint, (973)::bigint, (10964)::bigint, (11401)::bigint, (11402)::bigint, (11403)::bigint, (11404)::bigint, (11405)::bigint, (11406)::bigint, (11407)::bigint, (11408)::bigint, (11409)::bigint, (11795)::bigint, (11796)::bigint, (11876)::bigint, (11877)::bigint, (12187)::bigint, (12252)::bigint, (12253)::bigint, (12254)::bigint, (12257)::bigint, (12258)::bigint, (12321)::bigint, (12326)::bigint, (12329)::bigint, (12330)::bigint, (12331)::bigint, (12433)::bigint, (12450)::bigint, (12615)::bigint, (12649)::bigint, (12650)::bigint, (12651)::bigint, (12652)::bigint, (12653)::bigint, (12654)::bigint, (12660)::bigint, (12661)::bigint, (12662)::bigint, (12663)::bigint, (12664)::bigint, (12665)::bigint, (12678)::bigint, (12738)::bigint, (442)::bigint, (443)::bigint, (444)::bigint, (445)::bigint, (10965)::bigint, (12032)::bigint, (12041)::bigint, (12475)::bigint, (446)::bigint, (447)::bigint, (448)::bigint, (449)::bigint, (450)::bigint, (451)::bigint, (452)::bigint, (453)::bigint, (1042)::bigint, (1043)::bigint, (1044)::bigint, (1045)::bigint, (1046)::bigint, (1047)::bigint, (1048)::bigint, (1049)::bigint, (1050)::bigint, (11411)::bigint, (11801)::bigint, (11878)::bigint, (11879)::bigint, (12028)::bigint, (12616)::bigint, (12735)::bigint, (12322)::bigint, (12323)::bigint, (12324)::bigint, (12327)::bigint, (12328)::bigint, (12434)::bigint, (12435)::bigint, (12436)::bigint, (12437)::bigint, (12438)::bigint, (12439)::bigint, (12440)::bigint, (12441)::bigint, (12442)::bigint, (12443)::bigint, (12451)::bigint, (12452)::bigint, (12453)::bigint, (12666)::bigint, (12667)::bigint, (12668)::bigint, (12669)::bigint, (12670)::bigint, (12672)::bigint, (12673)::bigint, (12674)::bigint, (12675)::bigint, (12676)::bigint, (12677)::bigint, (12792)::bigint, (12671)::bigint, (12679)::bigint, (12680)::bigint, (12681)::bigint, (12682)::bigint, (12683)::bigint, (12684)::bigint, (12685)::bigint, (12686)::bigint, (12687)::bigint, (12688)::bigint, (12689)::bigint, (12690)::bigint, (12691)::bigint, (12692)::bigint, (12693)::bigint, (12694)::bigint, (12695)::bigint, (12696)::bigint, (12697)::bigint, (12698)::bigint, (12699)::bigint, (12700)::bigint, (12701)::bigint, (12702)::bigint, (12703)::bigint, (12704)::bigint, (12705)::bigint, (12706)::bigint, (12707)::bigint, (12708)::bigint])))
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_sentenca_jmil  OWNER TO inovacnj;  
+
+-- View: inovacnj.mv_acervo_sentenca_jtra
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_sentenca_jtra
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT fat_movimento_jtra.codtribunal,
+    fat_movimento_jtra.npu,
+    fat_movimento_jtra.oj_cod,
+    fat_movimento_jtra.oj_descricao
+   FROM fat_movimento_jtra
+  WHERE ((1 = 1) AND (fat_movimento_jtra.mov_cod = ANY (ARRAY[(218)::bigint, (385)::bigint, (228)::bigint, (230)::bigint, (235)::bigint, (236)::bigint, (244)::bigint, (456)::bigint, (853)::bigint, (10953)::bigint, (10961)::bigint, (11373)::bigint, (11394)::bigint, (11396)::bigint, (12184)::bigint, (12319)::bigint, (12458)::bigint, (12459)::bigint, (12709)::bigint, (472)::bigint, (473)::bigint, (454)::bigint, (457)::bigint, (458)::bigint, (459)::bigint, (460)::bigint, (461)::bigint, (462)::bigint, (463)::bigint, (464)::bigint, (465)::bigint, (11374)::bigint, (11375)::bigint, (11376)::bigint, (11377)::bigint, (11378)::bigint, (11379)::bigint, (11380)::bigint, (11381)::bigint, (12256)::bigint, (12298)::bigint, (12325)::bigint, (12617)::bigint, (12710)::bigint, (12711)::bigint, (12712)::bigint, (12713)::bigint, (12714)::bigint, (12715)::bigint, (12716)::bigint, (12717)::bigint, (12718)::bigint, (12719)::bigint, (12720)::bigint, (12721)::bigint, (12722)::bigint, (12723)::bigint, (12724)::bigint, (196)::bigint, (198)::bigint, (200)::bigint, (202)::bigint, (208)::bigint, (210)::bigint, (212)::bigint, (214)::bigint, (219)::bigint, (220)::bigint, (221)::bigint, (237)::bigint, (238)::bigint, (239)::bigint, (240)::bigint, (241)::bigint, (242)::bigint, (455)::bigint, (466)::bigint, (471)::bigint, (871)::bigint, (884)::bigint, (900)::bigint, (901)::bigint, (972)::bigint, (973)::bigint, (10964)::bigint, (11401)::bigint, (11402)::bigint, (11403)::bigint, (11404)::bigint, (11405)::bigint, (11406)::bigint, (11407)::bigint, (11408)::bigint, (11409)::bigint, (11795)::bigint, (11796)::bigint, (11876)::bigint, (11877)::bigint, (12187)::bigint, (12252)::bigint, (12253)::bigint, (12254)::bigint, (12257)::bigint, (12258)::bigint, (12321)::bigint, (12326)::bigint, (12329)::bigint, (12330)::bigint, (12331)::bigint, (12433)::bigint, (12450)::bigint, (12615)::bigint, (12649)::bigint, (12650)::bigint, (12651)::bigint, (12652)::bigint, (12653)::bigint, (12654)::bigint, (12660)::bigint, (12661)::bigint, (12662)::bigint, (12663)::bigint, (12664)::bigint, (12665)::bigint, (12678)::bigint, (12738)::bigint, (442)::bigint, (443)::bigint, (444)::bigint, (445)::bigint, (10965)::bigint, (12032)::bigint, (12041)::bigint, (12475)::bigint, (446)::bigint, (447)::bigint, (448)::bigint, (449)::bigint, (450)::bigint, (451)::bigint, (452)::bigint, (453)::bigint, (1042)::bigint, (1043)::bigint, (1044)::bigint, (1045)::bigint, (1046)::bigint, (1047)::bigint, (1048)::bigint, (1049)::bigint, (1050)::bigint, (11411)::bigint, (11801)::bigint, (11878)::bigint, (11879)::bigint, (12028)::bigint, (12616)::bigint, (12735)::bigint, (12322)::bigint, (12323)::bigint, (12324)::bigint, (12327)::bigint, (12328)::bigint, (12434)::bigint, (12435)::bigint, (12436)::bigint, (12437)::bigint, (12438)::bigint, (12439)::bigint, (12440)::bigint, (12441)::bigint, (12442)::bigint, (12443)::bigint, (12451)::bigint, (12452)::bigint, (12453)::bigint, (12666)::bigint, (12667)::bigint, (12668)::bigint, (12669)::bigint, (12670)::bigint, (12672)::bigint, (12673)::bigint, (12674)::bigint, (12675)::bigint, (12676)::bigint, (12677)::bigint, (12792)::bigint, (12671)::bigint, (12679)::bigint, (12680)::bigint, (12681)::bigint, (12682)::bigint, (12683)::bigint, (12684)::bigint, (12685)::bigint, (12686)::bigint, (12687)::bigint, (12688)::bigint, (12689)::bigint, (12690)::bigint, (12691)::bigint, (12692)::bigint, (12693)::bigint, (12694)::bigint, (12695)::bigint, (12696)::bigint, (12697)::bigint, (12698)::bigint, (12699)::bigint, (12700)::bigint, (12701)::bigint, (12702)::bigint, (12703)::bigint, (12704)::bigint, (12705)::bigint, (12706)::bigint, (12707)::bigint, (12708)::bigint])))
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_sentenca_jtra  OWNER TO inovacnj;                      
+                      
+-- View: inovacnj.mv_acervo_ultmov_jele
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_ultmov_jele
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_ult_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jele f,
+    ( SELECT max(a.mov_dtmov) AS dt_ultmov,
+            a.npu
+           FROM fat_movimento_jele a
+          GROUP BY a.npu) umov
+  WHERE ((1 = 1) AND (f.npu = umov.npu) AND (f.mov_dtmov = umov.dt_ultmov))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_ultmov_jele   OWNER TO inovacnj;     
+
+-- View: inovacnj.mv_acervo_ultmov_jest
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_ultmov_jest
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_ult_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jest f,
+    ( SELECT max(a.mov_dtmov) AS dt_ultmov,
+            a.npu
+           FROM fat_movimento_jest a
+          GROUP BY a.npu) umov
+  WHERE ((1 = 1) AND (f.npu = umov.npu) AND (f.mov_dtmov = umov.dt_ultmov))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_ultmov_jest   OWNER TO inovacnj;
+   
+-- View: inovacnj.mv_acervo_ultmov_jfed
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_ultmov_jfed
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_ult_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jfed f,
+    ( SELECT max(a.mov_dtmov) AS dt_ultmov,
+            a.npu
+           FROM fat_movimento_jfed a
+          GROUP BY a.npu) umov
+  WHERE ((1 = 1) AND (f.npu = umov.npu) AND (f.mov_dtmov = umov.dt_ultmov))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_ultmov_jfed   OWNER TO inovacnj;  
+                                             
+-- View: inovacnj.mv_acervo_ultmov_jmil
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_ultmov_jmil
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_ult_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jmil f,
+    ( SELECT max(a.mov_dtmov) AS dt_ultmov,
+            a.npu
+           FROM fat_movimento_jmil a
+          GROUP BY a.npu) umov
+  WHERE ((1 = 1) AND (f.npu = umov.npu) AND (f.mov_dtmov = umov.dt_ultmov))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_ultmov_jmil   OWNER TO inovacnj;       
+                                             
+-- View: inovacnj.mv_acervo_ultmov_jtra
+CREATE MATERIALIZED VIEW inovacnj.mv_acervo_ultmov_jtra
+TABLESPACE pg_default
+AS
+ SELECT DISTINCT f.codtribunal,
+    f.grau,
+    f.npu,
+    f.mov_dtmov AS dt_ult_mov,
+    f.mov_cod,
+    f.descmovimento,
+    f.codclasse,
+    f.descclasse,
+    f.competencia,
+    f.dtajuizamento,
+        CASE
+            WHEN (f.tramitacao = 1) THEN 'Sistema Eletrônico'::text
+            WHEN (f.tramitacao = 2) THEN 'Sistema Físico'::text
+            ELSE 'ND'::text
+        END AS tramitacao,
+    f.oj_cod,
+    f.oj_descricao
+   FROM fat_movimento_jtra f,
+    ( SELECT max(a.mov_dtmov) AS dt_ultmov,
+            a.npu
+           FROM fat_movimento_jtra a
+          GROUP BY a.npu) umov
+  WHERE ((1 = 1) AND (f.npu = umov.npu) AND (f.mov_dtmov = umov.dt_ultmov))
+  ORDER BY f.mov_dtmov
+WITH DATA;
+
+ALTER TABLE inovacnj.mv_acervo_ultmov_jtra  OWNER TO inovacnj;
+                                             
+                                             
