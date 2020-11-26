@@ -23,7 +23,7 @@ import { MetricaPm } from '../../models/filtro-pm';
 import { Fase } from 'app/models/fase';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
-import { debounceTime, map, startWith } from 'rxjs/operators';
+import { debounceTime, map, startWith, timeout } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
@@ -56,9 +56,9 @@ export class DashboardComponent implements OnDestroy, OnInit {
   gradient = false;
   showLegend = false;
   showXAxisLabel = true;
-  xAxisLabel = 'Intervalo em Dias';
+  xAxisLabel = 'Duração';
   showYAxisLabel = true;
-  yAxisLabel = 'Prob. de Término(%)';
+  yAxisLabel = 'Probabilidade';
   colorSchemeGrafico: any;
 
   loadingPredict = false;
@@ -431,7 +431,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
   downloadModeloPmSvgContent(filtro: FiltroPm) {
     const headers = new HttpHeaders();
     headers.set('Accept', 'image/svg+xml');
-    var obs = this.http.get(filtro.url, {headers: headers, responseType: 'text'});
+    var obs = this.http.get(filtro.url, {headers: headers, responseType: 'text'})
+      .pipe(
+        timeout(1000 * 15)
+      );
     obs.subscribe(response => {
       if (response != null) {
         filtro.svgContent = this.sanitizer.bypassSecurityTrustHtml(response);
