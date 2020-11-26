@@ -115,7 +115,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     noDataMessage: "Sem dados...",
     columns: {
       descricao: {
-        title: 'Órgão Julagor',
+        title: 'Órgão Julgador',
         type: 'string',
         filter: true
       },

@@ -27,8 +27,8 @@
         <div class="form-group">
           <label class="label">Modo de Comparação:</label>
           <nb-radio-group [(ngModel)]="modoComparacaoSelectedOption">
-            <nb-radio value="1">Orgão Julgador do mesmo tribunal</nb-radio>
-            <nb-radio value="2">Orgão Julgador de tribunais distintos</nb-radio>
+            <nb-radio value="1">Órgão Julgador do mesmo tribunal</nb-radio>
+            <nb-radio value="2">Órgão Julgador de tribunais distintos</nb-radio>
           </nb-radio-group>
         </div>
       </div>
@@ -52,7 +52,7 @@
       </div>
       <div class="col-md-4 col-sm-12" *ngIf="showOrgaoJulgador">
         <div class="form-group">
-          <label class="label">Orgão Julgador:</label>
+          <label class="label">Órgão Julgador:</label>
 
           <input
             [formControl]="orgaoJulgadorFormControl"
