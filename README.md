@@ -50,7 +50,7 @@ Para demonstração, estamos utilizado apenas os arquivos dos Tribunais Estaduai
 
 ## Efetuando o build da imagem Docker
 
-Antes de iniciar o ambiente, é necessário buildar as imagens docker dos modulos `ia-core`, `ia-server` e `frontend`.
+Antes de iniciar o ambiente, é necessário buildar as imagens docker dos modulos `ia-core`, `ia-server`, `backend` e `frontend`.
 
 Para isso, execute o script abaixo:
 
@@ -61,6 +61,10 @@ Ou se preferir, faça o build separadamente acessando o sub-diretório de cada m
 ### Build da imagem: inova-cnj-iacore
 
 > docker build -t inova-cnj-iacore .
+
+### Build da imagem: inova-cnj-backend
+
+> docker build -t inova-cnj-backend .
 
 ### Build da imagem: inova-cnj-frontend
 
