@@ -267,3 +267,34 @@ CREATE SEQUENCE inovacnj.seq_fase
 
 ALTER SEQUENCE inovacnj.seq_fase
     OWNER TO inovacnj;
+
+CREATE TABLE inovacnj.clusteroj
+(
+    cod integer,
+    descricao character varying(50),
+    CONSTRAINT pk_clusteroj PRIMARY KEY (cod)
+);
+
+ALTER TABLE inovacnj.clusteroj OWNER to inovacnj;
+
+CREATE TABLE inovacnj.clusteroj_orgjulg
+(
+    cod_cluster integer,
+    cod_orgao_julg integer,
+    CONSTRAINT pk_clusteroj_orgjulg PRIMARY KEY (cod_cluster,cod_orgao_julg)
+);
+
+ALTER TABLE inovacnj.clusteroj_orgjulg OWNER to inovacnj;
+
+CREATE TABLE inovacnj.fitnessmodel_org_julg_atuacao
+(
+    tipo character varying(50),
+    codtribunal character varying(10),
+    atuacao_vara character varying(50),
+    cod_orgao_julg integer,
+    desc_orgao_julg character varying(200),
+    trace_fitness real,
+    CONSTRAINT pk_clusteroj_orgjulg PRIMARY KEY (tipo, codtribunal, atuacao_vara, cod_orgao_julg)
+);
+
+ALTER TABLE inovacnj.fitnessmodel_org_julg_atuacao OWNER to inovacnj;
