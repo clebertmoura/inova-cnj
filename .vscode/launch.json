@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - Test",
-            "request": "launch",
-            "mainClass": "br.jus.tjpe.tjpeatende.jmsclient.Test",
-            "projectName": "inova-cnj"
-        },
-        {
-            "type": "java",
             "name": "Debug (Attach)",
             "projectName": "inova-cnj",
             "request": "attach",
