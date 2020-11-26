@@ -287,6 +287,31 @@ def api_lista_movimento():
     
     return jsonify(movs)
 
+@servico.route('/api/v1/cluster', methods=['GET'])
+def get_clusters():
+    ramojustica = request.args.get('ramojustica')
+    atuacao = request.args.get('atuacao')
+    conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
+    cur = conn.cursor()
+
+    qry = "SELECT DISTINCT coj.cod, coj.descricao "
+    qry+= "FROM inovacnj.clusteroj coj "
+    qry+= "INNER JOIN inovacnj.clusteroj_orgjulg cojoj ON cojoj.cod_cluster = coj.cod "
+    qry+= "INNER JOIN inovacnj.orgao_julgador oj ON oj.cod = cojoj.cod_orgao_julg "
+    qry+= "INNER JOIN inovacnj.tribunal tr ON tr.cod = oj.codtribunal "
+    qry+= "WHERE (1=1) "
+
+    if ramojustica is not None :
+        qry+= "AND tr.tipo = '" + ramojustica + "' "
+    if atuacao is not None :
+        qry+= "AND oj.atuacao_vara = '" + atuacao + "' "
+
+    qry+= "ORDER BY coj.cod"
+
+    cur.execute(qry)
+    lista = cur.fetchall()
+    return jsonify(lista)
+
 @servico.route('/api/v1/assuntos-ranking', methods=['GET'])
 def api_lista_assuntos_ranking():
     tipo = request.args.get('tipo')
@@ -327,6 +352,7 @@ def api_gerar_modelo_pm():
     ramojustica = request.args.get('ramojustica')
     codtribunal = request.args.get('codtribunal')
     atuacao = request.args.get('atuacao')
+    cluster = request.args.get('cluster')
     grau = request.args.get('grau')
     codorgaoj = request.args.get('codorgaoj')
     natureza = request.args.get('natureza')
@@ -340,8 +366,10 @@ def api_gerar_modelo_pm():
     
     if ramojustica is None:
         abort(400, description="ramojustica nao informado")
-    if codtribunal is None:
-        abort(400, description="codtribunal nao informado")
+    if atuacao is None:
+        abort(400, description="atuacao nao informado")
+    if codtribunal is None and cluster is None:
+        abort(400, description="codtribunal ou cluster deve ser informado")
     
     gviz = gerar_view_dfg_model_from_params(ramojustica, codtribunal, atuacao, grau, codorgaoj, natureza, codclasse, \
                dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade, metric_type=metrica, image_format=formato)

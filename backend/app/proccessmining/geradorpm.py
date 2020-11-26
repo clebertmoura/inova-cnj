@@ -54,12 +54,12 @@ def clear_eventlog_cache(cacheKey):
         eventLogCache[cacheKey] = None
 
 # gera um log de eventos de acordo com os parametros informados.
-def gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, 
+def gerar_log_eventos(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, 
                       baixado = None, sensibility = '60'):
     
     eventLog = None
 
-    cacheKey = "{0}-{1}-{2}-{3}-{4}-{5}-{6}-{7}-{8}-{9}".format(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado)
+    cacheKey = "{0}-{1}-{2}-{3}-{4}-{5}-{6}-{7}-{8}-{9}-{10}".format(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado)
     
     cachedEventLog = eventLogCache.get(cacheKey)
     if cachedEventLog is not None :
@@ -82,6 +82,7 @@ def gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codna
         qry+= "FROM " + tabela_fato + " fat "
         qry+= "INNER JOIN inovacnj.acervo_processo_" + sufixo_ramo + " ap ON ap.npu = fat.npu "
         qry+= "INNER JOIN inovacnj.orgao_julgador oj ON oj.cod::varchar = fat.oj_cod "
+        qry+= "INNER JOIN inovacnj.clusteroj_orgjulg cojoj ON cojoj.cod_orgao_julg = oj.cod "
         qry+= "INNER JOIN inovacnj.movimentocnj mov ON mov.cod = fat.mov_cod "
         qry+= "INNER JOIN inovacnj.natureza_classe nc ON nc.cod_classe = fat.codclasse "
         qry+= "INNER JOIN inovacnj.natureza nat ON nat.cod = nc.cod_natureza "
@@ -95,6 +96,8 @@ def gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codna
             qry+= "AND fat.codtribunal = '" + codtribunal + "' "
         if atuacao is not None :
             qry+= "AND oj.atuacao_vara = '" + atuacao + "' "
+        if cluster is not None :
+            qry+= "AND cojoj.cod_cluster = " + cluster + " "
         if codorgaoj is not None :
             qry+= "AND fat.oj_cod = '" + codorgaoj + "' "
         if grau is not None :
@@ -151,12 +154,12 @@ def gerar_view_dfg_model(eventLog, dfg, metric_type = 'FREQUENCY', image_format 
     return gviz
 
 # Gera a visualização do modelo com base nos parametros
-def gerar_view_dfg_model_from_params(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+def gerar_view_dfg_model_from_params(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, 
                                      dtinicio, dtfim, baixado = None, sensibility = '60', metric_type = 'FREQUENCY', image_format = 'png'):
     
     gviz = None
     
-    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
     
     if eventLog is not None :
         dfg = gerar_dfg_model_from_log_eventos(eventLog)
@@ -213,10 +216,10 @@ def gerar_previsoes_modelo_from_log_eventos(eventLog):
     return previsoes_por_intervalo
 
 # Gera as lista de previsoes de conclusao de um caso para o modelo por parametros
-def gerar_previsoes_modelo_from_params(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+def gerar_previsoes_modelo_from_params(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, 
                                      dtinicio, dtfim, baixado = None, sensibility = '60'):
     
-    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, 
                                  dtinicio, dtfim, baixado, sensibility)
     
     previsoes_por_intervalo = gerar_previsoes_modelo_from_log_eventos(eventLog)
@@ -282,12 +285,12 @@ def gerar_estatisticas_model_from_log_eventos(eventLog):
 
 
 # Gera as estatisticas do modelo com base nos parametros
-def gerar_estatistica_model_from_params(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+def gerar_estatistica_model_from_params(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, 
                                      dtinicio, dtfim, baixado = None, sensibility = '60'):
     
     est_model = None
     
-    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
     
     if eventLog is not None :
         est_model = gerar_estatisticas_model_from_log_eventos(eventLog)
@@ -318,18 +321,18 @@ def consultar_orgaosjulgadores_por_tribunal_e_atuacaovara(codtribunal, atuacao):
 
 # executa um token replay em um log de eventos
 def get_token_replayed_traces_from_params(net, initial_marking, final_marking,
-                             ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+                             ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, 
                              dtinicio, dtfim, baixado = None, sensibility = '60'):
-    eventLog_oj = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
+    eventLog_oj = gerar_log_eventos(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, dtinicio, dtfim, baixado, sensibility)
     replayed_traces = token_replay.apply(eventLog_oj, net, initial_marking, final_marking)
    
     return replayed_traces
 
 # Gera as lista de orgao julgadores com o percentual de compatibilidade com o modelo
-def gerar_orgaosjulgadores_modelfit_from_params(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+def gerar_orgaosjulgadores_modelfit_from_params(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, 
                                      dtinicio, dtfim, baixado = None, sensibility = '60'):
     
-    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, grau, codorgaoj, codnatureza, codclasse, 
+    eventLog = gerar_log_eventos(ramo_justica, codtribunal, atuacao, cluster, grau, codorgaoj, codnatureza, codclasse, 
                                  dtinicio, dtfim, baixado, sensibility)
     net, initial_marking, final_marking = alpha_miner.apply(eventLog)
     
@@ -342,7 +345,7 @@ def gerar_orgaosjulgadores_modelfit_from_params(ramo_justica, codtribunal, atuac
         future_to_row = {executor.submit(
                             get_token_replayed_traces_from_params, 
                             net, initial_marking, final_marking,
-                             ramo_justica, codtribunal, atuacao, grau, str(row["cod"]), codnatureza, codclasse, 
+                             ramo_justica, codtribunal, atuacao, cluster, grau, str(row["cod"]), codnatureza, codclasse, 
                              dtinicio, dtfim, baixado, sensibility): row for index, row in df.iterrows()}
         for future in concurrent.futures.as_completed(future_to_row):
             row = future_to_row[future]
