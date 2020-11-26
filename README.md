@@ -125,7 +125,7 @@ Por segurança, as credenciais de acesso no ambiente Live Demo, serão fornecida
 
 O projeto contempla uma modelagem dimensional para facilitar a criação de dashboards com indicadores de performance.
 
-![alt text](https://github.com/clebertmoura/inova-cnj/blob/main/dbinova_model.png)
+![alt text](https://github.com/clebertmoura/inova-cnj/blob/main/dbinova_modelo.png)
 
 ## Scripts DDL
 DDL do modelo dimensional está definido no arquivo: `./bi/schema/1-init.sql`
