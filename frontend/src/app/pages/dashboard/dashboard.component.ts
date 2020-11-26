@@ -113,6 +113,11 @@ export class DashboardComponent implements OnDestroy, OnInit {
     hideSubHeader: true,
     noDataMessage: "Sem dados...",
     columns: {
+      codigoTribunal: {
+        title: 'Tribunal',
+        type: 'string',
+        filter: true
+      },
       descricao: {
         title: 'Órgão Julgador',
         type: 'string',
