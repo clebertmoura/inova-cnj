@@ -490,18 +490,22 @@ export class DashboardComponent implements OnDestroy, OnInit {
       svgElement.setAttribute('width', '100%');
       svgElement.setAttribute('height', '100%');
     
-      var smartTableElement = jQuery(`#smartTableModeloPm_${idx}`)[0];
-      smartTableElement.setAttribute('source', filtro.dadosTabelaEstatistica);
-
-      var graficoElement = jQuery(`#graficoModeloPm_${idx}`)[0];
-      graficoElement.setAttribute('results', filtro.dadosGrafico);
-      
       filtro.svgObject = svgPanZoom(svgElement, {
         zoomEnabled: true,
         controlIconsEnabled: true,
         fit: true,
         center: true,
       });
+
+      var smartTableElement = jQuery(`#smartTableModeloPm_${idx}`)[0];
+      if (smartTableElement != null) {
+        smartTableElement.setAttribute('source', filtro.dadosTabelaEstatistica);
+      }
+
+      var graficoElement = jQuery(`#graficoModeloPm_${idx}`)[0];
+      if (graficoElement != null) {
+        graficoElement.setAttribute('results', filtro.dadosGrafico);
+      }
     }
 
   }

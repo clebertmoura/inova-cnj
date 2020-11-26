@@ -14,6 +14,7 @@ import { AssuntoRanking } from '../../models/assunto-ranking';
 import { Fase } from 'app/models/fase';
 import { AtuacaoOrgaoJulgador } from 'app/models/atuacao-orgaojulgador';
 import { ModelFitnessOrgaoJulgador } from '../../models/modelfitness-orgao-julgador';
+import { Cluster } from '../../models/cluster';
 
 @Injectable({
     providedIn: 'root'
@@ -122,11 +123,27 @@ export class InovacnjService {
      * Retorna uma coleção de Movimento
      */
     public consultarOrgaoJulgador(tribunal?: Tribunal): Observable<OrgaoJulgador[]> {
-        return this.http.get<any[]>(this.url + '/v1/orgao-julgador' + (tribunal != null ? `?codtribunal=${tribunal.codigo}` : ''))
+        return this.http.get<any[]>(this.url + '/v1/orgao-julgador?' + (tribunal != null ? `&codtribunal=${tribunal.codigo}` : ''))
         .pipe(
             retry(1),
             map((response : any[][]) => {
                 return OrgaoJulgador.toArray(response);
+            }),
+            catchError(() => of(null))
+        );
+    }
+
+    /**
+     * Retorna uma coleção de Cluster
+     */
+    public consultarCluster(tipoJustica?: TipoJustica, atuacao?: AtuacaoOrgaoJulgador): Observable<Cluster[]> {
+        return this.http.get<any[]>(this.url + '/v1/cluster?' 
+            + (tipoJustica != null ? `&ramojustica=${tipoJustica.codigo}` : '')
+            + (atuacao != null ? `&atuacao=${atuacao.codigo}` : ''))
+        .pipe(
+            retry(1),
+            map((response : any[][]) => {
+                return Cluster.toArray(response);
             }),
             catchError(() => of(null))
         );
