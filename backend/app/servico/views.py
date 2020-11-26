@@ -403,8 +403,10 @@ def api_gerar_estatisticas_modelo_pm():
     
     if ramojustica is None:
         abort(400, description="ramojustica nao informado")
-    if codtribunal is None:
-        abort(400, description="codtribunal nao informado")
+    if atuacao is None:
+        abort(400, description="atuacao nao informado")
+    if codtribunal is None and cluster is None:
+        abort(400, description="codtribunal ou cluster deve ser informado")
     
     estat = gerar_estatistica_model_from_params(ramojustica, codtribunal, atuacao, cluster, grau, codorgaoj, natureza, codclasse, \
                dtinicio, dtfim, baixado=baixado, sensibility=sensibilidade)
