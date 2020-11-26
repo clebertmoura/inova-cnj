@@ -435,7 +435,7 @@ def api_gerar_orgaosjulgadores_modelfit():
     qry = "SELECT "
     qry+= " oja.cod_orgao_julg AS cod, oja.desc_orgao_julg as descricao, oja.codtribunal, oja.tipo, oja.atuacao_vara, oja.trace_fitness "
     qry+= "FROM inovacnj.fitnessmodel_org_julg_atuacao oja "
-    qry+= "INNER JOIN inovacnj.clusteroj_orgjulg cojoj ON cojoj.cod_orgao_julg = oja.cod_orgao_julg "
+    qry+= "INNER JOIN inovacnj.clusteroj_orgjulg cojoj ON cojoj.cod_orgao_julg = oja.cod_orgao_julg::integer "
     qry+= "WHERE (1=1) "
     
     if ramojustica != None :
