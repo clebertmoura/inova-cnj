@@ -2,7 +2,7 @@
 
 Projeto elaborado para Hackathon Inova CNJ, desafio 01.
 
-[Live Demo] (http://161.97.71.108:8080)
+[Live Demo] (http://161.97.71.108)
 
 [Apresentação] (https://youtu.be/6_Z2lrO363k)
 
