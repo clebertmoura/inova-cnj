@@ -529,9 +529,9 @@ ALTER SEQUENCE inovacnj.seq_fase
 CREATE TABLE inovacnj.clusteroj
 (
     cod integer,
-    descricao character varying(50),
-    CONSTRAINT pk_clusteroj PRIMARY KEY (cod)
-);
+    descricao text ,
+    nome text )
+;
 
 ALTER TABLE inovacnj.clusteroj OWNER to inovacnj;
 
