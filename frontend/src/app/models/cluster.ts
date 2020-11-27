@@ -2,6 +2,7 @@ export class Cluster {
     // Raw attributes
     codigo: number = null;
     descricao: string = null;
+    nome: string = null;
     
     static fromJson(json: any[]): Cluster {
         let entity: Cluster = null;
@@ -9,6 +10,7 @@ export class Cluster {
             entity = new Cluster();
             entity.codigo = json[0];
             entity.descricao = json[1];
+            entity.nome = json[2];
         }
         return entity;
     }

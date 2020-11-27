@@ -97,23 +97,32 @@
           </nb-select>
         </div>
       </div>
-      <div class="col-md-2 col-sm-12" *ngIf="exibirCluster()">
-        <div class="form-group">
-          <label class="label">Cluster:</label>
-          <nb-select
-            (selectedChange)="onSelectCluster($event)"
-            [(selected)]="cluster"
-            class="position-select"
-            fullWidth
-            [disabled]="atuacaoOrgaoJulgador == null"
-            #selectAtuacaoOrgaoJulgador
-          >
-            <nb-option
-              *ngFor="let cluster of clusters"
-              [value]="cluster"
-              >{{ cluster.descricao }}</nb-option
-            >
-          </nb-select>
+      <div class="col-md-5 col-sm-12" *ngIf="exibirCluster()">
+        <div class="row">
+          <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+              <label class="label">Cluster:</label>
+              <nb-select
+                (selectedChange)="onSelectCluster($event)"
+                [(selected)]="cluster"
+                class="position-select"
+                fullWidth
+                [disabled]="atuacaoOrgaoJulgador == null"
+                #selectAtuacaoOrgaoJulgador
+              >
+                <nb-option
+                  *ngFor="let cluster of clusters"
+                  [value]="cluster" [nbTooltip]="cluster.descricao" nbTooltipStatus="primary"
+                  >{{ cluster.nome }}</nb-option
+                >
+              </nb-select>
+            </div>
+          </div>
+          <div class="col-md-8 col-sm-12">
+            <div *ngIf="cluster != null">
+              {{cluster.descricao}}
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-2 col-sm-12" *ngIf="showNatureza">

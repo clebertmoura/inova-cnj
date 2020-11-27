@@ -294,7 +294,7 @@ def get_clusters():
     conn = psycopg2.connect(host=db_host, port=db_port, database=db_name, user=db_user, password=db_pass)
     cur = conn.cursor()
 
-    qry = "SELECT DISTINCT coj.cod, coj.descricao "
+    qry = "SELECT DISTINCT coj.cod, coj.descricao, coj.nome "
     qry+= "FROM inovacnj.clusteroj coj "
     qry+= "INNER JOIN inovacnj.clusteroj_orgjulg cojoj ON cojoj.cod_cluster = coj.cod "
     qry+= "INNER JOIN inovacnj.orgao_julgador oj ON oj.cod = cojoj.cod_orgao_julg "
